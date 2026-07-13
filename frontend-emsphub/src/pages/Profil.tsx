@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useParams, Navigate } from 'react-router-dom'
+import { useParams, Navigate, Link } from 'react-router-dom'
 import { Edit2, Mail, ExternalLink, Calendar, ShieldCheck, Briefcase, Link2 } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { ProjectCard } from '@/components/hub/ProjectCard'
-import { EditProfilModal } from '@/components/profil/EditProfilModal'
+
 import { useAuth } from '@/contexts/AuthContext'
 import { fetchProfileById, type UserProfile } from '@/lib/fixtures/profils.mock'
 import { fetchProjets, type Project } from '@/lib/fixtures/projets.mock'
@@ -20,7 +20,6 @@ export function Profil() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [userProjects, setUserProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   const isOwnProfile = user?.id === profileId
 
@@ -132,8 +131,10 @@ export function Profil() {
                 </div>
 
                 {isOwnProfile && (
-                  <Button onClick={() => setIsEditModalOpen(true)} variant="outline" className="gap-2 bg-background">
-                    <Edit2 className="w-4 h-4" /> Modifier le profil
+                  <Button asChild variant="outline" className="gap-2 bg-background">
+                    <Link to="/profil/modifier">
+                      <Edit2 className="w-4 h-4" /> Modifier le profil
+                    </Link>
                   </Button>
                 )}
               </div>
@@ -257,14 +258,7 @@ export function Profil() {
         </div>
       </div>
 
-      {isOwnProfile && (
-        <EditProfilModal 
-          open={isEditModalOpen} 
-          onOpenChange={setIsEditModalOpen}
-          profile={profile}
-          onSave={(updates) => setProfile({ ...profile, ...updates })}
-        />
-      )}
+
     </div>
   )
 }

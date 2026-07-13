@@ -9,6 +9,7 @@ import { Hub } from '@/pages/Hub'
 import { NouvelleIdee } from '@/pages/NouvelleIdee'
 import { Projet } from '@/pages/Projet'
 import { Profil } from '@/pages/Profil'
+import { ModifierProfil } from '@/pages/ModifierProfil'
 import { Documentation } from '@/pages/Documentation'
 import { NotFound } from '@/pages/NotFound'
 import { Login } from '@/pages/auth/Login'
@@ -42,11 +43,19 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route 
+             <Route 
               path="/hub/nouvelle-idee" 
               element={
                 <RouteProtegee>
                   <NouvelleIdee />
+                </RouteProtegee>
+              } 
+            />
+            <Route 
+              path="/profil/modifier" 
+              element={
+                <RouteProtegee>
+                  <ModifierProfil />
                 </RouteProtegee>
               } 
             />
