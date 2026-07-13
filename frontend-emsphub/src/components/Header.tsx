@@ -3,25 +3,18 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Sparkles, LogOut, User as UserIcon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { LoginModal } from '@/components/auth/LoginModal'
-import { RegisterModal } from '@/components/auth/RegisterModal'
-import { ForgotPasswordModal } from '@/components/auth/ForgotPasswordModal'
 import { useAuth } from '@/contexts/AuthContext'
 import { BRAND, NAV_LINKS } from '@/constants/brand'
 import { cn } from '@/lib/utils'
 
 /**
  * Header principal — sticky au scroll, responsive avec menu burger mobile.
- * Intègre les modales de connexion, inscription et mot de passe oublié.
  */
 export function Header() {
   const location = useLocation()
   const { user, signOut } = useAuth()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [loginOpen, setLoginOpen] = useState(false)
-  const [registerOpen, setRegisterOpen] = useState(false)
-  const [forgotOpen, setForgotOpen] = useState(false)
 
   /* Détection du scroll pour le style sticky */
   useEffect(() => {
@@ -122,19 +115,18 @@ export function Header() {
                 </div>
               ) : (
                 <>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setLoginOpen(true)}
-                    className="font-semibold text-text-secondary hover:text-text-primary"
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-surface hover:text-text-primary h-10 py-2 px-4 font-semibold text-text-secondary"
                   >
                     Se connecter
-                  </Button>
-                  <Button
-                    onClick={() => setRegisterOpen(true)}
-                    className="font-semibold px-6"
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-text-primary text-background shadow hover:bg-text-secondary h-10 py-2 px-6 font-semibold"
                   >
                     S'inscrire
-                  </Button>
+                  </Link>
                 </>
               )}
             </div>
@@ -228,48 +220,26 @@ export function Header() {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                <Button
-                  variant="outline"
-                  className="w-full justify-center"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false)
-                    setLoginOpen(true)
-                  }}
+                <Link
+                  to="/login"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-surface hover:text-text-primary h-10 py-2 px-4 w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Se connecter
-                </Button>
-                <Button
-                  className="w-full justify-center"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false)
-                    setRegisterOpen(true)
-                  }}
+                </Link>
+                <Link
+                  to="/register"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-text-primary text-background shadow hover:bg-text-secondary h-10 py-2 px-4 w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   S'inscrire
-                </Button>
+                </Link>
               </div>
             )}
           </div>
         </div>
       </header>
 
-      {/* ─── Modales d'authentification ─── */}
-      <LoginModal
-        open={loginOpen}
-        onOpenChange={setLoginOpen}
-        onSwitchToRegister={() => setRegisterOpen(true)}
-        onSwitchToForgot={() => setForgotOpen(true)}
-      />
-      <RegisterModal
-        open={registerOpen}
-        onOpenChange={setRegisterOpen}
-        onSwitchToLogin={() => setLoginOpen(true)}
-      />
-      <ForgotPasswordModal
-        open={forgotOpen}
-        onOpenChange={setForgotOpen}
-        onSwitchToLogin={() => setLoginOpen(true)}
-      />
     </>
   )
 }

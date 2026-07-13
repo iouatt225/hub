@@ -11,6 +11,9 @@ import { Profil } from '@/pages/Profil'
 import { Documentation } from '@/pages/Documentation'
 import { Admin } from '@/pages/Admin'
 import { NotFound } from '@/pages/NotFound'
+import { Login } from '@/pages/auth/Login'
+import { Register } from '@/pages/auth/Register'
+import { ForgotPassword } from '@/pages/auth/ForgotPassword'
 
 /**
  * Composant racine — configuration du routeur React Router et du contexte Auth.
@@ -28,6 +31,9 @@ function App() {
             <Route path="/projet/:id" element={<Projet />} />
             <Route path="/profil/:id" element={<Profil />} />
             <Route path="/documentation" element={<Documentation />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route 
               path="/hub/nouvelle-idee" 
               element={
