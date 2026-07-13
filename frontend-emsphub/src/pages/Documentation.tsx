@@ -77,7 +77,7 @@ export function Documentation() {
             <div className="hidden lg:block relative h-[450px] w-full animate-fade-in" style={{ animationDelay: '300ms', animationFillMode: 'both' }}>
               <div className="absolute inset-0 bg-accent/5 rounded-full blur-3xl" />
               
-              <div className="absolute top-10 right-10 w-72 p-8 rounded-3xl bg-surface border border-border shadow-2xl z-20 hover:-translate-y-4 transition-transform duration-500">
+              <div className="absolute top-10 right-4 w-auto max-w-[320px] p-8 rounded-3xl bg-surface border border-border shadow-2xl z-20 hover:-translate-y-4 transition-transform duration-500">
                  <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
                    <ShieldCheck className="w-8 h-8 text-accent" />
                  </div>
@@ -85,7 +85,7 @@ export function Documentation() {
                  <p className="text-base text-text-secondary leading-relaxed">Réservé exclusivement aux emails institutionnels @emsp.ci.</p>
               </div>
               
-              <div className="absolute bottom-10 left-10 w-80 p-8 rounded-3xl bg-accent text-white shadow-2xl z-10 opacity-95">
+              <div className="absolute bottom-10 left-4 w-auto max-w-[340px] p-8 rounded-3xl bg-accent text-white shadow-2xl z-10 opacity-95">
                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6 backdrop-blur-sm border border-white/20">
                    <Target className="w-8 h-8 text-highlight-light" />
                  </div>

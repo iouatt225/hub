@@ -67,16 +67,16 @@ export function Header() {
               </span>
             </Link>
 
-            {/* ─── Navigation desktop ─── */}
-            <div className="hidden md:flex items-center gap-6">
+            {/* ─── Liens de navigation desktop ─── */}
+            <div className="hidden md:flex items-center gap-1 xl:gap-2 absolute left-1/2 -translate-x-1/2">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    'px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
+                    'px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
                     location.pathname === link.href
-                      ? 'text-accent bg-accent-light/50'
+                      ? 'text-accent bg-accent/10'
                       : 'text-text-secondary hover:text-text-primary hover:bg-surface'
                   )}
                 >
