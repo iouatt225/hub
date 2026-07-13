@@ -13,7 +13,6 @@ export function Accueil() {
   return (
     <>
       <Hero {...heroData} />
-      <TrustedBy {...trustedByData} />
       <FeaturesSection />
       <DemoTabsSection />
       <TestimonialsSection />
