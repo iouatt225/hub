@@ -46,8 +46,8 @@ function SocialIcon({ name, className }: { name: string; className?: string }) {
 }
 
 /**
- * Footer — 3 colonnes (Explorer, Club Info, Newsletter) + réseaux sociaux.
- * Inspiré du footer ScrewFast, adapté au Hub EMSP.
+ * Footer — Design sombre distinct du reste du site.
+ * Fond noir/anthracite pour bien se démarquer des pages claires.
  */
 export function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('')
@@ -69,28 +69,28 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-background-alt border-t border-border">
-      <div className="container-hub py-12 sm:py-16">
+    <footer className="bg-[#1a1a2e] text-white/80">
+      <div className="container-hub py-16 sm:py-20">
         {/* ─── Grille principale ─── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Colonne 1 — Identité */}
           <div className="sm:col-span-2 lg:col-span-2 lg:pr-8">
-            <Link to="/" className="flex items-center gap-2 group mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/10 border border-accent/20 group-hover:bg-accent/20 transition-colors duration-200">
-                <Sparkles className="h-5 w-5 text-accent" />
+            <Link to="/" className="flex items-center gap-2 group mb-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-white shadow-lg">
+                <Sparkles className="h-5 w-5" />
               </div>
-              <span className="text-lg font-bold text-text-primary tracking-tight">
+              <span className="text-xl font-bold text-white tracking-tight">
                 {BRAND.shortName}
               </span>
             </Link>
-            <p className="text-sm text-text-secondary leading-relaxed max-w-sm">
+            <p className="text-sm text-white/50 leading-relaxed max-w-sm">
               {BRAND.description}
             </p>
           </div>
 
           {/* Colonne 2 — Explorer */}
           <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-4 uppercase tracking-wider">
+            <h3 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">
               Explorer
             </h3>
             <ul className="space-y-3">
@@ -98,7 +98,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-sm text-text-secondary hover:text-accent transition-colors duration-200"
+                    className="text-sm text-white/50 hover:text-accent transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -109,7 +109,7 @@ export function Footer() {
 
           {/* Colonne 3 — Club Info */}
           <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-4 uppercase tracking-wider">
+            <h3 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">
               Club Info
             </h3>
             <ul className="space-y-3">
@@ -117,7 +117,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-sm text-text-secondary hover:text-accent transition-colors duration-200"
+                    className="text-sm text-white/50 hover:text-accent transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -128,10 +128,10 @@ export function Footer() {
 
           {/* Colonne 4 — Newsletter */}
           <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-4 uppercase tracking-wider">
+            <h3 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">
               Newsletter
             </h3>
-            <p className="text-sm text-text-secondary mb-4">
+            <p className="text-sm text-white/50 mb-4">
               Restez informé des dernières idées et actualités du Hub.
             </p>
             <form
@@ -143,15 +143,15 @@ export function Footer() {
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="votre@email.com"
-                className="flex-1 min-w-0 h-10 px-3 rounded-lg bg-background border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+                className="flex-1 min-w-0 h-10 px-4 rounded-lg bg-white/10 border border-white/10 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                 required
               />
-              <Button type="submit" size="icon" aria-label="S'abonner à la newsletter">
+              <Button type="submit" size="icon" className="bg-accent hover:bg-accent/80 text-white" aria-label="S'abonner à la newsletter">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
             {isSubscribed && (
-              <p className="text-xs text-success mt-2 animate-fade-in">
+              <p className="text-xs text-accent mt-2 animate-fade-in">
                 ✓ Inscription réussie !
               </p>
             )}
@@ -159,12 +159,12 @@ export function Footer() {
         </div>
 
         {/* ─── Séparateur ─── */}
-        <div className="h-px bg-border my-8 sm:my-10" />
+        <div className="h-px bg-white/10 my-10 sm:my-12" />
 
         {/* ─── Bas du footer : réseaux sociaux + copyright ─── */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
-          <p className="text-xs text-text-muted text-center sm:text-left">
+          <p className="text-xs text-white/30 text-center sm:text-left">
             © {currentYear} {BRAND.school} ({BRAND.schoolAcronym}) — {BRAND.city}.
             Tous droits réservés.
           </p>
@@ -178,7 +178,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-muted hover:text-accent hover:bg-surface transition-all duration-200"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-white/40 hover:text-accent hover:bg-white/10 transition-all duration-200"
               >
                 <SocialIcon name={social.icon} />
               </a>
