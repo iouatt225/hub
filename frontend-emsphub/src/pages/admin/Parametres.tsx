@@ -94,12 +94,13 @@ export function Parametres() {
   )
 
   return (
-    <div className="space-y-10 max-w-3xl mx-auto">
-      {/* En-tête */}
-      <div>
-        <h1 className="text-2xl font-bold text-text-primary">Paramètres</h1>
-        <p className="text-text-secondary mt-1">Configurez les paramètres de la plateforme Hub EMSP</p>
-      </div>
+    <div className="flex justify-center w-full py-4">
+      <div className="space-y-10 w-full max-w-3xl">
+        {/* En-tête */}
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary">Paramètres</h1>
+          <p className="text-text-secondary mt-1">Configurez les paramètres de la plateforme Hub EMSP</p>
+        </div>
 
       {/* Section Général */}
       <div className="bg-surface border border-border rounded-2xl p-6">
@@ -375,6 +376,7 @@ export function Parametres() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }
