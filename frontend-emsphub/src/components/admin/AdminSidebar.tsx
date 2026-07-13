@@ -9,6 +9,8 @@ import {
   ExternalLink,
   ShieldCheck,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -27,13 +29,17 @@ interface AdminSidebarProps {
   isOpen: boolean
   /** Callback pour fermer la sidebar mobile */
   onClose: () => void
+  /** Indique si la sidebar est repliée sur desktop */
+  isCollapsed: boolean
+  /** Callback pour changer l'état replié */
+  onToggleCollapse: () => void
 }
 
 /**
  * Sidebar de navigation pour le portail d'administration.
- * Responsive : drawer en overlay sur mobile, fixe sur desktop.
+ * Responsive : drawer en overlay sur mobile, fixe et rétractable sur desktop.
  */
-export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
+export function AdminSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }: AdminSidebarProps) {
   return (
     <>
       {/* Overlay mobile */}
@@ -48,18 +54,42 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed top-0 left-0 z-50 h-full w-64 bg-surface border-r border-border flex flex-col transition-transform duration-300 ease-in-out',
+          'fixed top-0 left-0 z-50 h-full bg-surface border-r border-border flex flex-col transition-all duration-300 ease-in-out',
           'lg:translate-x-0 lg:z-30',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isCollapsed ? 'lg:w-20' : 'lg:w-64',
+          isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64'
         )}
       >
+        {/* Bouton de réduction / agrandissement (Desktop uniquement) */}
+        <button
+          onClick={onToggleCollapse}
+          className="hidden lg:flex absolute top-8 -right-3.5 z-50 w-7 h-7 bg-surface border border-border rounded-full items-center justify-center text-text-muted hover:text-text-primary hover:bg-surface-hover hover:scale-105 shadow-sm transition-all cursor-pointer"
+          aria-label={isCollapsed ? "Agrandir le menu" : "Réduire le menu"}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-4 h-4" />
+          ) : (
+            <ChevronLeft className="w-4 h-4" />
+          )}
+        </button>
+
         {/* En-tête sidebar */}
-        <div className="flex items-center justify-between p-5 border-b border-border">
+        <div className={cn(
+          "flex items-center justify-between p-5 border-b border-border",
+          isCollapsed ? "lg:justify-center lg:p-4" : ""
+        )}>
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 bg-accent/10 rounded-lg">
+            <div className="p-1.5 bg-accent/10 rounded-lg shrink-0">
               <ShieldCheck className="w-5 h-5 text-accent" />
             </div>
-            <div>
+            {!isCollapsed && (
+              <div className="animate-fade-in lg:block hidden">
+                <h2 className="text-sm font-bold text-text-primary leading-tight">Hub EMSP</h2>
+                <p className="text-[11px] text-text-muted leading-tight">Administration</p>
+              </div>
+            )}
+            {/* Sur mobile, on veut toujours voir le texte de la sidebar qui est ouverte en grand */}
+            <div className="lg:hidden block">
               <h2 className="text-sm font-bold text-text-primary leading-tight">Hub EMSP</h2>
               <p className="text-[11px] text-text-muted leading-tight">Administration</p>
             </div>
@@ -85,14 +115,21 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                   className={({ isActive }) =>
                     cn(
                       'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+                      isCollapsed ? 'lg:justify-center lg:px-0 lg:w-12 lg:h-12 mx-auto' : '',
                       isActive
                         ? 'bg-accent/10 text-accent shadow-sm'
                         : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
                     )
                   }
+                  title={isCollapsed ? item.label : undefined}
                 >
                   <item.icon className="w-[18px] h-[18px] shrink-0" />
-                  <span>{item.label}</span>
+                  <span className={cn(
+                    isCollapsed ? "lg:hidden" : "lg:block",
+                    "block"
+                  )}>
+                    {item.label}
+                  </span>
                 </NavLink>
               </li>
             ))}
@@ -103,10 +140,19 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         <div className="p-3 border-t border-border">
           <NavLink
             to="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-hover transition-colors"
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-hover transition-colors',
+              isCollapsed ? 'lg:justify-center lg:px-0 lg:w-12 lg:h-12 mx-auto' : ''
+            )}
+            title={isCollapsed ? "Retour au site" : undefined}
           >
             <ExternalLink className="w-[18px] h-[18px] shrink-0" />
-            <span>Retour au site</span>
+            <span className={cn(
+              isCollapsed ? "lg:hidden" : "lg:block",
+              "block"
+            )}>
+              Retour au site
+            </span>
           </NavLink>
         </div>
       </aside>
