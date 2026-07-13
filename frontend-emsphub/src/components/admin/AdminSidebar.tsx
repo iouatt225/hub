@@ -54,10 +54,12 @@ export function AdminSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }:
       {/* Sidebar */}
       <aside
         className={cn(
+          // Styles de base et mobile (drawer fixe)
           'fixed top-0 left-0 z-50 h-full bg-surface border-r border-border flex flex-col transition-all duration-300 ease-in-out',
-          'lg:translate-x-0 lg:z-30',
-          isCollapsed ? 'lg:w-20' : 'lg:w-64',
-          isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64'
+          isOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64',
+          // Styles desktop (sticky flex item)
+          'lg:sticky lg:top-0 lg:left-0 lg:z-30 lg:h-screen lg:shrink-0 lg:translate-x-0',
+          isCollapsed ? 'lg:w-20' : 'lg:w-64'
         )}
       >
         {/* Bouton de réduction / agrandissement (Desktop uniquement) */}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { AdminSidebar } from '@/components/admin/AdminSidebar'
 import { AdminHeader } from '@/components/admin/AdminHeader'
-import { cn } from '@/lib/utils'
+
 
 /**
  * Layout dédié au portail d'administration.
@@ -14,8 +14,8 @@ export function AdminLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Sidebar — fixe sur desktop, drawer sur mobile */}
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar — fixe/sticky sur desktop, drawer sur mobile */}
       <AdminSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -23,11 +23,8 @@ export function AdminLayout() {
         onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
       />
 
-      {/* Zone principale — décalée de la largeur de la sidebar sur desktop */}
-      <div className={cn(
-        "flex flex-col min-h-screen transition-all duration-300 ease-in-out",
-        isCollapsed ? "lg:ml-20" : "lg:ml-64"
-      )}>
+      {/* Zone principale — prend le reste de l'espace de manière fluide */}
+      <div className="flex-1 flex flex-col min-h-screen min-w-0 transition-all duration-300 ease-in-out">
         {/* Header admin */}
         <AdminHeader onMenuToggle={() => setSidebarOpen(true)} />
 
