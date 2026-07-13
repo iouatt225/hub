@@ -184,9 +184,9 @@ export function Documentation() {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[220px]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Bento Card 1 (Large) */}
-                <div className="relative col-span-1 md:col-span-2 p-8 rounded-[2rem] bg-accent text-white overflow-hidden shadow-md">
+                <div className="relative col-span-1 md:col-span-2 p-8 rounded-[2rem] bg-accent text-white overflow-hidden shadow-md min-h-[220px]">
                   <span className="absolute -bottom-8 -right-4 text-[12rem] font-black opacity-10 leading-none pointer-events-none">1</span>
                   <div className="relative z-10 h-full flex flex-col justify-center">
                     <h3 className="text-3xl font-bold mb-4">Faisabilité Technique</h3>
@@ -195,25 +195,25 @@ export function Documentation() {
                 </div>
 
                 {/* Bento Card 2 */}
-                <div className="relative p-8 rounded-[2rem] bg-surface border border-border shadow-sm overflow-hidden group hover:shadow-card-hover transition-all">
+                <div className="relative p-8 rounded-[2rem] bg-surface border border-border shadow-sm overflow-hidden group hover:shadow-card-hover transition-all min-h-[220px]">
                   <span className="absolute -bottom-6 -right-2 text-[10rem] font-black text-border/40 group-hover:text-border/60 transition-colors leading-none pointer-events-none">2</span>
-                  <div className="relative z-10">
+                  <div className="relative z-10 h-full flex flex-col justify-center">
                     <h3 className="text-2xl font-bold mb-3 text-text-primary">Impact & Pertinence</h3>
                     <p className="text-text-secondary">La solution répond à un problème avéré (social, économique, vert).</p>
                   </div>
                 </div>
 
                 {/* Bento Card 3 */}
-                <div className="relative p-8 rounded-[2rem] bg-highlight text-accent-dark shadow-sm overflow-hidden group hover:shadow-card-hover transition-all">
+                <div className="relative p-8 rounded-[2rem] bg-highlight text-accent-dark shadow-sm overflow-hidden group hover:shadow-card-hover transition-all min-h-[220px]">
                   <span className="absolute -bottom-6 -right-2 text-[10rem] font-black text-accent-dark/10 group-hover:text-accent-dark/20 transition-colors leading-none pointer-events-none">3</span>
-                  <div className="relative z-10">
+                  <div className="relative z-10 h-full flex flex-col justify-center">
                     <h3 className="text-2xl font-bold mb-3">L'Équipe</h3>
                     <p className="text-accent-dark/80 font-medium">Une équipe complémentaire (technique + design + business) est un atout majeur.</p>
                   </div>
                 </div>
                 
                 {/* Bento Card 4 (Full width below) */}
-                <div className="relative col-span-1 md:col-span-2 p-8 rounded-[2rem] bg-background-alt border border-border shadow-sm overflow-hidden group hover:shadow-card-hover transition-all">
+                <div className="relative col-span-1 md:col-span-2 p-8 rounded-[2rem] bg-background-alt border border-border shadow-sm overflow-hidden group hover:shadow-card-hover transition-all min-h-[220px]">
                   <span className="absolute -bottom-10 -right-4 text-[12rem] font-black text-border/50 group-hover:text-border/80 transition-colors leading-none pointer-events-none">4</span>
                   <div className="relative z-10 h-full flex flex-col justify-center">
                     <h3 className="text-2xl font-bold mb-3 text-text-primary">Popularité (Votes)</h3>

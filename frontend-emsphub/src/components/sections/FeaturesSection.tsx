@@ -7,7 +7,7 @@ const bentoFeatures = [
     title: 'Dashboard Dynamique',
     description: "Visualisez les votes, candidatures et statistiques en temps réel.",
     icon: LayoutDashboard,
-    className: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 bg-surface text-text-primary",
+    className: "col-span-1 md:col-span-2 lg:col-span-2 bg-surface text-text-primary min-h-[250px]",
     iconColor: "bg-accent-light text-accent",
     large: true,
   },
@@ -16,7 +16,7 @@ const bentoFeatures = [
     title: 'Gamification',
     description: "Gagnez des points d'innovation à chaque action.",
     icon: Award,
-    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-highlight text-accent-dark",
+    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-highlight text-accent-dark min-h-[250px]",
     iconColor: "bg-white/20 text-accent-dark",
     large: false,
   },
@@ -25,7 +25,7 @@ const bentoFeatures = [
     title: 'Filtrage Avancé',
     description: "Trouvez des projets par filière ou technologie.",
     icon: Filter,
-    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-accent text-white",
+    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-accent text-white min-h-[250px]",
     iconColor: "bg-white/20 text-white",
     large: false,
   },
@@ -34,7 +34,7 @@ const bentoFeatures = [
     title: 'Environnement Sécurisé',
     description: "Modération et emails institutionnels exclusifs.",
     icon: ShieldCheck,
-    className: "col-span-1 md:col-span-1 lg:col-span-2 bg-surface text-text-primary",
+    className: "col-span-1 md:col-span-1 lg:col-span-2 bg-surface text-text-primary min-h-[250px]",
     iconColor: "bg-blue-50 text-blue-600",
     large: false,
   },
@@ -56,7 +56,7 @@ export function FeaturesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto auto-rows-[250px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {bentoFeatures.map((feature) => (
             <div
               key={feature.id}
