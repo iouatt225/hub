@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar'
 import { BRAND } from '@/constants/brand'
 import { Lightbulb, Trophy, Users } from 'lucide-react'
 
@@ -16,15 +15,6 @@ export interface HeroProps {
     label: string
     href: string
   }
-  stats: {
-    count: number
-    label: string
-  }
-  avatars: {
-    id: string
-    src: string
-    alt: string
-  }[]
 }
 
 /**
@@ -36,8 +26,6 @@ export function Hero({
   subtitle,
   primaryCta,
   secondaryCta,
-  stats,
-  avatars,
 }: HeroProps) {
   return (
     <section className="relative overflow-hidden pt-24 pb-20 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32 bg-background">

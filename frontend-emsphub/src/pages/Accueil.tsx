@@ -1,10 +1,9 @@
 import { Hero } from '@/components/sections/Hero'
-import { TrustedBy } from '@/components/sections/TrustedBy'
 import { DemoTabsSection } from '@/components/sections/DemoTabsSection'
 import { FeaturesSection } from '@/components/sections/FeaturesSection'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { CtaSection } from '@/components/sections/CtaSection'
-import { heroData, trustedByData } from '@/lib/fixtures/accueil.mock'
+import { heroData } from '@/lib/fixtures/accueil.mock'
 
 /**
  * Page d'accueil complète (Refonte Nouveau Style).
