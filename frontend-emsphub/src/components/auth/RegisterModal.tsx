@@ -122,20 +122,20 @@ export function RegisterModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="flex flex-col items-center text-center pb-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-light text-accent mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+      <DialogContent className="sm:max-w-md p-8 sm:p-10 rounded-[2rem]">
+        <DialogHeader className="flex flex-col items-center text-center pb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent mb-6 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
           </div>
-          <DialogTitle className="text-2xl font-bold">Créer un compte</DialogTitle>
-          <DialogDescription className="text-base mt-2">
+          <DialogTitle className="text-3xl font-extrabold text-text-primary">Créer un compte</DialogTitle>
+          <DialogDescription className="text-base mt-3 text-text-secondary">
             Rejoignez le Hub et proposez vos idées innovantes.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-6 mt-2">
           {errors.general && (
-            <div className="p-3 bg-error/10 border border-error/20 rounded-lg text-sm font-medium text-center text-error">
+            <div className="p-4 bg-error/10 border border-error/20 rounded-xl text-sm font-medium text-center text-error">
               {errors.general}
             </div>
           )}
@@ -143,7 +143,7 @@ export function RegisterModal({
           <div className="space-y-2">
             <label
               htmlFor="register-name"
-              className="text-sm font-semibold text-text-primary"
+              className="text-sm font-bold text-text-primary ml-1"
             >
               Nom complet
             </label>
@@ -156,11 +156,11 @@ export function RegisterModal({
                 clearError('fullName')
               }}
               placeholder="Prénom Nom"
-              className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+              className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
               autoComplete="name"
             />
             {errors.fullName && (
-              <p className="text-xs text-error font-medium">{errors.fullName}</p>
+              <p className="text-sm text-error font-medium ml-1">{errors.fullName}</p>
             )}
           </div>
 
@@ -168,7 +168,7 @@ export function RegisterModal({
           <div className="space-y-2">
             <label
               htmlFor="register-email"
-              className="text-sm font-semibold text-text-primary"
+              className="text-sm font-bold text-text-primary ml-1"
             >
               Email institutionnel
             </label>
@@ -181,20 +181,20 @@ export function RegisterModal({
                 clearError('email')
               }}
               placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
-              className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+              className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
               autoComplete="email"
             />
             {errors.email && (
-              <p className="text-xs text-error font-medium">{errors.email}</p>
+              <p className="text-sm text-error font-medium ml-1">{errors.email}</p>
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Champ mot de passe */}
             <div className="space-y-2">
               <label
                 htmlFor="register-password"
-                className="text-sm font-semibold text-text-primary"
+                className="text-sm font-bold text-text-primary ml-1"
               >
                 Mot de passe
               </label>
@@ -207,11 +207,11 @@ export function RegisterModal({
                   clearError('password')
                 }}
                 placeholder="Min. 8 caractères"
-                className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+                className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
                 autoComplete="new-password"
               />
               {errors.password && (
-                <p className="text-xs text-error font-medium">{errors.password}</p>
+                <p className="text-sm text-error font-medium ml-1">{errors.password}</p>
               )}
             </div>
 
@@ -219,7 +219,7 @@ export function RegisterModal({
             <div className="space-y-2">
               <label
                 htmlFor="register-confirm"
-                className="text-sm font-semibold text-text-primary"
+                className="text-sm font-bold text-text-primary ml-1"
               >
                 Confirmer
               </label>
@@ -232,11 +232,11 @@ export function RegisterModal({
                   clearError('confirmPassword')
                 }}
                 placeholder="Retapez-le"
-                className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+                className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
                 autoComplete="new-password"
               />
               {errors.confirmPassword && (
-                <p className="text-xs text-error font-medium">{errors.confirmPassword}</p>
+                <p className="text-sm text-error font-medium ml-1">{errors.confirmPassword}</p>
               )}
             </div>
           </div>
@@ -244,13 +244,13 @@ export function RegisterModal({
           {/* Bouton de soumission */}
           <Button
             type="submit"
-            className="w-full h-11 mt-2 text-base font-semibold"
+            className="w-full h-14 mt-4 text-lg font-bold rounded-2xl shadow-md hover:shadow-lg transition-all"
             disabled={isLoading}
           >
             {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="h-5 w-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
-                Inscription en cours…
+              <span className="flex items-center justify-center gap-3">
+                <span className="h-6 w-6 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                Inscription en cours...
               </span>
             ) : (
               'Créer mon compte'
@@ -258,7 +258,7 @@ export function RegisterModal({
           </Button>
 
           {/* Lien vers connexion */}
-          <p className="text-center text-sm text-text-secondary pt-2">
+          <p className="text-center text-base text-text-secondary pt-4">
             Déjà inscrit ?{' '}
             <button
               type="button"
@@ -266,7 +266,7 @@ export function RegisterModal({
                 onOpenChange(false)
                 onSwitchToLogin()
               }}
-              className="text-accent hover:text-accent-hover font-bold transition-colors cursor-pointer underline underline-offset-4"
+              className="text-accent hover:text-accent-hover font-extrabold transition-colors cursor-pointer underline underline-offset-4"
             >
               Se connecter
             </button>

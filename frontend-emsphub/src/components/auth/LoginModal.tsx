@@ -90,23 +90,23 @@ export function LoginModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="flex flex-col items-center text-center pb-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-light text-accent mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+      <DialogContent className="sm:max-w-md p-8 sm:p-10 rounded-[2rem]">
+        <DialogHeader className="flex flex-col items-center text-center pb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent mb-6 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
           </div>
-          <DialogTitle className="text-2xl font-bold">Bienvenue</DialogTitle>
-          <DialogDescription className="text-base mt-2">
+          <DialogTitle className="text-3xl font-extrabold text-text-primary">Bienvenue</DialogTitle>
+          <DialogDescription className="text-base mt-3 text-text-secondary">
             Connectez-vous pour accéder au Hub d'Idées de l'EMSP.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-6 mt-2">
           {/* Champ email */}
           <div className="space-y-2">
             <label
               htmlFor="login-email"
-              className="text-sm font-semibold text-text-primary"
+              className="text-sm font-bold text-text-primary ml-1"
             >
               Email institutionnel
             </label>
@@ -119,20 +119,20 @@ export function LoginModal({
                 if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }))
               }}
               placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
-              className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+              className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
               autoComplete="email"
             />
             {errors.email && (
-              <p className="text-xs text-error font-medium">{errors.email}</p>
+              <p className="text-sm text-error font-medium ml-1">{errors.email}</p>
             )}
           </div>
 
           {/* Champ mot de passe */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ml-1">
               <label
                 htmlFor="login-password"
-                className="text-sm font-semibold text-text-primary"
+                className="text-sm font-bold text-text-primary"
               >
                 Mot de passe
               </label>
@@ -142,7 +142,7 @@ export function LoginModal({
                   onOpenChange(false)
                   onSwitchToForgot()
                 }}
-                className="text-xs font-medium text-accent hover:text-accent-hover transition-colors cursor-pointer"
+                className="text-sm font-bold text-accent hover:text-accent-hover transition-colors cursor-pointer"
               >
                 Mot de passe oublié ?
               </button>
@@ -157,16 +157,16 @@ export function LoginModal({
                   setErrors((prev) => ({ ...prev, password: undefined }))
               }}
               placeholder="••••••••"
-              className="w-full h-11 px-4 rounded-xl bg-background-alt border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+              className="w-full h-14 px-5 rounded-2xl bg-surface border border-border text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 hover:border-accent/40"
               autoComplete="current-password"
             />
             {errors.password && (
-              <p className="text-xs text-error font-medium">{errors.password}</p>
+              <p className="text-sm text-error font-medium ml-1">{errors.password}</p>
             )}
           </div>
 
           {errors.general && (
-            <div className="p-3 rounded-lg bg-error/10 border border-error/20 text-error text-sm font-medium text-center">
+            <div className="p-4 rounded-xl bg-error/10 border border-error/20 text-error text-sm font-medium text-center">
               {errors.general}
             </div>
           )}
@@ -174,13 +174,13 @@ export function LoginModal({
           {/* Bouton de soumission */}
           <Button
             type="submit"
-            className="w-full h-11 text-base font-semibold"
+            className="w-full h-14 mt-4 text-lg font-bold rounded-2xl shadow-md hover:shadow-lg transition-all"
             disabled={isLoading}
           >
             {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="h-5 w-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
-                Connexion en cours…
+              <span className="flex items-center justify-center gap-3">
+                <span className="h-6 w-6 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                Connexion en cours...
               </span>
             ) : (
               'Se connecter'
@@ -188,7 +188,7 @@ export function LoginModal({
           </Button>
 
           {/* Lien vers inscription */}
-          <p className="text-center text-sm text-text-secondary pt-2">
+          <p className="text-center text-base text-text-secondary pt-4">
             Nouveau sur le Hub ?{' '}
             <button
               type="button"
@@ -196,7 +196,7 @@ export function LoginModal({
                 onOpenChange(false)
                 onSwitchToRegister()
               }}
-              className="text-accent hover:text-accent-hover font-bold transition-colors cursor-pointer underline underline-offset-4"
+              className="text-accent hover:text-accent-hover font-extrabold transition-colors cursor-pointer underline underline-offset-4"
             >
               Créer un compte
             </button>
