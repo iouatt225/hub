@@ -36,14 +36,14 @@ export function DemoTabsSection() {
     <section className="py-24 sm:py-32 bg-surface border-t border-border">
       <div className="container-hub">
         {/* En-tête */}
-        <div className="max-w-3xl mb-16">
+        <div className="max-w-3xl mb-12">
           <span className="text-sm font-bold text-accent tracking-widest uppercase mb-4 block">
             Pourquoi le Hub EMSP
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-text-primary mb-6 leading-tight">
+          <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-text-primary mb-4 leading-tight">
             Les atouts qui font la différence
           </h2>
-          <p className="text-lg text-text-secondary leading-relaxed">
+          <p className="text-base text-text-secondary leading-relaxed">
             Une plateforme pensée pour simplifier la soumission d'idées, la collaboration entre filières et la sélection des projets innovants.
           </p>
         </div>
@@ -53,18 +53,18 @@ export function DemoTabsSection() {
           {advantages.map((item) => (
             <div
               key={item.id}
-              className="p-8 sm:p-10 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/25 transition-all duration-300 group"
+              className="p-6 sm:p-8 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/25 transition-all duration-300 group"
             >
               {/* Icône */}
-              <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
-                <item.icon className="w-7 h-7 text-accent" strokeWidth={1.5} />
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                <item.icon className="w-6 h-6 text-accent" strokeWidth={1.5} />
               </div>
 
               {/* Contenu */}
-              <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-3">
+              <h3 className="text-lg sm:text-xl font-bold text-text-primary mb-2">
                 {item.title}
               </h3>
-              <p className="text-text-secondary leading-relaxed">
+              <p className="text-sm text-text-secondary leading-relaxed">
                 {item.description}
               </p>
             </div>

@@ -17,10 +17,10 @@ export function FeaturesSection() {
             <span className="text-sm font-bold text-accent tracking-widest uppercase mb-4 block">
               À propos du Hub
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-text-primary mb-6 leading-tight">
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-text-primary mb-6 leading-tight">
               Connecter les talents pour la Journée du Numérique
             </h2>
-            <p className="text-lg text-text-secondary leading-relaxed mb-8">
+            <p className="text-base text-text-secondary leading-relaxed mb-8">
               Le Hub EMSP est la plateforme officielle d'idées et d'incubation de l'École Multinationale Supérieure des Postes. 
               Déposez vos projets innovants, formez des équipes pluridisciplinaires et participez à la sélection 
               pour la Journée du Numérique.
