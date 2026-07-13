@@ -65,16 +65,16 @@ export function FeaturesSection() {
                 feature.className
               )}
             >
-              <div className="relative z-10 flex flex-col h-full">
-                <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110", feature.iconColor)}>
+              <div className="relative z-10 flex flex-col items-center justify-center text-center h-full">
+                <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 shrink-0", feature.iconColor)}>
                   <feature.icon className="w-7 h-7" strokeWidth={1.5} />
                 </div>
                 
-                <div className="mt-auto">
-                  <h3 className={cn("font-bold mb-2", feature.large ? "text-3xl" : "text-xl")}>
+                <div>
+                  <h3 className={cn("font-bold mb-3", feature.large ? "text-2xl sm:text-3xl" : "text-xl")}>
                     {feature.title}
                   </h3>
-                  <p className={cn("leading-relaxed", feature.large ? "text-lg opacity-80" : "text-sm opacity-90")}>
+                  <p className={cn("leading-relaxed", feature.large ? "text-base sm:text-lg opacity-80" : "text-sm opacity-90")}>
                     {feature.description}
                   </p>
                 </div>

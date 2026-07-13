@@ -55,18 +55,24 @@ export function DemoTabsSection() {
         <div className="flex flex-col lg:flex-row gap-16 relative items-start">
           
           {/* Colonne Gauche : Les étapes défilantes */}
-          <div className="flex-1 space-y-24">
+          <div className="flex-1 space-y-12">
             {demoSteps.map((step) => (
-              <div key={step.id} className="relative pl-12 border-l-2 border-border/50 pb-12">
-                <div className="absolute top-0 -left-8 w-16 h-16 rounded-2xl bg-surface border border-border shadow-sm flex items-center justify-center text-accent">
+              <div key={step.id} className="flex gap-6 sm:gap-8 relative pb-12">
+                {/* Ligne verticale de la timeline */}
+                <div className="absolute top-16 bottom-0 left-8 w-0.5 bg-border/50" />
+                
+                {/* Icône */}
+                <div className="relative z-10 shrink-0 w-16 h-16 rounded-2xl bg-surface border border-border shadow-sm flex items-center justify-center text-accent">
                   <step.icon className="w-8 h-8" />
                 </div>
-                <div>
+                
+                {/* Contenu */}
+                <div className="pt-2">
                   <span className="text-sm font-bold text-accent tracking-widest uppercase mb-2 block">{step.title}</span>
-                  <h3 className="text-3xl font-bold text-text-primary mb-6">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-text-primary mb-4">
                     {step.heading}
                   </h3>
-                  <p className="text-lg text-text-secondary leading-relaxed">
+                  <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
                     {step.description}
                   </p>
                 </div>
