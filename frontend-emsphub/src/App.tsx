@@ -3,28 +3,36 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { RouteProtegee } from '@/components/auth/RouteProtegee'
 import { RouteProtegeeAdmin } from '@/components/auth/RouteProtegeeAdmin'
 import { Layout } from '@/layouts/Layout'
+import { AdminLayout } from '@/layouts/AdminLayout'
 import { Accueil } from '@/pages/Accueil'
 import { Hub } from '@/pages/Hub'
 import { NouvelleIdee } from '@/pages/NouvelleIdee'
 import { Projet } from '@/pages/Projet'
 import { Profil } from '@/pages/Profil'
 import { Documentation } from '@/pages/Documentation'
-import { Admin } from '@/pages/Admin'
 import { NotFound } from '@/pages/NotFound'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
 import { ForgotPassword } from '@/pages/auth/ForgotPassword'
 
+/* Pages du portail d'administration */
+import { Dashboard } from '@/pages/admin/Dashboard'
+import { Utilisateurs } from '@/pages/admin/Utilisateurs'
+import { AdminProjets } from '@/pages/admin/AdminProjets'
+import { Commentaires } from '@/pages/admin/Commentaires'
+import { Statistiques } from '@/pages/admin/Statistiques'
+import { Parametres } from '@/pages/admin/Parametres'
+
 /**
  * Composant racine — configuration du routeur React Router et du contexte Auth.
- * Les routes seront ajoutées au fur et à mesure des blocs :
- * - Aucune route restante pour l'instant
+ * Routes publiques sous Layout, routes admin sous AdminLayout avec protection de rôle.
  */
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          {/* Routes publiques — Layout avec Header + Footer */}
           <Route element={<Layout />}>
             <Route path="/" element={<Accueil />} />
             <Route path="/hub" element={<Hub />} />
@@ -42,16 +50,23 @@ function App() {
                 </RouteProtegee>
               } 
             />
-            <Route 
-              path="/admin" 
-              element={
-                <RouteProtegeeAdmin>
-                  <Admin />
-                </RouteProtegeeAdmin>
-              } 
-            />
-            {/* Les routes suivantes seront ajoutées bloc par bloc */}
             <Route path="*" element={<NotFound />} />
+          </Route>
+
+          {/* Routes admin — AdminLayout avec sidebar + protection de rôle */}
+          <Route
+            element={
+              <RouteProtegeeAdmin>
+                <AdminLayout />
+              </RouteProtegeeAdmin>
+            }
+          >
+            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/utilisateurs" element={<Utilisateurs />} />
+            <Route path="/admin/projets" element={<AdminProjets />} />
+            <Route path="/admin/commentaires" element={<Commentaires />} />
+            <Route path="/admin/statistiques" element={<Statistiques />} />
+            <Route path="/admin/parametres" element={<Parametres />} />
           </Route>
         </Routes>
       </BrowserRouter>

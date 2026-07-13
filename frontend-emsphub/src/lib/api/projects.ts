@@ -1,10 +1,33 @@
 import { supabase } from '@/lib/supabase'
-import type { Project, ProjectDetail, TeamStatus } from '@/lib/fixtures/projets.mock'
+import type { Project, ProjectDetail, TeamStatus, ProjectThumbnail } from '@/lib/fixtures/projets.mock'
 
 export interface ProjectsFilter {
   query: string
   status: string
   sortBy: string
+}
+
+function getThumbnailForProject(tags: string[]): ProjectThumbnail {
+  const defaultGradients = [
+    'from-emerald-500 to-teal-600',
+    'from-blue-500 to-indigo-600',
+    'from-amber-500 to-orange-600',
+    'from-purple-500 to-violet-600',
+    'from-cyan-500 to-blue-600',
+    'from-pink-500 to-rose-600',
+    'from-lime-500 to-green-600',
+    'from-slate-500 to-zinc-700'
+  ]
+  const defaultEmojis = ['🌱', '🚗', '💳', '🤝', '🤖', '🧘', '🛒', '📡', '💡', '🚀', '🧠']
+
+  const tagHash = tags.length > 0 ? tags[0].charCodeAt(0) : Math.floor(Math.random() * 100)
+  const gradIndex = tagHash % defaultGradients.length
+  const emojiIndex = tagHash % defaultEmojis.length
+
+  return {
+    gradient: defaultGradients[gradIndex],
+    emoji: defaultEmojis[emojiIndex]
+  }
 }
 
 /**
@@ -73,7 +96,8 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
     votes: row.votes || 0,
     commentCount: 0, // À implémenter plus tard avec une table de commentaires
     createdAt: row.created_at,
-    isOfficialSelection: row.is_official_selection
+    isOfficialSelection: row.is_official_selection,
+    thumbnail: getThumbnailForProject(row.tags || [])
   }))
 }
 
@@ -123,7 +147,8 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
     votes: data.votes || 0,
     commentCount: 0,
     createdAt: data.created_at,
-    isOfficialSelection: data.is_official_selection
+    isOfficialSelection: data.is_official_selection,
+    thumbnail: getThumbnailForProject(data.tags || [])
   }
 
   // Pour l'instant, on mock l'équipe et les commentaires car les tables
