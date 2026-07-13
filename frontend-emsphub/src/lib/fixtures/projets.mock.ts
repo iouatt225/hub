@@ -23,6 +23,7 @@ export interface Project {
   createdAt: string
   isOfficialSelection?: boolean
   thumbnail: ProjectThumbnail
+  imageUrl?: string
 }
 
 export interface Comment {

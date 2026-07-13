@@ -136,18 +136,36 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         </div>
 
         {/* Miniature / Capture d'écran simulée (Facebook-style) */}
-        <Link to={`/projet/${project.id}`} className="block relative aspect-video rounded-xl overflow-hidden mb-6 border border-border group">
-          <div className={cn("absolute inset-0 bg-gradient-to-br flex flex-col items-center justify-center p-6 text-center transition-transform duration-500 group-hover:scale-105", project.thumbnail.gradient)}>
-            <span className="text-5xl sm:text-6xl mb-4 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
-              {project.thumbnail.emoji}
-            </span>
-            <h3 className="text-white text-base sm:text-lg font-extrabold max-w-md line-clamp-2 px-2 drop-shadow-md leading-snug">
-              {project.title}
-            </h3>
-            <span className="mt-3 text-xs bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/20 font-semibold shadow-sm opacity-90 group-hover:opacity-100 transition-opacity">
-              Voir la fiche projet
-            </span>
-          </div>
+        <Link to={`/projet/${project.id}`} className="block relative aspect-video rounded-xl overflow-hidden mb-6 border border-border group bg-background-alt">
+          {project.imageUrl ? (
+            <>
+              <img 
+                src={project.imageUrl} 
+                alt={project.title} 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 flex items-end justify-between z-10">
+                <span className="text-white text-xs sm:text-sm font-bold truncate pr-4 drop-shadow-md">
+                  {project.title}
+                </span>
+                <span className="text-[10px] bg-accent text-white px-2.5 py-0.5 rounded-full font-bold shadow-sm whitespace-nowrap shrink-0">
+                  Voir le projet
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className={cn("absolute inset-0 bg-gradient-to-br flex flex-col items-center justify-center p-6 text-center transition-transform duration-500 group-hover:scale-105", project.thumbnail.gradient)}>
+              <span className="text-5xl sm:text-6xl mb-4 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
+                {project.thumbnail.emoji}
+              </span>
+              <h3 className="text-white text-base sm:text-lg font-extrabold max-w-md line-clamp-2 px-2 drop-shadow-md leading-snug">
+                {project.title}
+              </h3>
+              <span className="mt-3 text-xs bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/20 font-semibold shadow-sm opacity-90 group-hover:opacity-100 transition-opacity">
+                Voir la fiche projet
+              </span>
+            </div>
+          )}
         </Link>
 
         {/* Compteurs de réactions */}

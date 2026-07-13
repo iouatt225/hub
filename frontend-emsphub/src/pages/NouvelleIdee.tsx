@@ -43,6 +43,7 @@ export function NouvelleIdee() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [fileName, setFileName] = useState<string | null>(null)
+  const [imageBase64, setImageBase64] = useState<string | null>(null)
 
   const {
     register,
@@ -60,10 +61,21 @@ export function NouvelleIdee() {
     },
   })
 
-  // Gestion de l'upload de fichier mocké
+  // Gestion de l'upload de fichier
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFileName(e.target.files[0].name)
+      const file = e.target.files[0]
+      setFileName(file.name)
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          setImageBase64(reader.result as string)
+        }
+      } else {
+        setImageBase64(null)
+      }
     }
   }
 
@@ -80,7 +92,8 @@ export function NouvelleIdee() {
         solution: values.solution,
         teamStatus: values.teamStatus,
         tags: values.tags ? values.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
-        authorId: user.id
+        authorId: user.id,
+        imageUrl: imageBase64 || undefined
       })
       
       setIsSuccess(true)

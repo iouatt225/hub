@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { ThumbsUp, MessageSquare, Users, User, UserPlus, Sparkles } from 'lucide-react'
 import type { Project, TeamStatus } from '@/lib/fixtures/projets.mock'
+import { cn } from '@/lib/utils'
 
 interface ProjectCardProps {
   project: Project
@@ -13,20 +14,20 @@ function StatusBadge({ status }: { status: TeamStatus }) {
   switch (status) {
     case 'solo':
       return (
-        <Badge variant="outline" className="gap-1.5 font-normal text-text-secondary border-border">
-          <User className="w-3 h-3" /> Solo
+        <Badge variant="outline" className="gap-1.5 font-normal text-text-secondary border-border bg-background">
+          <User className="w-3.5 h-3.5" /> Solo
         </Badge>
       )
     case 'complete':
       return (
         <Badge variant="outline" className="gap-1.5 font-normal text-success border-success/30 bg-success/10">
-          <Users className="w-3 h-3" /> Équipe complète
+          <Users className="w-3.5 h-3.5" /> Équipe complète
         </Badge>
       )
     case 'looking_for_members':
       return (
         <Badge variant="outline" className="gap-1.5 font-normal text-accent border-accent/30 bg-accent/10">
-          <UserPlus className="w-3 h-3" /> Cherche associés
+          <UserPlus className="w-3.5 h-3.5" /> Cherche associés
         </Badge>
       )
   }
@@ -38,10 +39,30 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <Card className="h-full flex flex-col transition-all duration-300 hover:shadow-card hover:border-accent/40 relative overflow-hidden bg-surface">
         {/* Liseré supérieur si sélection officielle */}
         {project.isOfficialSelection && (
-          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-accent to-accent-hover" />
+          <div className="absolute top-0 inset-x-0 h-1 z-10 bg-gradient-to-r from-accent to-accent-hover" />
         )}
 
-        <CardHeader className="pb-4">
+        {/* Cover Image ou Gradient Thumbnail */}
+        <div className="w-full h-40 overflow-hidden relative border-b border-border bg-background-alt shrink-0">
+          {project.imageUrl ? (
+            <img 
+              src={project.imageUrl} 
+              alt={project.title} 
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className={cn("absolute inset-0 bg-gradient-to-br flex flex-col items-center justify-center p-4 text-center transition-transform duration-500 group-hover:scale-105", project.thumbnail.gradient)}>
+              <span className="text-4xl mb-2 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
+                {project.thumbnail.emoji}
+              </span>
+              <span className="text-[10px] bg-white/20 backdrop-blur-md text-white px-2 py-0.5 rounded-full border border-white/10 font-medium opacity-90">
+                Fiche Projet
+              </span>
+            </div>
+          )}
+        </div>
+
+        <CardHeader className="pb-3 pt-4">
           <div className="flex justify-between items-start gap-4 mb-2">
             <StatusBadge status={project.teamStatus} />
             {project.isOfficialSelection && (

@@ -78,11 +78,11 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
 
   if (error) {
     console.error('Erreur fetchProjects:', error)
-    return [] // Retour vide silencieux pour le front, on pourrait aussi throw
+    return MOCK_PROJECTS // Retourner les mocks en cas d'erreur de base
   }
 
   // Mapper le retour Supabase vers l'interface Frontend `Project`
-  return data.map((row: any) => ({
+  const supabaseProjects = data.map((row: any) => ({
     id: row.id,
     title: row.title,
     problem: row.problem,
@@ -95,71 +95,115 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
       avatar: row.profiles?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${row.id}`
     },
     votes: row.votes || 0,
-    commentCount: 0, // À implémenter plus tard avec une table de commentaires
+    commentCount: 0,
     createdAt: row.created_at,
     isOfficialSelection: row.is_official_selection,
-    thumbnail: getThumbnailForProject(row.tags || [])
+    thumbnail: getThumbnailForProject(row.tags || []),
+    imageUrl: row.image_url
   }))
+
+  // Fusionner les projets locaux en mémoire avec ceux récupérés de Supabase
+  const supabaseIds = new Set(supabaseProjects.map(p => p.id))
+  const localOnlyProjects = MOCK_PROJECTS.filter(p => !supabaseIds.has(p.id))
+
+  const allProjects = [...localOnlyProjects, ...supabaseProjects]
+
+  // Appliquer le filtrage sur le tableau fusionné
+  let filtered = allProjects
+
+  if (filters.status && filters.status !== 'all') {
+    filtered = filtered.filter(p => p.teamStatus === filters.status)
+  }
+
+  if (filters.query) {
+    const q = filters.query.toLowerCase()
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.problem.toLowerCase().includes(q)
+    )
+  }
+
+  // Tri
+  if (filters.sortBy === 'recent') {
+    filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  } else if (filters.sortBy === 'popular' || filters.sortBy === 'active') {
+    filtered.sort((a, b) => b.votes - a.votes)
+  }
+
+  return filtered
 }
 
 /**
  * Récupère le détail d'un projet par son ID
  */
 export async function fetchProjectById(id: string): Promise<ProjectDetail | null> {
-  const { data, error } = await supabase
-    .from('projects')
-    .select(`
-      id,
-      title,
-      problem,
-      solution,
-      team_status,
-      tags,
-      votes,
-      is_official_selection,
-      created_at,
-      profiles:author_id (
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select(`
         id,
-        full_name,
-        avatar_url
-      )
-    `)
-    .eq('id', id)
-    .single()
+        title,
+        problem,
+        solution,
+        team_status,
+        tags,
+        votes,
+        is_official_selection,
+        created_at,
+        profiles:author_id (
+          id,
+          full_name,
+          avatar_url
+        )
+      `)
+      .eq('id', id)
+      .single()
 
-  if (error || !data) {
-    console.error('Erreur fetchProjectById:', error)
+    if (error || !data) {
+      throw error || new Error('Project not found in Supabase')
+    }
+
+    // Mapping de base
+    const baseProject: Project = {
+      id: data.id,
+      title: data.title,
+      problem: data.problem,
+      solution: data.solution,
+      teamStatus: data.team_status as TeamStatus,
+      tags: data.tags || [],
+      author: {
+        id: (data.profiles as any)?.id || 'inconnu',
+        name: (data.profiles as any)?.full_name || 'Utilisateur Anonyme',
+        avatar: (data.profiles as any)?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${data.id}`
+      },
+      votes: data.votes || 0,
+      commentCount: 0,
+      createdAt: data.created_at,
+      isOfficialSelection: data.is_official_selection,
+      thumbnail: getThumbnailForProject(data.tags || []),
+      imageUrl: (data as any).image_url
+    }
+
+    return {
+      ...baseProject,
+      teamMembers: [
+        { id: baseProject.author.id, name: baseProject.author.name, avatar: baseProject.author.avatar, role: 'Porteur du projet' }
+      ],
+      comments: []
+    }
+  } catch (err) {
+    console.warn(`Projet ${id} non trouvé dans Supabase. Recherche dans les données locales...`, err)
+    const localProject = MOCK_PROJECTS.find(p => p.id === id)
+    if (localProject) {
+      return {
+        ...localProject,
+        teamMembers: [
+          { id: localProject.author.id, name: localProject.author.name, avatar: localProject.author.avatar, role: 'Porteur du projet' }
+        ],
+        comments: []
+      }
+    }
     return null
-  }
-
-  // Mapping de base
-  const baseProject: Project = {
-    id: data.id,
-    title: data.title,
-    problem: data.problem,
-    solution: data.solution,
-    teamStatus: data.team_status as TeamStatus,
-    tags: data.tags || [],
-    author: {
-      id: (data.profiles as any)?.id || 'inconnu',
-      name: (data.profiles as any)?.full_name || 'Utilisateur Anonyme',
-      avatar: (data.profiles as any)?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${data.id}`
-    },
-    votes: data.votes || 0,
-    commentCount: 0,
-    createdAt: data.created_at,
-    isOfficialSelection: data.is_official_selection,
-    thumbnail: getThumbnailForProject(data.tags || [])
-  }
-
-  // Pour l'instant, on mock l'équipe et les commentaires car les tables
-  // team_members et comments ne sont pas encore formellement créées.
-  return {
-    ...baseProject,
-    teamMembers: [
-      { id: baseProject.author.id, name: baseProject.author.name, avatar: baseProject.author.avatar, role: 'Porteur du projet' }
-    ],
-    comments: []
   }
 }
 
@@ -173,6 +217,7 @@ export async function createProject(payload: {
   teamStatus: TeamStatus
   tags: string[]
   authorId: string
+  imageUrl?: string
 }): Promise<string | null> {
   try {
     const { data, error } = await supabase
@@ -222,7 +267,8 @@ export async function createProject(payload: {
       commentCount: 0,
       createdAt: new Date().toISOString(),
       isOfficialSelection: false,
-      thumbnail: getThumbnailForProject(payload.tags)
+      thumbnail: getThumbnailForProject(payload.tags),
+      imageUrl: payload.imageUrl
     }
 
     // Ajouter en haut de la liste locale

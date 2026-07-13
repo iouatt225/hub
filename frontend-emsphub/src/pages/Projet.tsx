@@ -91,6 +91,17 @@ export function Projet() {
           </div>
         </div>
 
+        {/* Cover Image du Projet */}
+        {project.imageUrl && (
+          <div className="w-full h-80 sm:h-96 md:h-[420px] overflow-hidden rounded-3xl mb-12 border border-border shadow-sm bg-background-alt">
+            <img 
+              src={project.imageUrl} 
+              alt={project.title} 
+              className="w-full h-full object-cover animate-fade-in"
+            />
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Colonne Principale (Gauche) */}
           <div className="lg:col-span-2 space-y-12">
