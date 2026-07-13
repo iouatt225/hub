@@ -77,20 +77,20 @@ export function Documentation() {
             <div className="hidden lg:block relative h-[450px] w-full animate-fade-in" style={{ animationDelay: '300ms', animationFillMode: 'both' }}>
               <div className="absolute inset-0 bg-accent/5 rounded-full blur-3xl" />
               
-              <div className="absolute top-10 right-4 w-auto max-w-[320px] p-8 rounded-3xl bg-surface border border-border shadow-2xl z-20 hover:-translate-y-4 transition-transform duration-500">
-                 <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
+              <div className="absolute top-10 right-4 w-[320px] flex flex-col items-center text-center p-6 rounded-3xl bg-surface border border-border shadow-2xl z-20 hover:-translate-y-4 transition-transform duration-500 box-border overflow-hidden">
+                 <div className="w-14 h-14 shrink-0 rounded-2xl bg-accent/10 flex items-center justify-center mb-5">
                    <ShieldCheck className="w-8 h-8 text-accent" />
                  </div>
-                 <h3 className="font-bold text-2xl mb-3 text-text-primary">100% Sécurisé</h3>
-                 <p className="text-base text-text-secondary leading-relaxed">Réservé exclusivement aux emails institutionnels @emsp.ci.</p>
+                 <h3 className="font-bold text-2xl mb-2 text-text-primary break-words">100% Sécurisé</h3>
+                 <p className="text-sm text-text-secondary leading-relaxed break-words">Réservé exclusivement aux emails institutionnels @emsp.ci.</p>
               </div>
               
-              <div className="absolute bottom-10 left-4 w-auto max-w-[340px] p-8 rounded-3xl bg-accent text-white shadow-2xl z-10 opacity-95">
-                 <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6 backdrop-blur-sm border border-white/20">
+              <div className="absolute bottom-10 left-4 w-[320px] flex flex-col items-center text-center p-6 rounded-3xl bg-accent text-white shadow-2xl z-10 opacity-95 box-border overflow-hidden">
+                 <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/20 flex items-center justify-center mb-5 backdrop-blur-sm border border-white/20">
                    <Target className="w-8 h-8 text-highlight-light" />
                  </div>
-                 <h3 className="font-bold text-2xl mb-3">Objectif JDN</h3>
-                 <p className="text-base text-accent-light opacity-90 leading-relaxed">Les meilleurs projets seront sélectionnés par le jury officiel.</p>
+                 <h3 className="font-bold text-2xl mb-2 break-words">Objectif JDN</h3>
+                 <p className="text-sm text-accent-light opacity-90 leading-relaxed break-words">Les meilleurs projets seront sélectionnés par le jury officiel.</p>
               </div>
             </div>
 
