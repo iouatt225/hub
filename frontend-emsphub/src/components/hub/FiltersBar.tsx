@@ -30,11 +30,13 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
       applyFilters(query, status, sortBy)
     }, 400)
     return () => clearTimeout(handler)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
   // Application des filtres sans debounce
   useEffect(() => {
     applyFilters(query, status, sortBy)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, sortBy])
 
   function applyFilters(newQuery: string, newStatus: string, newSortBy: string) {

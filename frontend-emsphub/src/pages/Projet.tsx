@@ -25,7 +25,7 @@ export function Projet() {
         } else {
           setError(true)
         }
-      } catch (e) {
+      } catch {
         setError(true)
       } finally {
         setIsLoading(false)
