@@ -72,9 +72,9 @@ export function Footer() {
     <footer className="bg-background-alt border-t border-border">
       <div className="container-hub py-12 sm:py-16">
         {/* ─── Grille principale ─── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Colonne 1 — Identité */}
-          <div className="sm:col-span-2 lg:col-span-1">
+          <div className="sm:col-span-2 lg:col-span-2 lg:pr-8">
             <Link to="/" className="flex items-center gap-2 group mb-4">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/10 border border-accent/20 group-hover:bg-accent/20 transition-colors duration-200">
                 <Sparkles className="h-5 w-5 text-accent" />
@@ -83,7 +83,7 @@ export function Footer() {
                 {BRAND.shortName}
               </span>
             </Link>
-            <p className="text-sm text-text-secondary leading-relaxed max-w-xs">
+            <p className="text-sm text-text-secondary leading-relaxed max-w-sm">
               {BRAND.description}
             </p>
           </div>

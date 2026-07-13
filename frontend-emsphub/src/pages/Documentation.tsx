@@ -48,13 +48,13 @@ export function Documentation() {
   ]
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-20">
-      <div className="container-hub max-w-6xl">
+    <div className="min-h-screen bg-background pt-24 pb-24">
+      <div className="container-hub">
         
         {/* En-tête de la page */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 border border-accent/20 text-accent">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-light text-accent">
               <BookOpen className="h-6 w-6" />
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-text-primary">Documentation</h1>
