@@ -2,7 +2,6 @@ import { Hero } from '@/components/sections/Hero'
 import { DemoTabsSection } from '@/components/sections/DemoTabsSection'
 import { FeaturesSection } from '@/components/sections/FeaturesSection'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
-import { CtaSection } from '@/components/sections/CtaSection'
 import { heroData } from '@/lib/fixtures/accueil.mock'
 
 /**
@@ -15,7 +14,6 @@ export function Accueil() {
       <FeaturesSection />
       <DemoTabsSection />
       <TestimonialsSection />
-      <CtaSection />
     </>
   )
 }
