@@ -75,15 +75,15 @@ export function Header() {
             </Link>
 
             {/* ─── Navigation desktop ─── */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-6">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                    'px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
                     location.pathname === link.href
-                      ? 'text-accent bg-accent/10'
+                      ? 'text-accent bg-accent-light/50'
                       : 'text-text-secondary hover:text-text-primary hover:bg-surface'
                   )}
                 >
@@ -93,7 +93,7 @@ export function Header() {
             </div>
 
             {/* ─── Boutons auth desktop ─── */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-4">
               {user ? (
                 <div className="flex items-center gap-4">
                   <Link to="/profil/me" className="flex items-center gap-2 hover:bg-surface p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-border">
@@ -101,37 +101,37 @@ export function Header() {
                       <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`} />
                       <AvatarFallback><UserIcon className="h-4 w-4" /></AvatarFallback>
                     </Avatar>
-                    <span className="text-sm font-medium text-text-primary">
+                    <span className="text-sm font-semibold text-text-primary">
                       {user.user_metadata?.full_name?.split(' ')[0] || 'Profil'}
                     </span>
                   </Link>
                   {(user.email?.startsWith('admin') || user.user_metadata?.role === 'admin') && (
-                    <Button variant="ghost" size="sm" asChild className="hidden lg:flex text-accent hover:text-accent hover:bg-accent/10">
+                    <Button variant="ghost" className="hidden lg:flex text-accent hover:text-accent hover:bg-accent-light/50 font-semibold">
                       <Link to="/admin">Admin</Link>
                     </Button>
                   )}
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-text-secondary hover:text-error"
+                    className="h-10 w-10 text-text-secondary hover:text-error"
                     onClick={() => signOut()}
                     aria-label="Se déconnecter"
                   >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-5 w-5" />
                   </Button>
                 </div>
               ) : (
                 <>
                   <Button
                     variant="ghost"
-                    size="sm"
                     onClick={() => setLoginOpen(true)}
+                    className="font-semibold text-text-secondary hover:text-text-primary"
                   >
                     Se connecter
                   </Button>
                   <Button
-                    size="sm"
                     onClick={() => setRegisterOpen(true)}
+                    className="font-semibold px-6"
                   >
                     S'inscrire
                   </Button>
