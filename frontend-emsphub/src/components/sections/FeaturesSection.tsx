@@ -34,7 +34,7 @@ const featuresData = [
  */
 export function FeaturesSection() {
   return (
-    <section className="py-24 sm:py-32 bg-background border-t border-border overflow-hidden">
+    <section className="py-20 sm:py-28 bg-background border-t border-border overflow-hidden">
       <div className="container-hub">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">

@@ -33,7 +33,7 @@ const piliersData = [
  */
 export function PiliersSection() {
   return (
-    <section className="py-20 sm:py-32 bg-background-alt">
+    <section className="py-24 sm:py-32 bg-background">
       <div className="container-hub">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary mb-4">

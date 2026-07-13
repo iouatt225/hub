@@ -40,7 +40,7 @@ export function Hero({
   avatars,
 }: HeroProps) {
   return (
-    <section className="relative overflow-hidden pt-24 pb-24 sm:pt-32 sm:pb-32 lg:pb-40 bg-gradient-to-b from-background to-background-alt">
+    <section className="relative overflow-hidden pt-20 pb-20 sm:pt-28 sm:pb-28 lg:pt-32 lg:pb-32 bg-background">
       {/* Fond très discret avec un motif géométrique ou radial léger */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#f1f5f9_0%,transparent_100%)] pointer-events-none" />
 

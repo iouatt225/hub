@@ -8,7 +8,7 @@ import { Sparkles, ArrowRight } from 'lucide-react'
  */
 export function CtaSection() {
   return (
-    <section className="relative py-24 sm:py-32 overflow-hidden bg-background">
+    <section className="relative py-20 sm:py-28 overflow-hidden bg-background">
       {/* Fond décoratif (motif radial discret) */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,#f8fafc_0%,transparent_100%)] pointer-events-none" />
 

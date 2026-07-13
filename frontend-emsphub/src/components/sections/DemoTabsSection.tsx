@@ -46,7 +46,7 @@ const demoSteps = [
  */
 export function DemoTabsSection() {
   return (
-    <section className="py-24 sm:py-32 bg-background-alt border-t border-border">
+    <section id="demo" className="py-20 sm:py-28 bg-background-alt">
       <div className="container-hub">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-text-primary mb-4">
