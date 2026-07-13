@@ -34,13 +34,10 @@ const testimonialsData = [
  */
 export function TestimonialsSection() {
   return (
-    <section className="py-20 sm:py-32 bg-background-alt border-t border-border overflow-hidden">
+    <section className="py-24 sm:py-32 bg-background border-t border-border overflow-hidden">
       <div className="container-hub relative">
-        {/* Décoration d'arrière-plan */}
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-96 h-96 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-20 relative z-10">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">
             Ils ont transformé leurs idées
           </h2>
           <p className="text-lg text-text-secondary">
@@ -53,24 +50,24 @@ export function TestimonialsSection() {
           {testimonialsData.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="flex flex-col p-8 rounded-2xl bg-surface border border-border shadow-card relative"
+              className="flex flex-col p-8 rounded-3xl bg-surface border border-border shadow-sm hover:shadow-card-hover transition-all duration-300 relative"
             >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-accent/20 rotate-180" />
+              <Quote className="absolute top-8 right-8 w-12 h-12 text-accent-light" />
               
-              <div className="flex items-center gap-4 mb-6">
-                <Avatar className="w-14 h-14 border-2 border-background shadow-sm">
+              <div className="flex items-center gap-4 mb-6 relative z-10">
+                <Avatar className="w-16 h-16 border-4 border-background shadow-sm">
                   <AvatarImage src={testimonial.avatarSrc} alt={testimonial.name} />
                   <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-base font-bold text-text-primary">
+                  <h3 className="text-lg font-bold text-text-primary">
                     {testimonial.name}
                   </h3>
-                  <p className="text-sm text-text-muted">{testimonial.role}</p>
+                  <p className="text-sm font-medium text-text-muted uppercase tracking-wider mt-1">{testimonial.role}</p>
                 </div>
               </div>
               
-              <p className="text-text-secondary leading-relaxed italic">
+              <p className="text-text-secondary leading-relaxed italic relative z-10">
                 "{testimonial.content}"
               </p>
             </div>

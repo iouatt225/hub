@@ -40,12 +40,9 @@ export function Hero({
   avatars,
 }: HeroProps) {
   return (
-    <section className="relative overflow-hidden pt-24 pb-24 sm:pt-32 sm:pb-32 lg:pb-40">
-      {/* Éléments décoratifs en arrière-plan */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px]" />
-      </div>
+    <section className="relative overflow-hidden pt-24 pb-24 sm:pt-32 sm:pb-32 lg:pb-40 bg-gradient-to-b from-background to-background-alt">
+      {/* Fond très discret avec un motif géométrique ou radial léger */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#f1f5f9_0%,transparent_100%)] pointer-events-none" />
 
       <div className="container-hub relative z-10 text-center">
         {/* Badge événement */}

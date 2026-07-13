@@ -15,7 +15,7 @@ export function TrustedBy({ title, logos }: TrustedByProps) {
   const duplicatedLogos = [...logos, ...logos]
 
   return (
-    <section className="py-12 border-y border-white/5 bg-background/40 backdrop-blur-md overflow-hidden relative z-20">
+    <section className="py-12 border-y border-border bg-background overflow-hidden relative z-20">
       <div className="container-hub">
         <p className="text-center text-sm font-semibold text-text-muted uppercase tracking-widest mb-8">
           {title}
@@ -24,8 +24,8 @@ export function TrustedBy({ title, logos }: TrustedByProps) {
         {/* Conteneur du défilement */}
         <div className="relative flex overflow-hidden">
           {/* Masques de fondu aux extrémités */}
-          <div className="absolute top-0 left-0 bottom-0 w-24 z-10 bg-gradient-to-r from-background-alt to-transparent pointer-events-none" />
-          <div className="absolute top-0 right-0 bottom-0 w-24 z-10 bg-gradient-to-l from-background-alt to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 bottom-0 w-24 z-10 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-0 bottom-0 w-24 z-10 bg-gradient-to-l from-background to-transparent pointer-events-none" />
           
           {/* Animation CSS via Tailwind (voir index.css pour la keyframe, ou utilitaire custom) */}
           <div className="flex w-max min-w-full animate-marquee gap-12 sm:gap-24 px-12 sm:px-24">

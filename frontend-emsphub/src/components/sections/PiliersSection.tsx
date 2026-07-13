@@ -33,7 +33,7 @@ const piliersData = [
  */
 export function PiliersSection() {
   return (
-    <section className="py-20 sm:py-32 bg-background">
+    <section className="py-20 sm:py-32 bg-background-alt">
       <div className="container-hub">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary mb-4">
@@ -49,15 +49,15 @@ export function PiliersSection() {
           {piliersData.map((pilier) => (
             <div
               key={pilier.id}
-              className="flex flex-col p-8 rounded-2xl glass-card group"
+              className="flex flex-col p-8 rounded-2xl bg-surface border border-border shadow-sm hover:shadow-card-hover hover:-translate-y-2 transition-all duration-300 group"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent/10 border border-accent/20 text-accent mb-6 transition-all duration-300 group-hover:bg-accent/20 group-hover:scale-110 group-hover:shadow-glow">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent-light text-accent mb-6 transition-transform duration-300 group-hover:scale-110">
                 <pilier.icon className="h-7 w-7" />
               </div>
               <h3 className="text-xl font-bold text-text-primary mb-3 transition-colors group-hover:text-accent">
                 {pilier.title}
               </h3>
-              <p className="text-base text-text-secondary leading-relaxed group-hover:text-text-primary/90 transition-colors">
+              <p className="text-base text-text-secondary leading-relaxed group-hover:text-text-primary transition-colors">
                 {pilier.description}
               </p>
             </div>
