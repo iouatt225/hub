@@ -1,84 +1,71 @@
-import { FileEdit, ThumbsUp, UserPlus, Rocket } from 'lucide-react'
+import { FileEdit, ThumbsUp, UserPlus, Trophy } from 'lucide-react'
 
-const demoSteps = [
+const advantages = [
   {
     id: 'soumettre',
-    number: '01',
-    title: 'Soumettre',
+    title: 'Soumission rapide',
+    description: "Proposez votre idée en quelques clics. Décrivez votre projet, choisissez vos filières et publiez.",
     icon: FileEdit,
-    description:
-      "Remplissez un formulaire simple pour présenter votre projet. Votre idée devient visible par tous les étudiants de l'EMSP.",
   },
   {
     id: 'voter',
-    number: '02',
-    title: 'Voter',
+    title: 'Vote communautaire',
+    description: "Soutenez les meilleurs projets. Les idées les plus populaires remontent dans le classement.",
     icon: ThumbsUp,
-    description:
-      "Parcourez les idées soumises par vos camarades et votez pour celles qui ont le plus de potentiel.",
   },
   {
-    id: 'rejoindre',
-    number: '03',
-    title: 'Rejoindre',
+    id: 'equipe',
+    title: "Formation d'équipe",
+    description: "Trouvez des profils complémentaires et formez l'équipe idéale pour votre projet.",
     icon: UserPlus,
-    description:
-      "Une idée vous passionne ? Demandez à rejoindre l'équipe et complétez-la avec vos compétences.",
   },
   {
-    id: 'incuber',
-    number: '04',
-    title: 'Incuber',
-    icon: Rocket,
-    description:
-      "L'école sélectionne les meilleures initiatives pour une incubation : mentorat, ateliers et présentation officielle !",
+    id: 'selection',
+    title: 'Sélection officielle',
+    description: "Les meilleurs projets sont sélectionnés pour l'incubation et la Journée du Numérique.",
+    icon: Trophy,
   },
 ]
 
 /**
- * Section « Comment ça marche » — 4 étapes avec des cartes numérotées.
+ * Section « Pourquoi le Hub EMSP » — Grille 2×2 de cartes.
+ * Inspiré de la section « Pourquoi choisir l'EMSP » du site de référence.
  */
 export function DemoTabsSection() {
   return (
-    <section id="demo" className="py-24 sm:py-32 bg-surface border-t border-border relative">
+    <section className="py-24 sm:py-32 bg-surface border-t border-border">
       <div className="container-hub">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="text-sm font-bold text-accent tracking-widest uppercase mb-3 block">Parcours</span>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">
-            Comment ça marche ?
+        {/* En-tête */}
+        <div className="max-w-3xl mb-16">
+          <span className="text-sm font-bold text-accent tracking-widest uppercase mb-4 block">
+            Pourquoi le Hub EMSP
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-text-primary mb-6 leading-tight">
+            Les atouts qui font la différence
           </h2>
-          <p className="text-lg text-text-secondary">
-            Découvrez le parcours d'une idée, de sa soumission jusqu'à l'incubation.
+          <p className="text-lg text-text-secondary leading-relaxed">
+            Une plateforme pensée pour simplifier la soumission d'idées, la collaboration entre filières et la sélection des projets innovants.
           </p>
         </div>
 
-        {/* Grille 4 colonnes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto relative">
-          
-          {/* Ligne de connexion entre les étapes (desktop uniquement) */}
-          <div className="hidden lg:block absolute top-16 left-[12.5%] right-[12.5%] h-0.5 bg-border" />
-          
-          {demoSteps.map((step) => (
+        {/* Grille 2×2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {advantages.map((item) => (
             <div
-              key={step.id}
-              className="relative flex flex-col items-center text-center group"
+              key={item.id}
+              className="p-8 sm:p-10 rounded-2xl bg-accent/5 border border-accent/10 hover:border-accent/25 transition-all duration-300 group"
             >
-              {/* Cercle numéroté */}
-              <div className="relative z-10 w-16 h-16 rounded-full bg-background border-2 border-accent/20 flex items-center justify-center mb-6 group-hover:border-accent group-hover:bg-accent/5 transition-all duration-300">
-                <step.icon className="w-7 h-7 text-accent" />
+              {/* Icône */}
+              <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
+                <item.icon className="w-7 h-7 text-accent" strokeWidth={1.5} />
               </div>
 
-              {/* Numéro */}
-              <span className="text-xs font-bold text-accent tracking-widest uppercase mb-2">{step.number}</span>
-              
-              {/* Titre */}
-              <h3 className="text-xl font-bold text-text-primary mb-3">
-                {step.title}
+              {/* Contenu */}
+              <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-3">
+                {item.title}
               </h3>
-              
-              {/* Description */}
-              <p className="text-sm text-text-secondary leading-relaxed max-w-[260px]">
-                {step.description}
+              <p className="text-text-secondary leading-relaxed">
+                {item.description}
               </p>
             </div>
           ))}

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { BRAND } from '@/constants/brand'
-import { Lightbulb, Trophy, Users } from 'lucide-react'
 
 export interface HeroProps {
   title: string
@@ -18,7 +17,7 @@ export interface HeroProps {
 }
 
 /**
- * Nouvelle Section Hero - Split Layout
+ * Hero Section — Image de fond plein écran style EMSP.
  */
 export function Hero({
   title,
@@ -28,107 +27,66 @@ export function Hero({
   secondaryCta,
 }: HeroProps) {
   return (
-    <section className="relative overflow-hidden pt-24 pb-20 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32 bg-background">
-      {/* Fond décoratif subtil */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,#f1f5f9_0%,transparent_70%)] pointer-events-none" />
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      {/* Image de fond */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1523050854058-8df90110c476?w=1920&q=80')`,
+        }}
+      />
+      {/* Overlay sombre avec dégradé */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/90 via-[#1a1a2e]/75 to-[#1a1a2e]/50" />
 
-      <div className="container-hub relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          {/* Colonne Gauche : Texte et CTAs */}
-          <div className="text-left max-w-2xl">
-            {/* Badge événement */}
-            <div className="mb-6 animate-fade-in inline-flex">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/20 text-sm font-semibold text-accent">
-                🚀 {BRAND.event}
-              </span>
-            </div>
-
-            {/* Titre principal */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-text-primary mb-6 animate-slide-up leading-[1.1]" style={{ animationDelay: '100ms', animationFillMode: 'both' }}>
-              {title}{' '}
-              <span className="text-gradient block mt-2">{highlight}</span>
-            </h1>
-
-            {/* Sous-titre */}
-            <p className="text-lg sm:text-xl text-text-secondary mb-10 leading-relaxed animate-slide-up max-w-xl" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
-              {subtitle}
-            </p>
-
-            {/* Boutons d'action */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-12 animate-slide-up" style={{ animationDelay: '300ms', animationFillMode: 'both' }}>
-              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base shadow-glow hover:shadow-none" asChild>
-                <Link to={primaryCta.href}>{primaryCta.label}</Link>
-              </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-base border-border hover:bg-surface-hover" asChild>
-                <Link to={secondaryCta.href}>{secondaryCta.label}</Link>
-              </Button>
-            </div>
+      <div className="container-hub relative z-10 py-20">
+        <div className="max-w-3xl">
+          {/* Badge événement */}
+          <div className="mb-8 animate-fade-in">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-semibold text-white/90">
+              🚀 {BRAND.event}
+            </span>
           </div>
 
-          {/* Colonne Droite : Composition Visuelle Flottante */}
-          <div className="hidden lg:block relative h-[600px] w-full animate-fade-in" style={{ animationDelay: '500ms', animationFillMode: 'both' }}>
-            <div className="absolute inset-0 bg-accent/5 rounded-full blur-3xl" />
-            
-            {/* Carte Flottante Principale */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 p-6 rounded-3xl bg-surface border border-border shadow-xl z-20 hover:-translate-y-6 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-accent-light flex items-center justify-center text-accent">
-                  <Lightbulb className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-text-primary">Idée Soumise</h3>
-                  <p className="text-xs text-text-muted">Il y a 2 minutes</p>
-                </div>
-              </div>
-              <p className="text-sm text-text-secondary leading-relaxed mb-4">
-                "Une plateforme de covoiturage exclusive pour les étudiants de l'EMSP, sécurisée et économique."
-              </p>
-              <div className="flex items-center justify-between pt-4 border-t border-border">
-                <span className="text-xs font-semibold text-accent px-2 py-1 bg-accent/10 rounded-md">
-                  Télécoms
-                </span>
-                <div className="flex items-center gap-1 text-xs font-bold text-text-primary">
-                  <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                  En revue
-                </div>
-              </div>
-            </div>
+          {/* Titre principal */}
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-[1.1] animate-slide-up"
+            style={{ animationDelay: '100ms', animationFillMode: 'both' }}
+          >
+            {title}{' '}
+            <span className="text-highlight block mt-2">{highlight}</span>
+          </h1>
 
-            {/* Petite Carte Flottante Haut Droite */}
-            <div className="absolute top-20 right-0 w-64 p-5 rounded-2xl bg-surface border border-border shadow-lg z-10 opacity-90 hover:-translate-y-2 transition-transform duration-300">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-highlight-light flex items-center justify-center text-highlight-hover">
-                  <Trophy className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-text-primary">+50 Points</p>
-                  <p className="text-xs text-text-muted">Équipe complétée</p>
-                </div>
-              </div>
-            </div>
+          {/* Sous-titre */}
+          <p
+            className="text-lg sm:text-xl text-white/70 mb-10 leading-relaxed max-w-2xl animate-slide-up"
+            style={{ animationDelay: '200ms', animationFillMode: 'both' }}
+          >
+            {subtitle}
+          </p>
 
-            {/* Petite Carte Flottante Bas Gauche */}
-            <div className="absolute bottom-24 left-0 w-64 p-5 rounded-2xl bg-surface border border-border shadow-lg z-30 opacity-95">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                  <Users className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-text-primary">Nouveau membre</p>
-                  <p className="text-xs text-text-muted">Profil Management</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Éléments décoratifs */}
-            <div className="absolute top-40 left-10 w-4 h-4 rounded-full bg-accent/20" />
-            <div className="absolute bottom-40 right-20 w-6 h-6 rounded-full bg-highlight/30" />
+          {/* Boutons CTA */}
+          <div
+            className="flex flex-col sm:flex-row gap-4 animate-slide-up"
+            style={{ animationDelay: '300ms', animationFillMode: 'both' }}
+          >
+            <Button
+              size="lg"
+              className="h-14 px-8 text-base rounded-xl bg-highlight text-accent-dark hover:bg-highlight-hover font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all"
+              asChild
+            >
+              <Link to={primaryCta.href}>{primaryCta.label}</Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-14 px-8 text-base rounded-xl border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold transition-all"
+              asChild
+            >
+              <Link to={secondaryCta.href}>{secondaryCta.label}</Link>
+            </Button>
           </div>
-
         </div>
       </div>
     </section>
   )
 }
-
