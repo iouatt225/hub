@@ -2,11 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
-
-// TODO: Replace with real Supabase Auth call
-async function mockRegister(_email: string) {
-  return new Promise((resolve) => setTimeout(resolve, 1500))
-}
+import { supabase } from '@/lib/supabase'
 
 export function Register() {
   const navigate = useNavigate()
@@ -45,11 +41,25 @@ export function Register() {
 
     setIsLoading(true)
     try {
-      await mockRegister(email)
-      console.log('[Auth] Inscription simulée pour', email)
-      navigate('/')
-    } catch (err) {
-      setErrors({ general: "Une erreur est survenue lors de l'inscription." })
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          }
+        }
+      })
+
+      if (error) {
+        throw error
+      }
+
+      console.log('[Auth] Inscription réussie pour', email)
+      navigate('/login')
+    } catch (err: any) {
+      console.error(err)
+      setErrors({ general: err.message || "Une erreur est survenue lors de l'inscription." })
     } finally {
       setIsLoading(false)
     }
