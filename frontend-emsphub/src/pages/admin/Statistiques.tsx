@@ -75,7 +75,7 @@ export function Statistiques() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* En-tête avec sélecteur de période */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
@@ -158,7 +158,7 @@ export function Statistiques() {
       </div>
 
       {/* Grille de graphiques secondaires */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Tags populaires — Bar chart horizontal */}
         <div className="bg-surface border border-border rounded-2xl p-6">
           <h2 className="text-base font-bold text-text-primary mb-1">Tags les plus utilisés</h2>

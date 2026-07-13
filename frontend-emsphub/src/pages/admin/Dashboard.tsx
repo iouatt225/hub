@@ -105,7 +105,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Titre de la page */}
       <div>
         <h1 className="text-2xl font-bold text-text-primary">Dashboard</h1>
@@ -113,7 +113,7 @@ export function Dashboard() {
       </div>
 
       {/* Cartes KPI */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard
           icon={<Users className="w-5 h-5" />}
           label="Utilisateurs"
@@ -158,7 +158,7 @@ export function Dashboard() {
       )}
 
       {/* Graphiques principaux */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Graphique d'activité — 2/3 de la largeur */}
         <div className="xl:col-span-2 bg-surface border border-border rounded-2xl p-6">
           <h2 className="text-base font-bold text-text-primary mb-1">Activité (30 derniers jours)</h2>
@@ -263,7 +263,7 @@ export function Dashboard() {
       </div>
 
       {/* Section inférieure : Top projets + Tags + Activité récente */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Top projets */}
         <div className="bg-surface border border-border rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">

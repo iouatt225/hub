@@ -88,9 +88,9 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         <div className="h-1.5 bg-gradient-to-r from-accent to-highlight" />
       )}
 
-      <CardContent className="p-4 sm:p-5">
+      <CardContent className="p-5 sm:p-6 lg:p-7">
         {/* En-tête : Auteur + Date + Badges */}
-        <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="flex items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <Avatar className="w-10 h-10 border border-border">
               <AvatarImage src={project.author.avatar} alt={project.author.name} />
@@ -106,10 +106,10 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
             </div>
           </div>
 
-          <div className="flex flex-col items-end gap-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <StatusBadge status={project.teamStatus} />
             {project.isOfficialSelection && (
-              <Badge variant="default" className="bg-accent/10 text-accent hover:bg-accent/20 border-accent/20 text-[10px] py-0 px-2 gap-1 font-semibold">
+              <Badge variant="default" className="bg-accent/10 text-accent hover:bg-accent/20 border-accent/20 text-[10px] py-0 px-2 gap-1 font-semibold h-5">
                 <Sparkles className="w-3 h-3" /> Sélection
               </Badge>
             )}
@@ -117,8 +117,8 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         </div>
 
         {/* Titre & Description du projet */}
-        <div className="space-y-3 mb-4">
-          <h2 className="text-lg font-bold text-text-primary leading-snug hover:text-accent transition-colors">
+        <div className="space-y-4 mb-6">
+          <h2 className="text-lg sm:text-xl font-bold text-text-primary leading-snug hover:text-accent transition-colors">
             <Link to={`/projet/${project.id}`}>{project.title}</Link>
           </h2>
           <p className="text-sm text-text-secondary leading-relaxed line-clamp-3">
@@ -126,7 +126,7 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1">
             {project.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="bg-background-alt text-text-secondary text-[11px] font-medium px-2 py-0.5 border border-border/50">
                 #{tag}
@@ -136,7 +136,7 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         </div>
 
         {/* Miniature / Capture d'écran simulée (Facebook-style) */}
-        <Link to={`/projet/${project.id}`} className="block relative aspect-video rounded-xl overflow-hidden mb-4 border border-border group">
+        <Link to={`/projet/${project.id}`} className="block relative aspect-video rounded-xl overflow-hidden mb-6 border border-border group">
           <div className={cn("absolute inset-0 bg-gradient-to-br flex flex-col items-center justify-center p-6 text-center transition-transform duration-500 group-hover:scale-105", project.thumbnail.gradient)}>
             <span className="text-5xl sm:text-6xl mb-4 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
               {project.thumbnail.emoji}
@@ -151,7 +151,7 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         </Link>
 
         {/* Compteurs de réactions */}
-        <div className="flex items-center justify-between text-xs text-text-muted pb-3 border-b border-border">
+        <div className="flex items-center justify-between text-xs text-text-muted pb-4 border-b border-border mb-2">
           <div className="flex items-center gap-1">
             <div className="flex -space-x-1">
               <span className="w-4 h-4 rounded-full bg-accent/20 flex items-center justify-center text-[10px] text-accent">👍</span>
@@ -166,7 +166,7 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
         </div>
 
         {/* Boutons d'actions */}
-        <div className="grid grid-cols-3 gap-1 pt-2">
+        <div className="grid grid-cols-3 gap-1 pt-3">
           <button
             onClick={() => onVote(project.id)}
             className={cn(

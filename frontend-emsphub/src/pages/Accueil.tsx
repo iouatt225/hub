@@ -70,11 +70,11 @@ export function Accueil() {
       <HeroCompact />
 
       {/* Conteneur principal layout 2 colonnes */}
-      <div className="container-hub py-8 sm:py-10">
+      <div className="container-hub py-10 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
           {/* Colonne Feed (Gauche, 2/3) */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             
             {/* Barre de tri du feed */}
             <div className="bg-surface border border-border rounded-2xl p-3 sm:p-4 flex items-center justify-between gap-4">
@@ -112,7 +112,7 @@ export function Accueil() {
                 <p className="text-sm text-text-muted">Chargement du fil d'actualité...</p>
               </div>
             ) : projects.length > 0 ? (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {projects.map((project) => (
                   <FeedCard
                     key={project.id}

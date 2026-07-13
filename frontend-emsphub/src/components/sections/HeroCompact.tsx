@@ -9,7 +9,7 @@ import { Sparkles, ArrowRight } from 'lucide-react'
  */
 export function HeroCompact() {
   return (
-    <section className="relative min-h-[35vh] sm:min-h-[40vh] flex items-center overflow-hidden">
+    <section className="relative py-16 sm:py-24 flex items-center overflow-hidden">
       {/* Image de fond */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -22,7 +22,7 @@ export function HeroCompact() {
       {/* Dégradé de transition vers le fond de la page */}
       <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
-      <div className="container-hub relative z-10 py-12 sm:py-16">
+      <div className="container-hub relative z-10">
         <div className="max-w-2xl">
           {/* Badge événement */}
           <div className="mb-4 animate-fade-in">
