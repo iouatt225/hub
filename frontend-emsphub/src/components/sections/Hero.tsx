@@ -32,7 +32,7 @@ export function Hero({
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1523050854058-8df90110c476?w=1920&q=80')`,
+          backgroundImage: `url('/images/hero-bg.jpg')`,
         }}
       />
       {/* Overlay sombre avec dégradé */}
