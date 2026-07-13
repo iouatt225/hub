@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import { MOCK_PROJECTS } from '@/lib/fixtures/projets.mock'
 import type { Project, ProjectDetail, TeamStatus, ProjectThumbnail } from '@/lib/fixtures/projets.mock'
 
 export interface ProjectsFilter {
@@ -173,25 +174,60 @@ export async function createProject(payload: {
   tags: string[]
   authorId: string
 }): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('projects')
-    .insert({
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .insert({
+        title: payload.title,
+        problem: payload.problem,
+        solution: payload.solution,
+        team_status: payload.teamStatus,
+        tags: payload.tags,
+        author_id: payload.authorId,
+        votes: 0,
+        is_official_selection: false
+      })
+      .select('id')
+      .single()
+
+    if (error) {
+      throw error
+    }
+    return data.id
+  } catch (supabaseError) {
+    console.warn('Création du projet dans Supabase échouée, fallback sur le mock local en mémoire:', supabaseError)
+    
+    // Fallback local en mémoire
+    const newId = `proj-local-${Date.now()}`
+    
+    // Tenter de récupérer les métadonnées de l'utilisateur connecté
+    const { data: sessionData } = await supabase.auth.getSession()
+    const user = sessionData?.session?.user
+    const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Auteur EMSP'
+    const userAvatar = user?.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${payload.authorId}`
+
+    const newProject: Project = {
+      id: newId,
       title: payload.title,
       problem: payload.problem,
       solution: payload.solution,
-      team_status: payload.teamStatus,
+      teamStatus: payload.teamStatus,
       tags: payload.tags,
-      author_id: payload.authorId,
+      author: {
+        id: payload.authorId,
+        name: userName,
+        avatar: userAvatar
+      },
       votes: 0,
-      is_official_selection: false
-    })
-    .select('id')
-    .single()
+      commentCount: 0,
+      createdAt: new Date().toISOString(),
+      isOfficialSelection: false,
+      thumbnail: getThumbnailForProject(payload.tags)
+    }
 
-  if (error) {
-    console.error('Erreur createProject:', error)
-    throw error
+    // Ajouter en haut de la liste locale
+    MOCK_PROJECTS.unshift(newProject)
+    
+    return newId
   }
-
-  return data.id
 }
