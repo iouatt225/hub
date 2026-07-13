@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { supabase } from '@/lib/supabase'
 
 interface RegisterModalProps {
   open: boolean
@@ -43,7 +44,7 @@ export function RegisterModal({
     if (!email.trim()) {
       newErrors.email = 'L\'adresse email est requise.'
     } else if (!EMSP_EMAIL_REGEX.test(email)) {
-      newErrors.email = `Seuls les emails institutionnels (${EMSP_EMAIL_DOMAIN}) sont acceptés.`
+      newErrors.email = `Seuls les emails institutionnels (@${EMSP_EMAIL_DOMAIN}) sont acceptés.`
     }
 
     if (!password) {
@@ -68,19 +69,36 @@ export function RegisterModal({
 
     setIsLoading(true)
 
-    // Simulation — sera remplacé par Supabase Auth au Bloc 9
-    console.log('[Auth] Inscription tentée :', {
-      fullName,
-      email,
-      password: '***',
-    })
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+        },
+      })
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
+      if (error) {
+        throw error
+      }
 
-    console.log('[Auth] Inscription réussie (simulée)')
-    onOpenChange(false)
-    resetForm()
+      console.log('[Auth] Inscription réussie')
+      onOpenChange(false)
+      resetForm()
+      // Note: L'utilisateur peut devoir confirmer son email selon la config Supabase.
+      // Une alerte ou un toast serait idéal ici.
+    } catch (err: any) {
+      console.error(err)
+      if (err.message?.includes('User already registered')) {
+        setErrors({ email: 'Cette adresse email est déjà utilisée.' })
+      } else {
+        setErrors({ general: 'Une erreur est survenue lors de l\'inscription.' })
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function resetForm() {
@@ -113,6 +131,11 @@ export function RegisterModal({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+          {errors.general && (
+            <div className="p-3 bg-error/10 border border-error/20 rounded-md text-sm text-error">
+              {errors.general}
+            </div>
+          )}
           {/* Champ nom complet */}
           <div className="space-y-2">
             <label
@@ -154,7 +177,7 @@ export function RegisterModal({
                 setEmail(e.target.value)
                 clearError('email')
               }}
-              placeholder={`prenom.nom${EMSP_EMAIL_DOMAIN}`}
+              placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
               className="w-full h-10 px-3 rounded-lg bg-background border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
               autoComplete="email"
             />

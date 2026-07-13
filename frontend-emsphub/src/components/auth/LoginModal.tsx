@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { supabase } from '@/lib/supabase'
 
 interface LoginModalProps {
   open: boolean
@@ -28,44 +29,52 @@ export function LoginModal({
 }: LoginModalProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
   const [isLoading, setIsLoading] = useState(false)
 
-  function validate(): boolean {
-    const newErrors: { email?: string; password?: string } = {}
-
-    if (!email.trim()) {
-      newErrors.email = 'L\'adresse email est requise.'
-    } else if (!EMSP_EMAIL_REGEX.test(email)) {
-      newErrors.email = `Seuls les emails institutionnels (${EMSP_EMAIL_DOMAIN}) sont acceptés.`
-    }
-
-    if (!password) {
-      newErrors.password = 'Le mot de passe est requis.'
-    } else if (password.length < 8) {
-      newErrors.password = 'Le mot de passe doit contenir au moins 8 caractères.'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+  function setError(msg: string) {
+    setErrors({ general: msg })
   }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!validate()) return
+    setErrors({})
+
+    if (!EMSP_EMAIL_REGEX.test(email)) {
+      setErrors({ email: `Veuillez utiliser une adresse @${EMSP_EMAIL_DOMAIN}` })
+      return
+    }
+
+    if (!password) {
+      setErrors({ password: 'Le mot de passe est requis.' })
+      return
+    }
 
     setIsLoading(true)
 
-    // Simulation — sera remplacé par Supabase Auth au Bloc 9
-    console.log('[Auth] Connexion tentée :', { email, password: '***' })
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-    // Simuler un délai réseau
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
+      if (error) {
+        throw error
+      }
 
-    console.log('[Auth] Connexion réussie (simulée)')
-    onOpenChange(false)
-    resetForm()
+      console.log('[Auth] Connexion réussie')
+      onOpenChange(false)
+      resetForm()
+    } catch (err: any) {
+      console.error(err)
+      if (err.message?.includes('Invalid login credentials')) {
+        setError('Email ou mot de passe incorrect.')
+      } else {
+        setError('Une erreur est survenue lors de la connexion.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function resetForm() {
@@ -106,7 +115,7 @@ export function LoginModal({
                 setEmail(e.target.value)
                 if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }))
               }}
-              placeholder={`prenom.nom${EMSP_EMAIL_DOMAIN}`}
+              placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
               className="w-full h-10 px-3 rounded-lg bg-background border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
               autoComplete="email"
             />

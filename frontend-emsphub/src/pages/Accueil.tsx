@@ -1,21 +1,26 @@
 import { Hero } from '@/components/sections/Hero'
 import { TrustedBy } from '@/components/sections/TrustedBy'
+import { PiliersSection } from '@/components/sections/PiliersSection'
+import { DemoTabsSection } from '@/components/sections/DemoTabsSection'
+import { FeaturesSection } from '@/components/sections/FeaturesSection'
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
+import { CtaSection } from '@/components/sections/CtaSection'
 import { heroData, trustedByData } from '@/lib/fixtures/accueil.mock'
 
 /**
- * Page d'accueil complète (Bloc 3).
- * Les composants Piliers, DemoTabs, etc. seront ajoutés par la suite (Blocs 4-8).
+ * Page d'accueil complète (Blocs 3 à 8).
+ * Tous les blocs de la Landing Page sont assemblés.
  */
 export function Accueil() {
   return (
     <>
       <Hero {...heroData} />
       <TrustedBy {...trustedByData} />
-
-      {/* Placeholders pour les prochains blocs de la page d'accueil */}
-      <div className="py-20 text-center text-sm text-text-muted border-b border-border">
-        En attente du Bloc 4 (Les 4 Piliers)
-      </div>
+      <PiliersSection />
+      <DemoTabsSection />
+      <FeaturesSection />
+      <TestimonialsSection />
+      <CtaSection />
     </>
   )
 }

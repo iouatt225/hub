@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { supabase } from '@/lib/supabase'
 
 interface ForgotPasswordModalProps {
   open: boolean
@@ -35,7 +36,7 @@ export function ForgotPasswordModal({
       return false
     }
     if (!EMSP_EMAIL_REGEX.test(email)) {
-      setError(`Seuls les emails institutionnels (${EMSP_EMAIL_DOMAIN}) sont acceptés.`)
+      setError(`Seuls les emails institutionnels (@${EMSP_EMAIL_DOMAIN}) sont acceptés.`)
       return false
     }
     setError(undefined)
@@ -48,14 +49,24 @@ export function ForgotPasswordModal({
 
     setIsLoading(true)
 
-    // Simulation — sera remplacé par Supabase Auth au Bloc 9
-    console.log('[Auth] Réinitialisation demandée pour :', email)
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        // Rediriger l'utilisateur après le clic sur le lien dans l'email
+        redirectTo: `${window.location.origin}/reset-password`,
+      })
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-    setIsSent(true)
+      if (error) {
+        throw error
+      }
 
-    console.log('[Auth] Email de réinitialisation envoyé (simulé)')
+      console.log('[Auth] Email de réinitialisation envoyé')
+      setIsSent(true)
+    } catch (err: any) {
+      console.error(err)
+      setError('Une erreur est survenue lors de l\'envoi de l\'email.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function resetForm() {
@@ -138,7 +149,7 @@ export function ForgotPasswordModal({
                   setEmail(e.target.value)
                   if (error) setError(undefined)
                 }}
-                placeholder={`prenom.nom${EMSP_EMAIL_DOMAIN}`}
+                placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
                 className="w-full h-10 px-3 rounded-lg bg-background border border-border text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                 autoComplete="email"
               />
