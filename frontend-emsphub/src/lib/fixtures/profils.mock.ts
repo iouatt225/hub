@@ -1,6 +1,11 @@
 export interface UserProfile {
   id: string
   fullName: string
+  firstName?: string
+  lastName?: string
+  filiere?: string
+  birthDate?: string
+  hobbies?: string[]
   email: string
   role: 'student' | 'admin' | 'jury'
   avatar: string
@@ -17,7 +22,12 @@ export interface UserProfile {
 export const MOCK_PROFILES: UserProfile[] = [
   {
     id: 'usr-1',
-    fullName: 'Amadou K.',
+    fullName: 'Amadou Konaté',
+    firstName: 'Amadou',
+    lastName: 'Konaté',
+    filiere: 'Télécoms & Réseaux',
+    birthDate: '2002-05-12',
+    hobbies: ['IoT', 'Robotique', 'Football'],
     email: 'amadou.k@emsp.ci',
     role: 'student',
     avatar: 'https://i.pravatar.cc/150?u=amadou',
@@ -31,7 +41,12 @@ export const MOCK_PROFILES: UserProfile[] = [
   },
   {
     id: 'usr-2',
-    fullName: 'Sarah M.',
+    fullName: 'Sarah Mian',
+    firstName: 'Sarah',
+    lastName: 'Mian',
+    filiere: 'Génie Logiciel',
+    birthDate: '2003-09-24',
+    hobbies: ['Lecture', 'UI/UX Design', 'Jeux Vidéo'],
     email: 'sarah.m@emsp.ci',
     role: 'student',
     avatar: 'https://i.pravatar.cc/150?u=sarah',
@@ -55,6 +70,11 @@ export async function fetchProfileById(id: string): Promise<UserProfile | null> 
   return {
     id,
     fullName: 'Utilisateur EMSP',
+    firstName: 'Utilisateur',
+    lastName: 'EMSP',
+    filiere: 'Général',
+    birthDate: '2000-01-01',
+    hobbies: [],
     email: 'user@emsp.ci',
     role: 'student',
     avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${id}`,

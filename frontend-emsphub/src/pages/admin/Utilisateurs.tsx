@@ -86,7 +86,7 @@ export function Utilisateurs() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10 max-w-6xl mx-auto">
       {/* En-tête */}
       <div>
         <h1 className="text-2xl font-bold text-text-primary">Utilisateurs</h1>

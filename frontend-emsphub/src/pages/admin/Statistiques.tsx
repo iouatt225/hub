@@ -75,7 +75,7 @@ export function Statistiques() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 max-w-6xl mx-auto">
       {/* En-tête avec sélecteur de période */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>

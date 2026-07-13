@@ -9,6 +9,8 @@ import {
 import { Button } from '@/components/ui/Button'
 import type { UserProfile } from '@/lib/fixtures/profils.mock'
 
+import { useAuth } from '@/contexts/AuthContext'
+
 interface EditProfilModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -17,6 +19,14 @@ interface EditProfilModalProps {
 }
 
 export function EditProfilModal({ open, onOpenChange, profile, onSave }: EditProfilModalProps) {
+  const { updateUserMetadata } = useAuth()
+  
+  const [firstName, setFirstName] = useState(profile.firstName || '')
+  const [lastName, setLastName] = useState(profile.lastName || '')
+  const [filiere, setFiliere] = useState(profile.filiere || '')
+  const [birthDate, setBirthDate] = useState(profile.birthDate || '')
+  const [hobbies, setHobbies] = useState(profile.hobbies?.join(', ') || '')
+  const [avatar, setAvatar] = useState(profile.avatar || '')
   const [bio, setBio] = useState(profile.bio || '')
   const [specialties, setSpecialties] = useState(profile.specialties.join(', ') || '')
   const [github, setGithub] = useState(profile.links.github || '')
@@ -29,15 +39,47 @@ export function EditProfilModal({ open, onOpenChange, profile, onSave }: EditPro
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulation de sauvegarde
-    await new Promise(resolve => setTimeout(resolve, 800))
-
     const specialtiesArray = specialties
       .split(',')
       .map(s => s.trim())
       .filter(s => s.length > 0)
 
+    const hobbiesArray = hobbies
+      .split(',')
+      .map(h => h.trim())
+      .filter(h => h.length > 0)
+
+    try {
+      // Sauvegarde réelle dans Supabase Auth Metadata
+      await updateUserMetadata({
+        full_name: `${firstName} ${lastName}`.trim() || profile.fullName,
+        first_name: firstName,
+        last_name: lastName,
+        avatar_url: avatar || profile.avatar,
+        filiere,
+        birth_date: birthDate,
+        hobbies: hobbiesArray,
+        bio,
+        specialties: specialtiesArray,
+        links: {
+          ...(github && { github }),
+          ...(linkedin && { linkedin }),
+          ...(portfolio && { portfolio }),
+        }
+      })
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour Supabase:', error)
+    }
+
+    // Sauvegarde en local (state) pour retour immédiat
     onSave({
+      firstName,
+      lastName,
+      fullName: `${firstName} ${lastName}`.trim() || profile.fullName,
+      filiere,
+      birthDate,
+      hobbies: hobbiesArray,
+      avatar: avatar || profile.avatar,
       bio,
       specialties: specialtiesArray,
       links: {
@@ -53,15 +95,89 @@ export function EditProfilModal({ open, onOpenChange, profile, onSave }: EditPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl">Modifier mon profil</DialogTitle>
           <DialogDescription>
-            Mettez à jour vos informations pour mieux collaborer.
+            Mettez à jour vos informations personnelles pour mieux collaborer.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5 mt-4">
+          {/* Nom & Prénom */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label htmlFor="firstName" className="text-sm font-bold text-text-primary">
+                Prénom
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="Ex: Sarah"
+                className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="lastName" className="text-sm font-bold text-text-primary">
+                Nom
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Ex: Mian"
+                className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+          </div>
+
+          {/* Photo de profil (Avatar) */}
+          <div className="space-y-2">
+            <label htmlFor="avatar" className="text-sm font-bold text-text-primary">
+              URL de la photo de profil
+            </label>
+            <input
+              id="avatar"
+              type="url"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+              placeholder="https://..."
+              className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+            />
+          </div>
+
+          {/* Filière & Date de naissance */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label htmlFor="filiere" className="text-sm font-bold text-text-primary">
+                Filière
+              </label>
+              <input
+                id="filiere"
+                type="text"
+                value={filiere}
+                onChange={(e) => setFiliere(e.target.value)}
+                placeholder="Ex: Génie Logiciel"
+                className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="birthDate" className="text-sm font-bold text-text-primary">
+                Date de naissance
+              </label>
+              <input
+                id="birthDate"
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+          </div>
+
           {/* Bio */}
           <div className="space-y-2">
             <label htmlFor="bio" className="text-sm font-bold text-text-primary">
@@ -89,6 +205,22 @@ export function EditProfilModal({ open, onOpenChange, profile, onSave }: EditPro
               value={specialties}
               onChange={(e) => setSpecialties(e.target.value)}
               placeholder="Ex: Dev Web, UI/UX..."
+              className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+            />
+          </div>
+
+          {/* Hobbies */}
+          <div className="space-y-2">
+            <label htmlFor="hobbies" className="text-sm font-bold text-text-primary">
+              Hobbies / Passions
+            </label>
+            <p className="text-xs text-text-muted">Séparés par des virgules (ex: Lecture, Jeux Vidéo, Football)</p>
+            <input
+              id="hobbies"
+              type="text"
+              value={hobbies}
+              onChange={(e) => setHobbies(e.target.value)}
+              placeholder="Ex: Football, Lecture..."
               className="w-full h-10 px-3 rounded-lg bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
@@ -136,7 +268,7 @@ export function EditProfilModal({ open, onOpenChange, profile, onSave }: EditPro
             </div>
           </div>
 
-          <div className="flex justify-end pt-4">
+          <div className="flex justify-end pt-4 animate-fade-in">
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="mr-2">
               Annuler
             </Button>

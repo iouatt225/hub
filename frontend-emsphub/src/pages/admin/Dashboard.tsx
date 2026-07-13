@@ -105,7 +105,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 max-w-7xl mx-auto">
       {/* Titre de la page */}
       <div>
         <h1 className="text-2xl font-bold text-text-primary">Dashboard</h1>

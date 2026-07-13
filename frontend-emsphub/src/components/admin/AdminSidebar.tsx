@@ -80,18 +80,15 @@ export function AdminSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }:
           "flex items-center justify-between p-5 border-b border-border",
           isCollapsed ? "lg:justify-center lg:p-4" : ""
         )}>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 min-w-0">
             <div className="p-1.5 bg-accent/10 rounded-lg shrink-0">
               <ShieldCheck className="w-5 h-5 text-accent" />
             </div>
-            {!isCollapsed && (
-              <div className="animate-fade-in lg:block hidden">
-                <h2 className="text-sm font-bold text-text-primary leading-tight">Hub EMSP</h2>
-                <p className="text-[11px] text-text-muted leading-tight">Administration</p>
-              </div>
-            )}
-            {/* Sur mobile, on veut toujours voir le texte de la sidebar qui est ouverte en grand */}
-            <div className="lg:hidden block">
+            <div className={cn(
+              "transition-all duration-300 ease-in-out origin-left truncate",
+              isCollapsed ? "lg:w-0 lg:opacity-0 lg:ml-0 lg:pointer-events-none" : "lg:w-36 lg:opacity-100 ml-0.5",
+              "block"
+            )}>
               <h2 className="text-sm font-bold text-text-primary leading-tight">Hub EMSP</h2>
               <p className="text-[11px] text-text-muted leading-tight">Administration</p>
             </div>
@@ -127,7 +124,8 @@ export function AdminSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }:
                 >
                   <item.icon className="w-[18px] h-[18px] shrink-0" />
                   <span className={cn(
-                    isCollapsed ? "lg:hidden" : "lg:block",
+                    "transition-all duration-300 ease-in-out origin-left truncate",
+                    isCollapsed ? "lg:w-0 lg:opacity-0 lg:ml-0 lg:pointer-events-none" : "lg:w-32 lg:opacity-100",
                     "block"
                   )}>
                     {item.label}
@@ -150,7 +148,8 @@ export function AdminSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }:
           >
             <ExternalLink className="w-[18px] h-[18px] shrink-0" />
             <span className={cn(
-              isCollapsed ? "lg:hidden" : "lg:block",
+              "transition-all duration-300 ease-in-out origin-left truncate",
+              isCollapsed ? "lg:w-0 lg:opacity-0 lg:ml-0 lg:pointer-events-none" : "lg:w-32 lg:opacity-100",
               "block"
             )}>
               Retour au site

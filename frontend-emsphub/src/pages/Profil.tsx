@@ -29,8 +29,28 @@ export function Profil() {
       if (!profileId) return
       setIsLoading(true)
       try {
-        const profileData = await fetchProfileById(profileId)
-        setProfile(profileData)
+        if (isOwnProfile && user) {
+          const profileData: UserProfile = {
+            id: user.id,
+            fullName: user.user_metadata?.full_name || 'Utilisateur EMSP',
+            firstName: user.user_metadata?.first_name || '',
+            lastName: user.user_metadata?.last_name || '',
+            filiere: user.user_metadata?.filiere || 'Général',
+            birthDate: user.user_metadata?.birth_date || '',
+            hobbies: user.user_metadata?.hobbies || [],
+            email: user.email || '',
+            role: (user.user_metadata?.role as any) || 'student',
+            avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${user.id}`,
+            bio: user.user_metadata?.bio || 'Aucune biographie renseignée.',
+            specialties: user.user_metadata?.specialties || [],
+            links: user.user_metadata?.links || {},
+            joinedAt: user.created_at || new Date().toISOString()
+          }
+          setProfile(profileData)
+        } else {
+          const profileData = await fetchProfileById(profileId)
+          setProfile(profileData)
+        }
 
         // On fetch tous les projets pour filtrer ceux où l'utilisateur est impliqué (mock)
         const allProjects = await fetchProjets({ query: '', status: 'all', sortBy: 'recent' })
@@ -43,7 +63,7 @@ export function Profil() {
       }
     }
     loadData()
-  }, [profileId])
+  }, [profileId, user, isOwnProfile])
 
   if (id === 'me' && !user) {
     return <Navigate to="/" replace />
@@ -130,6 +150,39 @@ export function Profil() {
                 {profile.bio || "Cet utilisateur n'a pas encore rédigé de biographie."}
               </p>
 
+              <h4 className="text-sm font-bold text-text-primary mb-3">Informations personnelles</h4>
+              <div className="space-y-2 text-sm text-text-secondary mb-6">
+                <div>
+                  <span className="font-semibold text-text-primary">Nom : </span>
+                  {profile.lastName || '—'}
+                </div>
+                <div>
+                  <span className="font-semibold text-text-primary">Prénom : </span>
+                  {profile.firstName || '—'}
+                </div>
+                <div>
+                  <span className="font-semibold text-text-primary">Filière : </span>
+                  {profile.filiere || '—'}
+                </div>
+                <div>
+                  <span className="font-semibold text-text-primary">Date de naissance : </span>
+                  {profile.birthDate ? new Date(profile.birthDate).toLocaleDateString('fr-FR') : '—'}
+                </div>
+              </div>
+
+              <h4 className="text-sm font-bold text-text-primary mb-3">Hobbies & Intérêts</h4>
+              {profile.hobbies && profile.hobbies.length > 0 ? (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {profile.hobbies.map(hobby => (
+                    <Badge key={hobby} variant="secondary" className="text-xs bg-background-alt">
+                      {hobby}
+                    </Badge>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-text-muted mb-6 italic">Aucun hobby renseigné.</p>
+              )}
+
               <h4 className="text-sm font-bold text-text-primary mb-3">Compétences</h4>
               {profile.specialties.length > 0 ? (
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -160,7 +213,7 @@ export function Profil() {
                     <Briefcase className="w-4 h-4" /> Portfolio <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
                   </a>
                 )}
-                {Object.keys(profile.links).length === 0 && (
+                {(!profile.links.github && !profile.links.linkedin && !profile.links.portfolio) && (
                   <p className="text-xs text-text-muted italic">Aucun lien externe.</p>
                 )}
               </div>
