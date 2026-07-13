@@ -65,28 +65,29 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
   const activeFiltersCount = (query ? 1 : 0) + (status !== 'all' ? 1 : 0) + (sortBy !== 'trending' ? 1 : 0)
 
   return (
-    <div className="bg-surface border border-border rounded-xl p-4 shadow-sm mb-8">
-      {/* ─── Top Bar (Recherche + Mobile Toggle) ─── */}
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+    <div className="flex flex-col gap-4 mb-10">
+      {/* ─── Barre de recherche principale ─── */}
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 group">
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted group-focus-within:text-accent transition-colors" />
           <input
             type="text"
             placeholder="Rechercher une idée, un mot-clé..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full h-10 pl-10 pr-4 rounded-lg bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-accent transition-all"
+            className="w-full h-14 pl-14 pr-6 rounded-2xl bg-surface border border-border/80 text-text-primary placeholder:text-text-muted text-base focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 transition-all shadow-sm hover:shadow"
           />
         </div>
+        
+        {/* Bouton filtres mobile */}
         <Button
           variant="outline"
-          size="icon"
-          className="md:hidden relative"
+          className="md:hidden h-14 w-14 rounded-2xl border-border/80 bg-surface flex-shrink-0 relative"
           onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
         >
-          <SlidersHorizontal className="w-4 h-4" />
+          <SlidersHorizontal className="w-5 h-5 text-text-secondary" />
           {activeFiltersCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-accent text-[8px] font-bold text-white">
+            <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white shadow-sm border-2 border-background">
               {activeFiltersCount}
             </span>
           )}
@@ -96,38 +97,42 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
       {/* ─── Filtres (Desktop + Accordion Mobile) ─── */}
       <div
         className={cn(
-          'mt-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between overflow-hidden transition-all',
-          isMobileFiltersOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 md:max-h-[500px] opacity-0 md:opacity-100 mt-0 md:mt-4'
+          'flex flex-col md:flex-row gap-4 md:items-center overflow-hidden transition-all duration-300 ease-in-out',
+          isMobileFiltersOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 md:max-h-[100px] md:opacity-100'
         )}
       >
-        <div className="flex flex-col md:flex-row gap-4 flex-1">
+        <div className="flex flex-wrap items-center gap-3 flex-1">
           {/* Sélecteur de statut */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-text-muted">Statut de l'équipe</label>
+          <div className="relative group">
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="h-9 px-3 rounded-md bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+              className="appearance-none h-11 pl-4 pr-10 rounded-xl bg-background border border-border text-sm font-semibold text-text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 hover:border-border-hover transition-all cursor-pointer shadow-sm"
             >
-              <option value="all">Tous les projets</option>
+              <option value="all">Statut : Tous les projets</option>
               <option value="looking_for_members">Cherche associés</option>
-              <option value="solo">Solo</option>
+              <option value="solo">Équipe Solo</option>
               <option value="complete">Équipe complète</option>
             </select>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-text-primary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
           </div>
 
           {/* Sélecteur de tri */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-text-muted">Trier par</label>
+          <div className="relative group">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="h-9 px-3 rounded-md bg-background border border-border text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+              className="appearance-none h-11 pl-4 pr-10 rounded-xl bg-background border border-border text-sm font-semibold text-text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 hover:border-border-hover transition-all cursor-pointer shadow-sm"
             >
-              <option value="trending">Tendances 🔥</option>
-              <option value="recent">Plus récents 🕒</option>
-              <option value="most_voted">Plus votés ⭐</option>
+              <option value="trending">Trier par : Tendances 🔥</option>
+              <option value="recent">Trier par : Plus récents ⏳</option>
+              <option value="most_voted">Trier par : Plus votés ⭐</option>
             </select>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-text-primary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
           </div>
         </div>
 
@@ -135,11 +140,10 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
         {activeFiltersCount > 0 && (
           <Button
             variant="ghost"
-            size="sm"
             onClick={clearFilters}
-            className="text-text-muted hover:text-text-primary self-start md:self-end h-9"
+            className="text-text-muted hover:text-error hover:bg-error/10 h-11 rounded-xl px-4 font-semibold self-start md:self-auto transition-colors"
           >
-            <X className="w-3 h-3 mr-2" /> Réinitialiser
+            <X className="w-4 h-4 mr-2" /> Réinitialiser
           </Button>
         )}
       </div>
