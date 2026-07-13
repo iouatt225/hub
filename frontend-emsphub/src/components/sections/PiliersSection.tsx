@@ -49,15 +49,15 @@ export function PiliersSection() {
           {piliersData.map((pilier) => (
             <div
               key={pilier.id}
-              className="flex flex-col p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
+              className="flex flex-col p-8 rounded-2xl glass-card group"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 border border-accent/20 text-accent mb-6">
-                <pilier.icon className="h-6 w-6" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent/10 border border-accent/20 text-accent mb-6 transition-all duration-300 group-hover:bg-accent/20 group-hover:scale-110 group-hover:shadow-glow">
+                <pilier.icon className="h-7 w-7" />
               </div>
-              <h3 className="text-lg font-semibold text-text-primary mb-3">
+              <h3 className="text-xl font-bold text-text-primary mb-3 transition-colors group-hover:text-accent">
                 {pilier.title}
               </h3>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <p className="text-base text-text-secondary leading-relaxed group-hover:text-text-primary/90 transition-colors">
                 {pilier.description}
               </p>
             </div>

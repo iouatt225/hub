@@ -40,17 +40,17 @@ export function Hero({
   avatars,
 }: HeroProps) {
   return (
-    <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32 sm:pb-24 lg:pb-32">
+    <section className="relative overflow-hidden pt-24 pb-24 sm:pt-32 sm:pb-32 lg:pb-40">
       {/* Éléments décoratifs en arrière-plan */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px]" />
       </div>
 
       <div className="container-hub relative z-10 text-center">
         {/* Badge événement */}
         <div className="flex justify-center mb-8 animate-fade-in">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-sm font-medium text-accent shadow-glow">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-accent/20 text-sm font-medium text-accent shadow-glow">
             🚀 {BRAND.event}
           </span>
         </div>
@@ -58,7 +58,7 @@ export function Hero({
         {/* Titre principal */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-text-primary max-w-4xl mx-auto mb-6 animate-slide-up" style={{ animationDelay: '100ms', animationFillMode: 'both' }}>
           {title}{' '}
-          <span className="text-accent">{highlight}</span>
+          <span className="text-gradient drop-shadow-md">{highlight}</span>
         </h1>
 
         {/* Sous-titre */}

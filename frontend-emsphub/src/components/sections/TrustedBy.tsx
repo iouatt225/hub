@@ -15,7 +15,7 @@ export function TrustedBy({ title, logos }: TrustedByProps) {
   const duplicatedLogos = [...logos, ...logos]
 
   return (
-    <section className="py-10 border-y border-border bg-background-alt overflow-hidden">
+    <section className="py-12 border-y border-white/5 bg-background/40 backdrop-blur-md overflow-hidden relative z-20">
       <div className="container-hub">
         <p className="text-center text-sm font-semibold text-text-muted uppercase tracking-widest mb-8">
           {title}
