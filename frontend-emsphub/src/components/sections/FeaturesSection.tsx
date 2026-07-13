@@ -1,82 +1,89 @@
-import { LayoutDashboard, Award, Filter } from 'lucide-react'
+import { LayoutDashboard, Award, Filter, ShieldCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const featuresData = [
+const bentoFeatures = [
   {
     id: 'dashboard',
     title: 'Dashboard Dynamique',
-    description:
-      "Suivez l'évolution de vos projets en temps réel. Visualisez les votes, les nouvelles candidatures pour rejoindre votre équipe, et les statistiques de la plateforme via un tableau de bord personnel intuitif.",
+    description: "Visualisez les votes, candidatures et statistiques en temps réel.",
     icon: LayoutDashboard,
-    color: 'bg-blue-50 text-blue-600',
+    className: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2 bg-surface text-text-primary",
+    iconColor: "bg-accent-light text-accent",
+    large: true,
   },
   {
     id: 'gamification',
-    title: 'Système de Points & Gamification',
-    description:
-      "Chaque action compte ! Soumettez des idées, votez, commentez et rejoignez des équipes pour gagner des points d'innovation. Débloquez des badges exclusifs et montez dans le classement de l'EMSP.",
+    title: 'Gamification',
+    description: "Gagnez des points d'innovation à chaque action.",
     icon: Award,
-    color: 'bg-accent-light text-accent',
+    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-highlight text-accent-dark",
+    iconColor: "bg-white/20 text-accent-dark",
+    large: false,
   },
   {
     id: 'filtering',
-    title: 'Filtrage Avancé & Tags',
-    description:
-      "Trouvez exactement ce que vous cherchez. Filtrez les projets par filière (Télécoms, Management, etc.), par état d'avancement, ou par technologies clés. Ne perdez plus de temps pour trouver votre prochaine équipe.",
+    title: 'Filtrage Avancé',
+    description: "Trouvez des projets par filière ou technologie.",
     icon: Filter,
-    color: 'bg-highlight-light text-highlight-hover',
+    className: "col-span-1 md:col-span-1 lg:col-span-1 bg-accent text-white",
+    iconColor: "bg-white/20 text-white",
+    large: false,
+  },
+  {
+    id: 'security',
+    title: 'Environnement Sécurisé',
+    description: "Modération et emails institutionnels exclusifs.",
+    icon: ShieldCheck,
+    className: "col-span-1 md:col-span-1 lg:col-span-2 bg-surface text-text-primary",
+    iconColor: "bg-blue-50 text-blue-600",
+    large: false,
   },
 ]
 
 /**
- * Section Fonctionnalités avancées.
- * Présente les outils du Hub avec un layout ultra-épuré clair.
+ * Section Fonctionnalités (Bento Grid).
  */
 export function FeaturesSection() {
   return (
-    <section className="py-20 sm:py-28 bg-background border-t border-border overflow-hidden">
+    <section className="py-24 sm:py-32 bg-background border-t border-border overflow-hidden">
       <div className="container-hub">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">
             Des outils taillés pour l'<span className="text-accent">innovation</span>
           </h2>
           <p className="text-lg text-text-secondary">
-            Le Hub n'est pas qu'un simple forum. C'est une plateforme complète
-            pour vous accompagner jusqu'à la Journée du Numérique.
+            Une suite complète pour vous accompagner de l'idée brute jusqu'à la Journée du Numérique.
           </p>
         </div>
 
-        <div className="flex flex-col gap-12 sm:gap-16 max-w-5xl mx-auto">
-          {featuresData.map((feature, index) => {
-            const isEven = index % 2 === 0
-
-            return (
-              <div
-                key={feature.id}
-                className={cn(
-                  'flex flex-col md:flex-row items-center gap-8 md:gap-16 p-8 sm:p-12 rounded-3xl bg-surface border border-border shadow-sm hover:shadow-card-hover transition-all duration-300',
-                  !isEven && 'md:flex-row-reverse'
-                )}
-              >
-                {/* Icône Géante (Illustration épurée) */}
-                <div className="w-full md:w-1/3 flex justify-center">
-                  <div className={cn("w-32 h-32 sm:w-48 sm:h-48 rounded-full flex items-center justify-center", feature.color)}>
-                    <feature.icon className="w-16 h-16 sm:w-24 sm:h-24" strokeWidth={1.5} />
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto auto-rows-[250px]">
+          {bentoFeatures.map((feature) => (
+            <div
+              key={feature.id}
+              className={cn(
+                'relative p-8 rounded-[2rem] border border-border shadow-sm hover:shadow-card-hover transition-all duration-300 overflow-hidden group flex flex-col justify-between',
+                feature.className
+              )}
+            >
+              <div className="relative z-10 flex flex-col h-full">
+                <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110", feature.iconColor)}>
+                  <feature.icon className="w-7 h-7" strokeWidth={1.5} />
                 </div>
-
-                {/* Texte */}
-                <div className="flex-1 text-center md:text-left space-y-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-text-primary">
+                
+                <div className="mt-auto">
+                  <h3 className={cn("font-bold mb-2", feature.large ? "text-3xl" : "text-xl")}>
                     {feature.title}
                   </h3>
-                  <p className="text-lg text-text-secondary leading-relaxed">
+                  <p className={cn("leading-relaxed", feature.large ? "text-lg opacity-80" : "text-sm opacity-90")}>
                     {feature.description}
                   </p>
                 </div>
               </div>
-            )
-          })}
+
+              {/* Effet d'éclairage interne au survol (générique) */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            </div>
+          ))}
         </div>
       </div>
     </section>

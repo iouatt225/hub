@@ -1,9 +1,3 @@
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '@/components/ui/Tabs'
 import { FileEdit, ThumbsUp, UserPlus, Rocket } from 'lucide-react'
 
 const demoSteps = [
@@ -42,14 +36,14 @@ const demoSteps = [
 ]
 
 /**
- * Section Démonstration du parcours étudiant (Démo à onglets).
+ * Section Démonstration du parcours étudiant (Scroll-Driven).
  */
 export function DemoTabsSection() {
   return (
-    <section id="demo" className="py-20 sm:py-28 bg-background-alt">
+    <section id="demo" className="py-24 sm:py-32 bg-background-alt relative">
       <div className="container-hub">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-text-primary mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-6">
             Comment ça marche ?
           </h2>
           <p className="text-lg text-text-secondary">
@@ -58,39 +52,49 @@ export function DemoTabsSection() {
           </p>
         </div>
 
-        {/* Composant Tabs central */}
-        <div className="max-w-4xl mx-auto bg-surface rounded-3xl p-8 sm:p-12 shadow-sm border border-border">
-          <Tabs defaultValue={demoSteps[0].id} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-12 bg-background-alt p-1 rounded-xl">
-              {demoSteps.map((step) => (
-                <TabsTrigger key={step.id} value={step.id} className="flex gap-2 rounded-lg data-[state=active]:bg-surface data-[state=active]:text-accent data-[state=active]:shadow-sm">
-                  <step.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline font-medium">{step.title}</span>
-                  <span className="sm:hidden font-medium">{step.title.split('.')[1]}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
+        <div className="flex flex-col lg:flex-row gap-16 relative items-start">
+          
+          {/* Colonne Gauche : Les étapes défilantes */}
+          <div className="flex-1 space-y-24">
             {demoSteps.map((step) => (
-              <TabsContent
-                key={step.id}
-                value={step.id}
-                className="animate-fade-in focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-xl"
-              >
-                <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8">
-                  <div className="w-20 h-20 rounded-2xl bg-accent-light text-accent flex items-center justify-center mb-8">
-                    <step.icon className="w-10 h-10" />
-                  </div>
+              <div key={step.id} className="relative pl-12 border-l-2 border-border/50 pb-12">
+                <div className="absolute top-0 -left-8 w-16 h-16 rounded-2xl bg-surface border border-border shadow-sm flex items-center justify-center text-accent">
+                  <step.icon className="w-8 h-8" />
+                </div>
+                <div>
+                  <span className="text-sm font-bold text-accent tracking-widest uppercase mb-2 block">{step.title}</span>
                   <h3 className="text-3xl font-bold text-text-primary mb-6">
                     {step.heading}
                   </h3>
-                  <p className="text-xl text-text-secondary leading-relaxed">
+                  <p className="text-lg text-text-secondary leading-relaxed">
                     {step.description}
                   </p>
                 </div>
-              </TabsContent>
+              </div>
             ))}
-          </Tabs>
+          </div>
+
+          {/* Colonne Droite : Visuel Sticky */}
+          <div className="hidden lg:flex w-[500px] shrink-0 sticky top-32 h-[500px] items-center justify-center rounded-[3rem] bg-accent p-8 overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1)_0%,transparent_100%)]" />
+            
+            {/* Mockup abstrait illustrant l'activité */}
+            <div className="relative w-full h-full bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-2xl flex flex-col gap-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-3 h-3 rounded-full bg-red-400" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+              </div>
+              
+              <div className="h-20 w-full rounded-xl bg-white/10 animate-pulse" />
+              <div className="flex gap-4">
+                <div className="h-32 w-1/2 rounded-xl bg-white/5" />
+                <div className="h-32 w-1/2 rounded-xl bg-white/5" />
+              </div>
+              <div className="h-10 w-3/4 rounded-xl bg-highlight/20 mt-auto" />
+            </div>
+          </div>
+          
         </div>
       </div>
     </section>
