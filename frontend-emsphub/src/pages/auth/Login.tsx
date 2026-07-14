@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
-import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { EMSP_EMAIL_REGEX } from '@/constants/brand'
 import { supabase } from '@/lib/supabase'
 
 export function Login() {
@@ -20,7 +20,7 @@ export function Login() {
     setErrors({})
 
     if (!EMSP_EMAIL_REGEX.test(email)) {
-      setErrors({ email: `Veuillez utiliser une adresse @${EMSP_EMAIL_DOMAIN}` })
+      setErrors({ email: 'Veuillez entrer une adresse email valide.' })
       return
     }
 
@@ -75,7 +75,7 @@ export function Login() {
           {/* Champ email */}
           <div className="space-y-2 group">
             <label htmlFor="login-email" className="text-sm font-semibold text-text-primary ml-1 transition-colors group-focus-within:text-accent">
-              Email institutionnel
+              Adresse email
             </label>
             <input
               id="login-email"
@@ -85,7 +85,7 @@ export function Login() {
                 setEmail(e.target.value)
                 if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }))
               }}
-              placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
+              placeholder="exemple@email.com"
               className="w-full h-12 px-4 rounded-xl bg-surface border border-border/80 text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 transition-all duration-200"
               autoComplete="email"
             />

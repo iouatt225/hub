@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
-import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { EMSP_EMAIL_REGEX } from '@/constants/brand'
 import { supabase } from '@/lib/supabase'
 
 export function Register() {
@@ -30,7 +30,7 @@ export function Register() {
     
     const newErrors: typeof errors = {}
     if (!fullName.trim()) newErrors.fullName = 'Le nom est requis.'
-    if (!EMSP_EMAIL_REGEX.test(email)) newErrors.email = `Veuillez utiliser une adresse @${EMSP_EMAIL_DOMAIN}`
+    if (!EMSP_EMAIL_REGEX.test(email)) newErrors.email = 'Veuillez entrer une adresse email valide.'
     if (password.length < 8) newErrors.password = 'Le mot de passe doit contenir au moins 8 caractères.'
     if (password !== confirmPassword) newErrors.confirmPassword = 'Les mots de passe ne correspondent pas.'
     
@@ -111,7 +111,7 @@ export function Register() {
           {/* Champ email */}
           <div className="space-y-2 group">
             <label htmlFor="register-email" className="text-sm font-semibold text-text-primary ml-1 transition-colors group-focus-within:text-accent">
-              Email institutionnel
+              Adresse email
             </label>
             <input
               id="register-email"
@@ -121,7 +121,7 @@ export function Register() {
                 setEmail(e.target.value)
                 clearError('email')
               }}
-              placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
+              placeholder="exemple@email.com"
               className="w-full h-12 px-4 rounded-xl bg-surface border border-border/80 text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 transition-all duration-200"
               autoComplete="email"
             />

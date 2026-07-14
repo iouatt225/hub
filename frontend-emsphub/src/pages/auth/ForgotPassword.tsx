@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
-import { EMSP_EMAIL_REGEX, EMSP_EMAIL_DOMAIN } from '@/constants/brand'
+import { EMSP_EMAIL_REGEX } from '@/constants/brand'
 
 export function ForgotPassword() {
   const [email, setEmail] = useState('')
@@ -14,7 +14,7 @@ export function ForgotPassword() {
     setError(null)
 
     if (!EMSP_EMAIL_REGEX.test(email)) {
-      setError(`Veuillez utiliser une adresse @${EMSP_EMAIL_DOMAIN}`)
+      setError('Veuillez entrer une adresse email valide.')
       return
     }
 
@@ -52,7 +52,7 @@ export function ForgotPassword() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2 group">
               <label htmlFor="forgot-email" className="text-sm font-semibold text-text-primary ml-1 transition-colors group-focus-within:text-accent">
-                Email institutionnel
+                Adresse email
               </label>
               <input
                 id="forgot-email"
@@ -62,7 +62,7 @@ export function ForgotPassword() {
                   setEmail(e.target.value)
                   setError(null)
                 }}
-                placeholder={`prenom.nom@${EMSP_EMAIL_DOMAIN}`}
+                placeholder="exemple@email.com"
                 className="w-full h-12 px-4 rounded-xl bg-surface border border-border/80 text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/50 transition-all duration-200"
                 autoComplete="email"
               />

@@ -35,8 +35,21 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Routes publiques — Layout avec Header + Footer */}
+          {/* Routes publiques d'authentification */}
           <Route element={<Layout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Route>
+
+          {/* Routes protégées (Nécessitent d'être connecté) */}
+          <Route
+            element={
+              <RouteProtegee>
+                <Layout />
+              </RouteProtegee>
+            }
+          >
             <Route path="/" element={<Accueil />} />
             <Route path="/hub" element={<Hub />} />
             <Route path="/projet/:id" element={<Projet />} />
@@ -44,25 +57,8 @@ function App() {
             <Route path="/documentation" element={<Documentation />} />
             <Route path="/a-propos" element={<APropos />} />
             <Route path="/recrutement" element={<Recrutement />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-             <Route 
-              path="/hub/nouvelle-idee" 
-              element={
-                <RouteProtegee>
-                  <NouvelleIdee />
-                </RouteProtegee>
-              } 
-            />
-            <Route 
-              path="/profil/modifier" 
-              element={
-                <RouteProtegee>
-                  <ModifierProfil />
-                </RouteProtegee>
-              } 
-            />
+            <Route path="/hub/nouvelle-idee" element={<NouvelleIdee />} />
+            <Route path="/profil/modifier" element={<ModifierProfil />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 

@@ -44,6 +44,9 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
+-- Sécurité : empêcher l'appel direct de la fonction de trigger via l'API REST (RPC)
+revoke execute on function public.handle_new_user() from public;
+
 -- ==========================================
 -- TABLES FUTURES (Aperçu pour le Bloc 10+)
 -- ==========================================
@@ -57,7 +60,9 @@ create table public.projects (
   team_status text not null, -- 'solo', 'complete', 'looking_for_members'
   tags text[],
   author_id uuid references public.profiles(id) not null,
+  votes integer default 0 not null,
   is_official_selection boolean default false,
+  image_url text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

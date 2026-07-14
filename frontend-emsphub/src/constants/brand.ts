@@ -62,8 +62,8 @@ export const COLORS = {
   textSecondary: "#a3a3a3",
 } as const;
 
-/** Domaine email institutionnel EMSP (à adapter avec le vrai domaine) */
-export const EMSP_EMAIL_DOMAIN = "@emsp.ci";
+/** Domaine email par défaut pour les exemples */
+export const EMSP_EMAIL_DOMAIN = "gmail.com";
 
-/** Regex de validation email EMSP */
-export const EMSP_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@emsp\.ci$/i;
+/** Regex de validation email générique (permet n'importe quel domaine d'email) */
+export const EMSP_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

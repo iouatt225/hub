@@ -82,7 +82,7 @@ export function Documentation() {
                    <ShieldCheck className="w-8 h-8 text-accent" />
                  </div>
                  <h3 className="font-bold text-2xl mb-2 text-text-primary break-words">100% Sécurisé</h3>
-                 <p className="text-sm text-text-secondary leading-relaxed break-words">Réservé exclusivement aux emails institutionnels @emsp.ci.</p>
+                 <p className="text-sm text-text-secondary leading-relaxed break-words">Réservé exclusivement à la communauté et aux partenaires de l'EMSP.</p>
               </div>
               
               <div className="absolute bottom-10 left-4 w-[320px] flex flex-col items-center text-center p-6 rounded-3xl bg-accent text-white shadow-2xl z-10 opacity-95 box-border overflow-hidden">
@@ -255,7 +255,7 @@ export function Documentation() {
                           Qui peut proposer une idée sur le Hub ?
                         </AccordionTrigger>
                         <AccordionContent className="text-text-secondary text-base leading-relaxed">
-                          Tout étudiant ou personnel de l'EMSP possédant une adresse email institutionnelle (@emsp.ci) peut s'inscrire et proposer une idée.
+                          Tout étudiant, personnel ou partenaire de l'EMSP peut s'inscrire et proposer une idée sur le Hub.
                         </AccordionContent>
                       </AccordionItem>
                       

@@ -101,9 +101,9 @@ export function NouvelleIdee() {
       setTimeout(() => {
         navigate('/hub')
       }, 2000)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de la création du projet:', error)
-      alert("Une erreur est survenue lors de la soumission de votre idée.")
+      alert(`Une erreur est survenue lors de la soumission de votre idée : ${error.message || error}`)
       setIsSubmitting(false)
     }
   }

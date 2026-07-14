@@ -242,10 +242,16 @@ export async function createProject(payload: {
       throw error
     }
     return data.id
-  } catch (supabaseError) {
-    console.warn('Création du projet dans Supabase échouée, fallback sur le mock local en mémoire:', supabaseError)
+  } catch (supabaseError: any) {
+    console.error('Erreur Supabase lors de la création du projet:', supabaseError)
     
-    // Fallback local en mémoire
+    // Si Supabase est configuré, on lève l'erreur pour l'afficher à l'utilisateur
+    const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder.supabase.co'
+    if (hasSupabase) {
+      throw supabaseError
+    }
+    
+    // Fallback local en mémoire uniquement si Supabase n'est pas configuré
     const newId = `proj-local-${Date.now()}`
     
     // Tenter de récupérer les métadonnées de l'utilisateur connecté

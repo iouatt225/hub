@@ -24,9 +24,8 @@ export function RouteProtegee({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    // Redirige vers la page d'accueil avec un state indiquant d'ouvrir la modale de login,
-    // et en conservant l'URL demandée pour y retourner après connexion.
-    return <Navigate to="/" state={{ from: location, openLogin: true }} replace />
+    // Redirige vers la page de connexion, en conservant l'URL demandée pour y retourner après connexion.
+    return <Navigate to="/login" state={{ from: location }} replace />
   }
 
   return <>{children}</>
