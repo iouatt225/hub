@@ -127,144 +127,177 @@ export function Recrutement() {
         </div>
       </section>
 
-      {/* ─── Formulaire de candidature ─── */}
-      <section className="container-hub max-w-3xl mx-auto px-4">
-        <div className="bg-surface border border-border rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      {/* ─── Formulaire de candidature & QR Code en grille ─── */}
+      <section className="container-hub max-w-5xl mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
-          <div className="mb-8 relative z-10">
-            <h2 className="text-2xl font-bold text-text-primary">Formulaire d'adhésion 2026</h2>
-            <p className="text-xs text-text-secondary mt-1">Veuillez renseigner toutes les informations requises pour soumettre votre dossier.</p>
+          {/* Formulaire (2/3) */}
+          <div className="lg:col-span-2 bg-surface border border-border rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            
+            <div className="mb-8 relative z-10">
+              <h2 className="text-2xl font-bold text-text-primary">Formulaire d'adhésion 2026</h2>
+              <p className="text-xs text-text-secondary mt-1">Veuillez renseigner toutes les informations requises pour soumettre votre dossier.</p>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
+              
+              {/* Nom complet */}
+              <div className="space-y-2">
+                <label htmlFor="fullName" className="text-sm font-bold text-text-primary">
+                  Nom complet <span className="text-error">*</span>
+                </label>
+                <input
+                  id="fullName"
+                  type="text"
+                  {...register('fullName')}
+                  placeholder="Ex: Kouassi Marc-Antoine"
+                  className={cn(
+                    "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
+                    errors.fullName ? "border-error focus:ring-error" : "border-border focus:ring-accent"
+                  )}
+                />
+                {errors.fullName && <p className="text-xs text-error">{errors.fullName.message}</p>}
+              </div>
+
+              {/* Grid Email + Filière */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-sm font-bold text-text-primary">
+                    Email institutionnel EMSP <span className="text-error">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    {...register('email')}
+                    placeholder="nom.prenom@emsp.ci"
+                    className={cn(
+                      "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
+                      errors.email ? "border-error focus:ring-error" : "border-border focus:ring-accent"
+                    )}
+                  />
+                  {errors.email && <p className="text-xs text-error">{errors.email.message}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="filiere" className="text-sm font-bold text-text-primary">
+                    Filière d'études <span className="text-error">*</span>
+                  </label>
+                  <input
+                    id="filiere"
+                    type="text"
+                    {...register('filiere')}
+                    placeholder="Ex: Génie Logiciel, IoT, Réseaux"
+                    className={cn(
+                      "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
+                      errors.filiere ? "border-error focus:ring-error" : "border-border focus:ring-accent"
+                    )}
+                  />
+                  {errors.filiere && <p className="text-xs text-error">{errors.filiere.message}</p>}
+                </div>
+              </div>
+
+              {/* Rôle visé */}
+              <div className="space-y-2">
+                <label htmlFor="role" className="text-sm font-bold text-text-primary block">
+                  Rôle ou pôle visé <span className="text-error">*</span>
+                </label>
+                <select
+                  id="role"
+                  {...register('role')}
+                  className="w-full h-11 px-4 rounded-xl bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent transition-all cursor-pointer"
+                >
+                  <option value="dev_web">Développement Web (Frontend/Backend)</option>
+                  <option value="dev_iot">Développement IoT & Systèmes Embarqués</option>
+                  <option value="designer_ui_ux">Design UI/UX & Identité Visuelle</option>
+                  <option value="event_manager">Gestion de projet & Événementiel (Organisation)</option>
+                  <option value="communication">Communication & Réseaux Sociaux</option>
+                </select>
+                {errors.role && <p className="text-xs text-error">{errors.role.message}</p>}
+              </div>
+
+              {/* Motivations */}
+              <div className="space-y-2">
+                <label htmlFor="motivation" className="text-sm font-bold text-text-primary">
+                  Vos motivations <span className="text-error">*</span>
+                </label>
+                <p className="text-[10px] text-text-muted">Expliquez brièvement pourquoi vous voulez nous rejoindre et ce que vous espérez apporter (min 20 caractères).</p>
+                <textarea
+                  id="motivation"
+                  rows={5}
+                  {...register('motivation')}
+                  placeholder="Ex: Je souhaite intégrer le pôle développement pour consolider mes bases en React, participer à la refonte du site et apporter mes compétences en design..."
+                  className={cn(
+                    "w-full p-4 rounded-xl bg-background border text-sm text-text-primary resize-none focus:outline-none focus:ring-2 transition-all",
+                    errors.motivation ? "border-error focus:ring-error" : "border-border focus:ring-accent"
+                  )}
+                />
+                {errors.motivation && <p className="text-xs text-error">{errors.motivation.message}</p>}
+              </div>
+
+              {/* Liens annexes */}
+              <div className="space-y-2">
+                <label htmlFor="githubOrLinks" className="text-sm font-bold text-text-primary">
+                  Liens (GitHub, Portfolio, LinkedIn)
+                </label>
+                <p className="text-[10px] text-text-muted">Optionnel. Entrez les liens vers vos réalisations ou profil.</p>
+                <input
+                  id="githubOrLinks"
+                  type="text"
+                  {...register('githubOrLinks')}
+                  placeholder="https://github.com/... , https://portfolio..."
+                  className="w-full h-11 px-4 rounded-xl bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent transition-all"
+                />
+              </div>
+
+              {/* Actions */}
+              <div className="flex justify-end pt-4">
+                <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto gap-2">
+                  {isSubmitting ? (
+                    <>
+                      <span className="h-4 w-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                      Envoi en cours…
+                    </>
+                  ) : (
+                    <>
+                      Soumettre ma candidature
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
+
+            </form>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
+          {/* QR Code & Partage (1/3) */}
+          <div className="bg-surface border border-border rounded-3xl p-6 shadow-sm flex flex-col items-center text-center relative overflow-hidden lg:sticky lg:top-24">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl" />
             
-            {/* Nom complet */}
-            <div className="space-y-2">
-              <label htmlFor="fullName" className="text-sm font-bold text-text-primary">
-                Nom complet <span className="text-error">*</span>
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                {...register('fullName')}
-                placeholder="Ex: Kouassi Marc-Antoine"
-                className={cn(
-                  "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
-                  errors.fullName ? "border-error focus:ring-error" : "border-border focus:ring-accent"
-                )}
-              />
-              {errors.fullName && <p className="text-xs text-error">{errors.fullName.message}</p>}
+            <h3 className="text-base font-bold text-text-primary mb-2">Candidature sur Mobile</h3>
+            <p className="text-xs text-text-secondary leading-normal mb-6">
+              Scannez ce code QR pour remplir ou partager le formulaire d'adhésion directement sur votre smartphone.
+            </p>
+
+            {/* SVG Code QR */}
+            <div className="p-4 bg-white rounded-2xl shadow-sm border border-border mb-6 flex items-center justify-center shrink-0">
+              <svg className="w-36 h-36 text-slate-900" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2 2h6v6H2V2zm1.5 1.5v3h3v-3h-3zM2 16h6v6H2v-6zm1.5 1.5v3h3v-3h-3zM16 2h6v6h-6V2zm1.5 1.5v3h3v-3h-3z" />
+                <path d="M4 4h2v2H4V4zm0 14h2v2H4v-2zm14-14h2v2h-2V4zm-6 2h2v2h-2V6zm2 4h2v2h-2v-2zm-4 4h2v2h-2v-2zm8 2h2v2h-2v-2zm-4 2h2v2h-2v-2zm4-4h2v2h-2v-2zm-6-2h2v2h-2v-2zm-4-4h2v2H8V8zm4 0h2v2h-2V8zm-2 4h2v2h-2v-2zm6 2h2v2h-2v-2zm-8 4h2v2H8v-2zm6 0h2v2h-2v-2zm4-2h2v2h-2v-2z" />
+              </svg>
             </div>
 
-            {/* Grid Email + Filière */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-bold text-text-primary">
-                  Email institutionnel EMSP <span className="text-error">*</span>
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  {...register('email')}
-                  placeholder="nom.prenom@emsp.ci"
-                  className={cn(
-                    "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
-                    errors.email ? "border-error focus:ring-error" : "border-border focus:ring-accent"
-                  )}
-                />
-                {errors.email && <p className="text-xs text-error">{errors.email.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="filiere" className="text-sm font-bold text-text-primary">
-                  Filière d'études <span className="text-error">*</span>
-                </label>
-                <input
-                  id="filiere"
-                  type="text"
-                  {...register('filiere')}
-                  placeholder="Ex: Génie Logiciel, IoT, Réseaux"
-                  className={cn(
-                    "w-full h-11 px-4 rounded-xl bg-background border text-sm text-text-primary focus:outline-none focus:ring-2 transition-all",
-                    errors.filiere ? "border-error focus:ring-error" : "border-border focus:ring-accent"
-                  )}
-                />
-                {errors.filiere && <p className="text-xs text-error">{errors.filiere.message}</p>}
-              </div>
-            </div>
-
-            {/* Rôle visé */}
-            <div className="space-y-2">
-              <label htmlFor="role" className="text-sm font-bold text-text-primary block">
-                Rôle ou pôle visé <span className="text-error">*</span>
-              </label>
-              <select
-                id="role"
-                {...register('role')}
-                className="w-full h-11 px-4 rounded-xl bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent transition-all cursor-pointer"
+            <div className="w-full pt-4 border-t border-border/80">
+              <span className="text-[10px] text-text-muted uppercase tracking-wider block mb-1">Lien de partage</span>
+              <a
+                href="/recrutement"
+                className="text-xs text-accent hover:underline font-semibold block text-center truncate max-w-full"
               >
-                <option value="dev_web">Développement Web (Frontend/Backend)</option>
-                <option value="dev_iot">Développement IoT & Systèmes Embarqués</option>
-                <option value="designer_ui_ux">Design UI/UX & Identité Visuelle</option>
-                <option value="event_manager">Gestion de projet & Événementiel (Organisation)</option>
-                <option value="communication">Communication & Réseaux Sociaux</option>
-              </select>
-              {errors.role && <p className="text-xs text-error">{errors.role.message}</p>}
+                emsp-hub.vercel.app/recrutement
+              </a>
             </div>
+          </div>
 
-            {/* Motivations */}
-            <div className="space-y-2">
-              <label htmlFor="motivation" className="text-sm font-bold text-text-primary">
-                Vos motivations <span className="text-error">*</span>
-              </label>
-              <p className="text-[10px] text-text-muted">Expliquez brièvement pourquoi vous voulez nous rejoindre et ce que vous espérez apporter (min 20 caractères).</p>
-              <textarea
-                id="motivation"
-                rows={5}
-                {...register('motivation')}
-                placeholder="Ex: Je souhaite intégrer le pôle développement pour consolider mes bases en React, participer à la refonte du site et apporter mes compétences en design..."
-                className={cn(
-                  "w-full p-4 rounded-xl bg-background border text-sm text-text-primary resize-none focus:outline-none focus:ring-2 transition-all",
-                  errors.motivation ? "border-error focus:ring-error" : "border-border focus:ring-accent"
-                )}
-              />
-              {errors.motivation && <p className="text-xs text-error">{errors.motivation.message}</p>}
-            </div>
-
-            {/* Liens annexes */}
-            <div className="space-y-2">
-              <label htmlFor="githubOrLinks" className="text-sm font-bold text-text-primary">
-                Liens (GitHub, Portfolio, LinkedIn)
-              </label>
-              <p className="text-[10px] text-text-muted">Optionnel. Entrez les liens vers vos réalisations ou profil.</p>
-              <input
-                id="githubOrLinks"
-                type="text"
-                {...register('githubOrLinks')}
-                placeholder="https://github.com/... , https://portfolio..."
-                className="w-full h-11 px-4 rounded-xl bg-background border border-border text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent transition-all"
-              />
-            </div>
-
-            {/* Actions */}
-            <div className="flex justify-end pt-4">
-              <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto gap-2">
-                {isSubmitting ? (
-                  <>
-                    <span className="h-4 w-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
-                    Envoi en cours…
-                  </>
-                ) : (
-                  <>
-                    Soumettre ma candidature
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </Button>
-            </div>
-
-          </form>
         </div>
       </section>
 
