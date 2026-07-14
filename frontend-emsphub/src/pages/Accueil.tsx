@@ -3,7 +3,6 @@ import { HeroCompact } from '@/components/sections/HeroCompact'
 import { FeedCard } from '@/components/feed/FeedCard'
 import { FeedSidebar } from '@/components/feed/FeedSidebar'
 import { fetchProjects } from '@/lib/api/projects'
-import { fetchProjets as fetchMockProjects } from '@/lib/fixtures/projets.mock'
 import type { Project } from '@/lib/fixtures/projets.mock'
 import { Loader2, Flame, Calendar, Award } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -32,22 +31,10 @@ export function Accueil() {
         }
         let results = await fetchProjects(apiFilters)
 
-        // Si la base est vide (ex: pas encore de migration/données), fallback sur les mocks
-        if (!results || results.length === 0) {
-          const mockFilters = {
-            query: '',
-            status: 'all',
-            sortBy: sortBy
-          }
-          results = await fetchMockProjects(mockFilters)
-        }
-
-        setProjects(results)
+        setProjects(results || [])
       } catch (error) {
         console.error('Erreur de chargement des projets sur l\'accueil:', error)
-        // Fallback en cas d'erreur réseau/Supabase
-        const results = await fetchMockProjects({ query: '', status: 'all', sortBy })
-        setProjects(results)
+        setProjects([])
       } finally {
         setIsLoading(false)
       }

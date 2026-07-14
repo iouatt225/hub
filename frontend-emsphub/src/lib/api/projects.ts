@@ -79,7 +79,7 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
 
   if (error) {
     console.error('Erreur fetchProjects:', error)
-    return MOCK_PROJECTS // Retourner les mocks en cas d'erreur de base
+    return [] // Retourner un tableau vide en cas d'erreur de base
   }
 
   // Mapper le retour Supabase vers l'interface Frontend `Project`
@@ -103,14 +103,8 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
     imageUrl: row.image_url
   }))
 
-  // Fusionner les projets locaux en mémoire avec ceux récupérés de Supabase
-  const supabaseIds = new Set(supabaseProjects.map(p => p.id))
-  const localOnlyProjects = MOCK_PROJECTS.filter(p => !supabaseIds.has(p.id))
-
-  const allProjects = [...localOnlyProjects, ...supabaseProjects]
-
-  // Appliquer le filtrage sur le tableau fusionné
-  let filtered = allProjects
+  // Appliquer le filtrage sur le tableau
+  let filtered = supabaseProjects
 
   if (filters.status && filters.status !== 'all') {
     filtered = filtered.filter(p => p.teamStatus === filters.status)
@@ -194,17 +188,7 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
       comments: []
     }
   } catch (err) {
-    console.warn(`Projet ${id} non trouvé dans Supabase. Recherche dans les données locales...`, err)
-    const localProject = MOCK_PROJECTS.find(p => p.id === id)
-    if (localProject) {
-      return {
-        ...localProject,
-        teamMembers: [
-          { id: localProject.author.id, name: localProject.author.name, avatar: localProject.author.avatar, role: 'Porteur du projet' }
-        ],
-        comments: []
-      }
-    }
+    console.warn(`Projet ${id} non trouvé dans Supabase.`, err)
     return null
   }
 }
