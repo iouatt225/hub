@@ -48,8 +48,8 @@
   --color-info: #3b82f6;
 
   /* Bordures */
-  --color-border: #e2e8f0;
-  --color-border-hover: #cbd5e1;
+  --color-border: rgba(15, 23, 42, 0.06);
+  --color-border-hover: rgba(15, 23, 42, 0.12);
 
   /* Texte */
   --color-text-primary: #0f172a;

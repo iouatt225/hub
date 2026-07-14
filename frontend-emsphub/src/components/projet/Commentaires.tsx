@@ -62,7 +62,7 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
 
       {/* Formulaire d'ajout de commentaire */}
       {user ? (
-        <form onSubmit={handleSubmit} className="bg-surface border border-border rounded-2xl p-6 shadow-sm space-y-4">
+        <form onSubmit={handleSubmit} className="bg-background-alt rounded-2xl p-6 space-y-4">
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8 border border-border">
               <AvatarImage src={user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`} />
@@ -80,7 +80,7 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Ajouter un commentaire constructif ou une suggestion..."
-              className="w-full bg-background-alt border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent resize-none min-h-[100px] leading-relaxed transition-all"
+              className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent resize-none min-h-[100px] leading-relaxed transition-all"
             />
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-muted font-medium">
@@ -108,7 +108,7 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
           </div>
         </form>
       ) : (
-        <div className="bg-surface border border-dashed border-border rounded-2xl p-6 text-center">
+        <div className="bg-background-alt rounded-2xl p-6 text-center">
           <p className="text-text-secondary text-sm mb-4">Connectez-vous pour participer à la discussion et soutenir ce projet.</p>
           <Button variant="outline" size="sm" asChild>
             <a href="/">Se connecter</a>
@@ -125,7 +125,7 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
         ) : (
           <div className="space-y-4">
             {comments.map((comment) => (
-              <div key={comment.id} className="flex gap-4 items-start">
+              <div key={comment.id} className="flex gap-4 items-start py-4 border-b border-border/60 hover:bg-background-alt/30 transition-colors rounded-xl px-4">
                 <Avatar className="h-10 w-10 shrink-0 border border-border mt-0.5">
                   <AvatarImage src={comment.author.avatar} alt={comment.author.name} />
                   <AvatarFallback className="bg-accent/10 text-accent font-bold">
@@ -133,8 +133,8 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <div className="bg-surface border border-border rounded-2xl rounded-tl-sm p-5 shadow-sm hover:border-accent/10 transition-colors">
-                    <div className="flex justify-between items-center mb-2.5">
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
                       <span className="font-bold text-text-primary text-sm">{comment.author.name}</span>
                       <span className="text-[10px] text-text-muted font-medium">{formatDate(comment.createdAt)}</span>
                     </div>

@@ -11,7 +11,7 @@ interface EquipeProjetProps {
 
 export function EquipeProjet({ status, members }: EquipeProjetProps) {
   return (
-    <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
+    <div className="bg-background-alt rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-text-primary">L'équipe</h3>
         

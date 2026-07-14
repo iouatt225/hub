@@ -140,7 +140,7 @@ export function Documentation() {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-surface p-8 rounded-3xl border border-border shadow-sm hover:shadow-card-hover transition-all flex flex-col items-center text-center h-full">
+                <div className="bg-background-alt p-8 rounded-3xl transition-all flex flex-col items-center text-center h-full hover:shadow-sm">
                   <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 shrink-0">
                     <Users className="w-6 h-6" />
                   </div>
@@ -148,7 +148,7 @@ export function Documentation() {
                   <p className="text-text-secondary">Les commentaires doivent être constructifs. Tout propos déplacé entraîne une exclusion immédiate.</p>
                 </div>
                 
-                <div className="bg-surface p-8 rounded-3xl border border-border shadow-sm hover:shadow-card-hover transition-all flex flex-col items-center text-center h-full">
+                <div className="bg-background-alt p-8 rounded-3xl transition-all flex flex-col items-center text-center h-full hover:shadow-sm">
                   <div className="w-12 h-12 rounded-xl bg-highlight-light text-highlight-hover flex items-center justify-center mb-6 shrink-0">
                     <Lightbulb className="w-6 h-6" />
                   </div>
@@ -156,7 +156,7 @@ export function Documentation() {
                   <p className="text-text-secondary">Les idées doivent être originales ou améliorer significativement l'existant. Le plagiat est interdit.</p>
                 </div>
                 
-                <div className="bg-surface p-8 rounded-3xl border border-border shadow-sm hover:shadow-card-hover transition-all flex flex-col items-center text-center h-full">
+                <div className="bg-background-alt p-8 rounded-3xl transition-all flex flex-col items-center text-center h-full hover:shadow-sm">
                   <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-6 shrink-0">
                     <Target className="w-6 h-6" />
                   </div>
@@ -164,7 +164,7 @@ export function Documentation() {
                   <p className="text-text-secondary">En lien avec l'EMSP : Numérique, Télécoms, Innovation postale, Management, ou social étudiant.</p>
                 </div>
                 
-                <div className="bg-surface p-8 rounded-3xl border border-border shadow-sm hover:shadow-card-hover transition-all flex flex-col items-center text-center h-full">
+                <div className="bg-background-alt p-8 rounded-3xl transition-all flex flex-col items-center text-center h-full hover:shadow-sm">
                   <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-6 shrink-0">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>

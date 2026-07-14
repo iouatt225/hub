@@ -62,7 +62,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           )}
         </div>
 
-        <CardHeader className="pb-3 pt-4">
+        <CardHeader className="p-6 pb-3">
           <div className="flex justify-between items-start gap-4 mb-2">
             <StatusBadge status={project.teamStatus} />
             {project.isOfficialSelection && (
@@ -71,13 +71,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Badge>
             )}
           </div>
-          <CardTitle className="text-xl line-clamp-2 group-hover:text-accent transition-colors leading-tight">
+          <CardTitle className="text-lg font-bold text-text-primary line-clamp-2 group-hover:text-accent transition-colors leading-tight">
             {project.title}
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="flex-1 pb-4">
-          <p className="text-sm text-text-secondary line-clamp-3 mb-4">
+        <CardContent className="flex-1 px-6 pb-6">
+          <p className="text-sm text-text-secondary line-clamp-3 mb-4 leading-relaxed">
             {project.problem}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -94,21 +94,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </CardContent>
 
-        <CardFooter className="pt-4 border-t border-border flex justify-between items-center bg-background/50">
+        <CardFooter className="px-6 py-4 border-t border-border/80 flex justify-between items-center bg-background-alt/50">
           <div className="flex items-center gap-2">
-            <Avatar className="w-6 h-6 border border-border">
+            <Avatar className="w-6 h-6 border border-border/80">
               <AvatarImage src={project.author.avatar} alt={project.author.name} />
               <AvatarFallback className="text-[10px]">{project.author.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <span className="text-xs text-text-muted font-medium">{project.author.name}</span>
+            <span className="text-xs text-text-muted font-semibold">{project.author.name}</span>
           </div>
 
           <div className="flex items-center gap-3 text-text-muted">
-            <div className="flex items-center gap-1.5 text-xs font-medium">
+            <div className="flex items-center gap-1.5 text-xs font-semibold">
               <MessageSquare className="w-3.5 h-3.5" />
               <span>{project.commentCount}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-medium">
+            <div className="flex items-center gap-1.5 text-xs font-semibold">
               <ThumbsUp className="w-3.5 h-3.5" />
               <span>{project.votes}</span>
             </div>
