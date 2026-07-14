@@ -144,7 +144,7 @@ export function Projet() {
 
             {/* Commentaires */}
             <section id="commentaires">
-              <Commentaires comments={project.comments} />
+              <Commentaires comments={project.comments} projectId={project.id} />
             </section>
 
           </div>

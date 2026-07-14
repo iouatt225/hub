@@ -12,6 +12,7 @@ create table public.profiles (
   avatar_url text,
   bio text,
   field_of_study text, -- ex: 'Télécoms', 'Management'
+  is_active boolean default true not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -19,7 +20,6 @@ create table public.profiles (
 -- Activation de RLS (Row Level Security) sur profiles
 alter table public.profiles enable row level security;
 
--- Policies pour profiles
 create policy "Les profils sont visibles par tous les utilisateurs connectés"
   on public.profiles for select
   to authenticated
@@ -29,6 +29,16 @@ create policy "Les utilisateurs peuvent mettre à jour leur propre profil"
   on public.profiles for update
   to authenticated
   using (auth.uid() = id);
+
+create policy "Les admins peuvent mettre à jour tous les profils"
+  on public.profiles for update
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
 
 -- 2. Trigger pour créer automatiquement un profil à l'inscription
 create or replace function public.handle_new_user()
@@ -82,3 +92,70 @@ create policy "Les auteurs peuvent modifier leurs projets"
   on public.projects for update
   to authenticated
   using (auth.uid() = author_id);
+
+create policy "Les admins peuvent modifier tous les projets"
+  on public.projects for update
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
+
+create policy "Les admins peuvent supprimer tous les projets"
+  on public.projects for delete
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
+
+-- ==========================================
+-- TABLE DES COMMENTAIRES (Discussion)
+-- ==========================================
+
+create table public.comments (
+  id uuid default gen_random_uuid() primary key,
+  project_id uuid references public.projects(id) on delete cascade not null,
+  author_id uuid references public.profiles(id) on delete cascade not null,
+  content text not null,
+  status text default 'active' check (status in ('active', 'flagged', 'hidden')) not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.comments enable row level security;
+
+create policy "Lecture des commentaires par tous les connectés"
+  on public.comments for select
+  to authenticated
+  using (true);
+
+create policy "Insertion des commentaires par leur auteur connecté"
+  on public.comments for insert
+  to authenticated
+  with check (auth.uid() = author_id);
+
+create policy "Modification des commentaires par leur auteur ou admin"
+  on public.comments for update
+  to authenticated
+  using (
+    auth.uid() = author_id OR
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
+
+create policy "Suppression des commentaires par leur auteur ou admin"
+  on public.comments for delete
+  to authenticated
+  using (
+    auth.uid() = author_id OR
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );

@@ -16,7 +16,8 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { StatCard } from '@/components/admin/StatCard'
-import { fetchProjets, type Project } from '@/lib/fixtures/projets.mock'
+import { fetchProjects, updateProjectSelection, deleteProject as deleteProjectApi } from '@/lib/api/projects'
+import type { Project } from '@/lib/fixtures/projets.mock'
 import { cn } from '@/lib/utils'
 
 /** Labels des statuts d'équipe */
@@ -41,7 +42,7 @@ export function AdminProjets() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const data = await fetchProjets({ query: '', status: 'all', sortBy: 'recent' })
+      const data = await fetchProjects({ query: '', status: 'all', sortBy: 'recent' })
       setProjects(data)
       setIsLoading(false)
     }
@@ -72,21 +73,35 @@ export function AdminProjets() {
   }), [projects])
 
   // Actions
-  const toggleOfficialSelection = (projectId: string) => {
-    setProjects(prev =>
-      prev.map(p => p.id === projectId ? { ...p, isOfficialSelection: !p.isOfficialSelection } : p)
-    )
-    // Mettre à jour le panneau détail si ouvert
-    if (selectedProject?.id === projectId) {
-      setSelectedProject(prev => prev ? { ...prev, isOfficialSelection: !prev.isOfficialSelection } : null)
+  const toggleOfficialSelection = async (projectId: string) => {
+    const project = projects.find(p => p.id === projectId)
+    if (!project) return
+    const nextVal = !project.isOfficialSelection
+
+    const success = await updateProjectSelection(projectId, nextVal)
+    if (success) {
+      setProjects(prev =>
+        prev.map(p => p.id === projectId ? { ...p, isOfficialSelection: nextVal } : p)
+      )
+      // Mettre à jour le panneau détail si ouvert
+      if (selectedProject?.id === projectId) {
+        setSelectedProject(prev => prev ? { ...prev, isOfficialSelection: nextVal } : null)
+      }
+    } else {
+      alert("Une erreur est survenue lors de la mise à jour de la sélection officielle.")
     }
   }
 
-  const deleteProject = (projectId: string) => {
+  const deleteProject = async (projectId: string) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible.')) {
-      setProjects(prev => prev.filter(p => p.id !== projectId))
-      if (selectedProject?.id === projectId) {
-        setSelectedProject(null)
+      const success = await deleteProjectApi(projectId)
+      if (success) {
+        setProjects(prev => prev.filter(p => p.id !== projectId))
+        if (selectedProject?.id === projectId) {
+          setSelectedProject(null)
+        }
+      } else {
+        alert("Une erreur est survenue lors de la suppression du projet.")
       }
     }
   }

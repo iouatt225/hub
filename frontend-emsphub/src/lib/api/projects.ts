@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import { MOCK_PROJECTS } from '@/lib/fixtures/projets.mock'
 import type { Project, ProjectDetail, TeamStatus, ProjectThumbnail } from '@/lib/fixtures/projets.mock'
+import { fetchCommentsForProject } from './comments'
 
 export interface ProjectsFilter {
   query: string
@@ -180,12 +181,13 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
       imageUrl: (data as any).image_url
     }
 
+    const comments = await fetchCommentsForProject(data.id)
     return {
       ...baseProject,
       teamMembers: [
         { id: baseProject.author.id, name: baseProject.author.name, avatar: baseProject.author.avatar, role: 'Porteur du projet' }
       ],
-      comments: []
+      comments
     }
   } catch (err) {
     console.warn(`Projet ${id} non trouvé dans Supabase.`, err)
@@ -270,3 +272,36 @@ export async function createProject(payload: {
     return newId
   }
 }
+
+/**
+ * Met à jour le statut de sélection officielle d'un projet
+ */
+export async function updateProjectSelection(projectId: string, isOfficial: boolean): Promise<boolean> {
+  const { error } = await supabase
+    .from('projects')
+    .update({ is_official_selection: isOfficial })
+    .eq('id', projectId)
+
+  if (error) {
+    console.error('Erreur lors de la mise à jour de la sélection officielle:', error)
+    return false
+  }
+  return true
+}
+
+/**
+ * Supprime un projet de la base de données
+ */
+export async function deleteProject(projectId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('projects')
+    .delete()
+    .eq('id', projectId)
+
+  if (error) {
+    console.error('Erreur lors de la suppression du projet:', error)
+    return false
+  }
+  return true
+}
+

@@ -14,7 +14,8 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { StatCard } from '@/components/admin/StatCard'
-import { fetchAdminUsers, type AdminUser } from '@/lib/fixtures/utilisateurs.mock'
+import { fetchAdminUsers, updateUserRole, updateUserActiveStatus } from '@/lib/api/users'
+import type { AdminUser } from '@/lib/api/users'
 import { cn } from '@/lib/utils'
 
 /** Libellés et couleurs des rôles */
@@ -72,17 +73,31 @@ export function Utilisateurs() {
   }), [users])
 
   // Action : changer le rôle d'un utilisateur
-  const changeRole = (userId: string, newRole: AdminUser['role']) => {
-    setUsers(prev =>
-      prev.map(u => u.id === userId ? { ...u, role: newRole } : u)
-    )
+  const changeRole = async (userId: string, newRole: AdminUser['role']) => {
+    const success = await updateUserRole(userId, newRole)
+    if (success) {
+      setUsers(prev =>
+        prev.map(u => u.id === userId ? { ...u, role: newRole } : u)
+      )
+    } else {
+      alert("Une erreur est survenue lors de la mise à jour du rôle.")
+    }
   }
 
   // Action : activer/désactiver un utilisateur
-  const toggleActive = (userId: string) => {
-    setUsers(prev =>
-      prev.map(u => u.id === userId ? { ...u, isActive: !u.isActive } : u)
-    )
+  const toggleActive = async (userId: string) => {
+    const userObj = users.find(u => u.id === userId)
+    if (!userObj) return
+    const nextVal = !userObj.isActive
+
+    const success = await updateUserActiveStatus(userId, nextVal)
+    if (success) {
+      setUsers(prev =>
+        prev.map(u => u.id === userId ? { ...u, isActive: nextVal } : u)
+      )
+    } else {
+      alert("Une erreur est survenue lors du changement de statut d'activité.")
+    }
   }
 
   return (

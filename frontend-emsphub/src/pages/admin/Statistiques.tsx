@@ -15,13 +15,13 @@ import {
 } from 'recharts'
 import { Calendar } from 'lucide-react'
 import {
-  fetchDashboardStats,
+  fetchLiveDashboardStats,
   type DailyActivity,
   type TeamStatusDistribution,
   type TagStat,
   type TopProject,
   type FiliereDistribution,
-} from '@/lib/fixtures/stats.mock'
+} from '@/lib/api/stats'
 import { cn } from '@/lib/utils'
 
 /** Couleurs pour les filières */
@@ -45,7 +45,7 @@ export function Statistiques() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const data = await fetchDashboardStats()
+      const data = await fetchLiveDashboardStats()
       setDailyActivity(data.dailyActivity)
       setTeamDistribution(data.teamDistribution)
       setTagStats(data.tagStats)

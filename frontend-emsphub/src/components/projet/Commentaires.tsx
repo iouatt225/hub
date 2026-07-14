@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/Button'
 import { Send, MessageSquare } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import type { Comment } from '@/lib/fixtures/projets.mock'
+import { createComment } from '@/lib/api/comments'
 
 interface CommentairesProps {
   comments: Comment[]
+  projectId: string
 }
 
-export function Commentaires({ comments: initialComments }: CommentairesProps) {
+export function Commentaires({ comments: initialComments, projectId }: CommentairesProps) {
   const { user } = useAuth()
   const [comments, setComments] = useState<Comment[]>(initialComments)
   const [newComment, setNewComment] = useState('')
@@ -21,23 +23,16 @@ export function Commentaires({ comments: initialComments }: CommentairesProps) {
 
     setIsSubmitting(true)
     
-    // Simuler un appel API
-    await new Promise((resolve) => setTimeout(resolve, 800))
-
-    const comment: Comment = {
-      id: `c-${Date.now()}`,
-      author: {
-        id: user.id,
-        name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Utilisateur',
-        avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`,
-      },
-      content: newComment,
-      createdAt: new Date().toISOString(),
+    try {
+      const comment = await createComment(projectId, user.id, newComment)
+      setComments(prev => [comment, ...prev])
+      setNewComment('')
+    } catch (err) {
+      console.error(err)
+      alert("Une erreur est survenue lors de la publication de votre commentaire.")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    setComments([comment, ...comments])
-    setNewComment('')
-    setIsSubmitting(false)
   }
 
   const formatDate = (isoString: string) => {

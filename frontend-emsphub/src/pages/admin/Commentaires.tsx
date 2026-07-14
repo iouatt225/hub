@@ -15,8 +15,11 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { StatCard } from '@/components/admin/StatCard'
-import { fetchAdminComments, type AdminComment, type CommentStatus } from '@/lib/fixtures/commentaires.mock'
+import { fetchAdminComments, updateCommentStatus, deleteComment as deleteCommentApi } from '@/lib/api/comments'
+import type { AdminComment } from '@/lib/api/comments'
 import { cn } from '@/lib/utils'
+
+type CommentStatus = 'active' | 'flagged' | 'hidden'
 
 /** Configuration visuelle des statuts de commentaires */
 const STATUS_CONFIG: Record<CommentStatus, { label: string; className: string; icon: typeof CheckCircle }> = {
@@ -66,25 +69,43 @@ export function Commentaires() {
   }), [comments])
 
   // Actions
-  const toggleVisibility = (commentId: string) => {
-    setComments(prev =>
-      prev.map(c => {
-        if (c.id !== commentId) return c
-        const newStatus: CommentStatus = c.status === 'hidden' ? 'active' : 'hidden'
-        return { ...c, status: newStatus }
-      })
-    )
+  const toggleVisibility = async (commentId: string) => {
+    const commentObj = comments.find(c => c.id === commentId)
+    if (!commentObj) return
+    const newStatus: CommentStatus = commentObj.status === 'hidden' ? 'active' : 'hidden'
+
+    const success = await updateCommentStatus(commentId, newStatus)
+    if (success) {
+      setComments(prev =>
+        prev.map(c => {
+          if (c.id !== commentId) return c
+          return { ...c, status: newStatus }
+        })
+      )
+    } else {
+      alert("Une erreur est survenue lors du changement de visibilité.")
+    }
   }
 
-  const approveComment = (commentId: string) => {
-    setComments(prev =>
-      prev.map(c => c.id === commentId ? { ...c, status: 'active' as CommentStatus } : c)
-    )
+  const approveComment = async (commentId: string) => {
+    const success = await updateCommentStatus(commentId, 'active')
+    if (success) {
+      setComments(prev =>
+        prev.map(c => c.id === commentId ? { ...c, status: 'active' as CommentStatus } : c)
+      )
+    } else {
+      alert("Une erreur est survenue lors de l'approbation du commentaire.")
+    }
   }
 
-  const deleteComment = (commentId: string) => {
+  const deleteComment = async (commentId: string) => {
     if (window.confirm('Supprimer définitivement ce commentaire ?')) {
-      setComments(prev => prev.filter(c => c.id !== commentId))
+      const success = await deleteCommentApi(commentId)
+      if (success) {
+        setComments(prev => prev.filter(c => c.id !== commentId))
+      } else {
+        alert("Une erreur est survenue lors de la suppression du commentaire.")
+      }
     }
   }
 

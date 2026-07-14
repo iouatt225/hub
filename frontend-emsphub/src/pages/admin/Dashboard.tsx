@@ -29,14 +29,14 @@ import {
 } from 'recharts'
 import { StatCard } from '@/components/admin/StatCard'
 import {
-  fetchDashboardStats,
+  fetchLiveDashboardStats,
   type DashboardKPIs,
   type DailyActivity,
   type TeamStatusDistribution,
   type TagStat,
   type TopProject,
   type RecentActivity,
-} from '@/lib/fixtures/stats.mock'
+} from '@/lib/api/stats'
 
 /** Icône correspondant au type d'activité récente */
 function ActivityIcon({ type }: { type: RecentActivity['type'] }) {
@@ -81,7 +81,7 @@ export function Dashboard() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const data = await fetchDashboardStats()
+      const data = await fetchLiveDashboardStats()
       setKpis(data.kpis)
       setDailyActivity(data.dailyActivity)
       setTeamDistribution(data.teamDistribution)
