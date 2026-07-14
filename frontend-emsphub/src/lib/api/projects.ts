@@ -47,6 +47,7 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
       votes,
       is_official_selection,
       created_at,
+      image_url,
       profiles:author_id (
         id,
         full_name,
@@ -150,6 +151,7 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
         votes,
         is_official_selection,
         created_at,
+        image_url,
         profiles:author_id (
           id,
           full_name,
@@ -230,7 +232,8 @@ export async function createProject(payload: {
         tags: payload.tags,
         author_id: payload.authorId,
         votes: 0,
-        is_official_selection: false
+        is_official_selection: false,
+        image_url: payload.imageUrl
       })
       .select('id')
       .single()
