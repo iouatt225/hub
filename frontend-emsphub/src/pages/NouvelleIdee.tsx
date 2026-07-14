@@ -7,7 +7,7 @@ import { Plus, Upload, Lightbulb, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
-import { createProject } from '@/lib/api/projects'
+import { createProject, uploadProjectImage } from '@/lib/api/projects'
 
 // ============================================================================
 // SCHÉMA DE VALIDATION (Zod)
@@ -43,7 +43,7 @@ export function NouvelleIdee() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [fileName, setFileName] = useState<string | null>(null)
-  const [imageBase64, setImageBase64] = useState<string | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const {
     register,
@@ -68,13 +68,9 @@ export function NouvelleIdee() {
       setFileName(file.name)
 
       if (file.type.startsWith('image/')) {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = () => {
-          setImageBase64(reader.result as string)
-        }
+        setSelectedFile(file)
       } else {
-        setImageBase64(null)
+        setSelectedFile(null)
       }
     }
   }
@@ -86,6 +82,14 @@ export function NouvelleIdee() {
     setIsSubmitting(true)
     
     try {
+      let imageUrl: string | undefined = undefined
+      if (selectedFile) {
+        const uploadedUrl = await uploadProjectImage(selectedFile)
+        if (uploadedUrl) {
+          imageUrl = uploadedUrl
+        }
+      }
+
       await createProject({
         title: values.title,
         problem: values.problem,
@@ -93,7 +97,7 @@ export function NouvelleIdee() {
         teamStatus: values.teamStatus,
         tags: values.tags ? values.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
         authorId: user.id,
-        imageUrl: imageBase64 || undefined
+        imageUrl: imageUrl
       })
       
       setIsSuccess(true)

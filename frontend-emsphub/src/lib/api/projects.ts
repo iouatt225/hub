@@ -305,3 +305,28 @@ export async function deleteProject(projectId: string): Promise<boolean> {
   return true
 }
 
+/**
+ * Téléverse une image de couverture de projet vers Supabase Storage
+ */
+export async function uploadProjectImage(file: File): Promise<string | null> {
+  const fileExt = file.name.split('.').pop()
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
+  const filePath = `covers/${fileName}`
+
+  const { error } = await supabase.storage
+    .from('project-images')
+    .upload(filePath, file)
+
+  if (error) {
+    console.error('Erreur lors du téléversement de l\'image dans Supabase Storage:', error)
+    return null
+  }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('project-images')
+    .getPublicUrl(filePath)
+
+  return publicUrl
+}
+
+
