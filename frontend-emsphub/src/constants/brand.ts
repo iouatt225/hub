@@ -39,7 +39,6 @@ export const FOOTER_EXPLORE_LINKS = [
 
 /** Liens du footer — colonne Club Info */
 export const FOOTER_CLUB_LINKS = [
-  { label: "À propos", href: "/a-propos" },
   { label: "Recrutement", href: "/recrutement" },
 ] as const;
 
