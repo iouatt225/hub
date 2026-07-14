@@ -105,14 +105,13 @@ export function Projet() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Colonne Principale (Gauche) */}
           <div className="lg:col-span-2 space-y-12">
-            
             {/* Section Problème */}
             <section className="space-y-4">
               <h2 className="text-2xl font-bold text-text-primary flex items-center gap-3">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-error/10 text-error text-sm">1</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-error/10 text-error text-sm font-bold">1</span>
                 Le Problème
               </h2>
-              <div className="bg-surface border border-border rounded-2xl p-6 md:p-8 text-text-secondary leading-relaxed text-lg">
+              <div className="bg-surface border border-border border-l-4 border-l-error rounded-2xl p-6 md:p-8 text-text-secondary leading-relaxed text-lg shadow-sm hover:shadow-md transition-shadow">
                 {project.problem}
               </div>
             </section>
@@ -120,10 +119,10 @@ export function Projet() {
             {/* Section Solution */}
             <section className="space-y-4">
               <h2 className="text-2xl font-bold text-text-primary flex items-center gap-3">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-success/10 text-success text-sm">2</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-success/10 text-success text-sm font-bold">2</span>
                 La Solution
               </h2>
-              <div className="bg-surface border border-border rounded-2xl p-6 md:p-8 text-text-secondary leading-relaxed text-lg">
+              <div className="bg-surface border border-border border-l-4 border-l-success rounded-2xl p-6 md:p-8 text-text-secondary leading-relaxed text-lg shadow-sm hover:shadow-md transition-shadow">
                 {project.solution}
               </div>
             </section>
@@ -133,14 +132,14 @@ export function Projet() {
               <h3 className="text-lg font-bold text-text-primary">Mots-clés</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map(tag => (
-                  <Badge key={tag} variant="secondary" className="bg-background-alt text-sm px-3 py-1">
+                  <Badge key={tag} variant="secondary" className="bg-background-alt text-sm px-3 py-1 font-semibold text-text-secondary">
                     {tag}
                   </Badge>
                 ))}
               </div>
             </section>
 
-            {/* Séparateur visuel */}
+            {/* Visuel Separator */}
             <div className="h-px bg-border w-full" />
 
             {/* Commentaires */}
@@ -154,12 +153,29 @@ export function Projet() {
           <div className="lg:col-span-1 space-y-6">
             
             {/* Call to action principal : Le Vote */}
-            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm sticky top-24">
-              <h3 className="text-lg font-bold text-text-primary mb-2">Soutenir ce projet</h3>
-              <p className="text-sm text-text-secondary mb-6">
-                Plus un projet reçoit de votes, plus il a de chances d'attirer l'attention du jury et d'être incubé.
-              </p>
-              <div className="flex justify-center">
+            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm sticky top-24 space-y-5">
+              <div>
+                <h3 className="text-base font-bold text-text-primary mb-1">Soutenir ce projet</h3>
+                <p className="text-xs text-text-secondary leading-normal">
+                  Aidez ce projet à atteindre ses objectifs pour attirer l'attention du jury d'incubation.
+                </p>
+              </div>
+
+              {/* Barre de progression d'incubation */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-text-secondary">Objectif Incubation</span>
+                  <span className="text-accent">{project.votes} / 100 votes</span>
+                </div>
+                <div className="w-full h-2 bg-background-alt border border-border rounded-full overflow-hidden">
+                  <div 
+                    className="bg-accent h-full rounded-full transition-all duration-1000" 
+                    style={{ width: `${Math.min(100, (project.votes / 100) * 100)}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-center pt-2">
                 <BoutonVote initialVotes={project.votes} />
               </div>
             </div>
