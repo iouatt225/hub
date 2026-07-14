@@ -11,6 +11,8 @@ import { Projet } from '@/pages/Projet'
 import { Profil } from '@/pages/Profil'
 import { ModifierProfil } from '@/pages/ModifierProfil'
 import { Documentation } from '@/pages/Documentation'
+import { APropos } from '@/pages/APropos'
+import { Recrutement } from '@/pages/Recrutement'
 import { NotFound } from '@/pages/NotFound'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
@@ -40,6 +42,8 @@ function App() {
             <Route path="/projet/:id" element={<Projet />} />
             <Route path="/profil/:id" element={<Profil />} />
             <Route path="/documentation" element={<Documentation />} />
+            <Route path="/a-propos" element={<APropos />} />
+            <Route path="/recrutement" element={<Recrutement />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
