@@ -339,4 +339,57 @@ export async function uploadProjectImage(file: File): Promise<string | null> {
   return publicUrl
 }
 
+/**
+ * Vérifie si un utilisateur a déjà voté pour un projet donné
+ */
+export async function checkIfUserVoted(projectId: string, userId: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from('votes')
+      .select('id')
+      .eq('project_id', projectId)
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (error) throw error
+    return !!data
+  } catch (err) {
+    console.error('Erreur lors de la vérification du vote:', err)
+    return false
+  }
+}
+
+/**
+ * Ajoute ou retire le vote d'un utilisateur sur un projet
+ */
+export async function toggleVoteProject(projectId: string, userId: string, hasVoted: boolean): Promise<boolean> {
+  try {
+    if (hasVoted) {
+      // Retirer le vote
+      const { error } = await supabase
+        .from('votes')
+        .delete()
+        .eq('project_id', projectId)
+        .eq('user_id', userId)
+
+      if (error) throw error
+    } else {
+      // Ajouter le vote
+      const { error } = await supabase
+        .from('votes')
+        .insert({
+          project_id: projectId,
+          user_id: userId
+        })
+
+      if (error) throw error
+    }
+    return true
+  } catch (err) {
+    console.error('Erreur lors de la modification du vote:', err)
+    return false
+  }
+}
+
+
 

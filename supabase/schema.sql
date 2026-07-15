@@ -159,3 +159,105 @@ create policy "Suppression des commentaires par leur auteur ou admin"
       where profiles.id = auth.uid() and profiles.role = 'admin'
     )
   );
+
+-- ==========================================
+-- TABLE DES VOTES (Likes)
+-- ==========================================
+
+create table public.votes (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  project_id uuid references public.projects(id) on delete cascade not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  unique (user_id, project_id)
+);
+
+alter table public.votes enable row level security;
+
+create policy "Les votes sont visibles par tous"
+  on public.votes for select
+  to authenticated
+  using (true);
+
+create policy "Les utilisateurs peuvent voter"
+  on public.votes for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+create policy "Les utilisateurs peuvent retirer leur vote"
+  on public.votes for delete
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- Trigger pour incrémenter / décrémenter le compteur de votes dans public.projects
+create or replace function public.handle_project_vote()
+returns trigger as $$
+begin
+  if (TG_OP = 'INSERT') then
+    update public.projects
+    set votes = votes + 1
+    where id = new.project_id;
+    return new;
+  elsif (TG_OP = 'DELETE') then
+    update public.projects
+    set votes = greatest(0, votes - 1)
+    where id = old.project_id;
+    return old;
+  end if;
+  return null;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_project_vote
+  after insert or delete on public.votes
+  for each row execute procedure public.handle_project_vote();
+
+-- ==========================================
+-- TABLE DES PARAMÈTRES (Configuration)
+-- ==========================================
+
+create table public.settings (
+  key text primary key,
+  value jsonb not null
+);
+
+-- Insertion des paramètres par défaut
+insert into public.settings (key, value) values
+  ('platformName', '"Hub d''Idées & Incubation"'::jsonb),
+  ('eventDate', '"2026-11-15"'::jsonb),
+  ('welcomeMessage', '"Bienvenue sur le Hub EMSP ! Déposez vos idées et rejoignez des équipes pour la Journée du Numérique."'::jsonb),
+  ('tags', '["IoT", "IA", "Mobile App", "FinTech", "Soutenabilité", "Réseautage", "Blockchain", "Hardware", "Santé", "Éducation", "Mobilité", "Entraide"]'::jsonb),
+  ('commentsEnabled', 'true'::jsonb),
+  ('registrationEnabled', 'true'::jsonb),
+  ('autoModeration', 'false'::jsonb),
+  ('bannedWords', '"spam, arnaque, gratuit"'::jsonb),
+  ('accentColor', '"#556B2F"'::jsonb)
+on conflict (key) do nothing;
+
+alter table public.settings enable row level security;
+
+create policy "Les paramètres sont visibles par tous"
+  on public.settings for select
+  to authenticated, anon
+  using (true);
+
+create policy "Seuls les admins peuvent modifier les paramètres"
+  on public.settings for all
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
+
+-- ==========================================
+-- DROITS D'ACCÈS AUX TABLES (GRANTs)
+-- ==========================================
+
+grant all on table public.profiles to postgres, service_role, authenticated, anon;
+grant all on table public.projects to postgres, service_role, authenticated, anon;
+grant all on table public.comments to postgres, service_role, authenticated, anon;
+grant all on table public.votes to postgres, service_role, authenticated, anon;
+grant all on table public.settings to postgres, service_role, authenticated, anon;
+

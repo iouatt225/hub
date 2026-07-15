@@ -176,7 +176,7 @@ export function Projet() {
               </div>
 
               <div className="flex justify-center pt-2">
-                <BoutonVote initialVotes={project.votes} />
+                <BoutonVote projectId={project.id} initialVotes={project.votes} />
               </div>
             </div>
 

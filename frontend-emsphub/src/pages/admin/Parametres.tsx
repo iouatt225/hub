@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Settings,
   Calendar,
@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { fetchSettings, saveSettings } from '@/lib/api/settings'
 
 /** Tags initiaux de la plateforme */
 const INITIAL_TAGS = [
@@ -45,18 +46,70 @@ export function Parametres() {
   // Section Apparence
   const [accentColor, setAccentColor] = useState('#556B2F')
 
-  // État de sauvegarde (simulé)
+  // État de sauvegarde & Chargement
+  const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [savedSection, setSavedSection] = useState<string | null>(null)
 
+  // Charger les paramètres depuis Supabase
+  useEffect(() => {
+    async function load() {
+      setIsLoading(true)
+      try {
+        const data = await fetchSettings()
+        setPlatformName(data.platformName)
+        setEventDate(data.eventDate)
+        setWelcomeMessage(data.welcomeMessage)
+        setTags(data.tags)
+        setCommentsEnabled(data.commentsEnabled)
+        setRegistrationEnabled(data.registrationEnabled)
+        setAutoModeration(data.autoModeration)
+        setBannedWords(data.bannedWords)
+        setAccentColor(data.accentColor)
+      } catch (err) {
+        console.error('Erreur lors du chargement des paramètres:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    load()
+  }, [])
+
   const handleSave = async (section: string) => {
     setIsSaving(true)
-    // Simuler un appel API
-    await new Promise(resolve => setTimeout(resolve, 800))
-    setIsSaving(false)
-    setSavedSection(section)
-    setTimeout(() => setSavedSection(null), 2000)
+    let payload = {}
+
+    switch (section) {
+      case 'general':
+        payload = { platformName, eventDate, welcomeMessage }
+        break
+      case 'tags':
+        payload = { tags }
+        break
+      case 'moderation':
+        payload = { commentsEnabled, registrationEnabled, autoModeration, bannedWords }
+        break
+      case 'apparence':
+        payload = { accentColor }
+        break
+    }
+
+    try {
+      const success = await saveSettings(payload)
+      if (success) {
+        setSavedSection(section)
+        setTimeout(() => setSavedSection(null), 2000)
+      } else {
+        alert("Une erreur est survenue lors de la sauvegarde des paramètres.")
+      }
+    } catch (err) {
+      console.error('Erreur lors de la sauvegarde:', err)
+      alert("Une erreur est survenue lors de la sauvegarde des paramètres.")
+    } finally {
+      setIsSaving(false)
+    }
   }
+
 
   const addTag = () => {
     const trimmed = newTag.trim()
@@ -92,6 +145,14 @@ export function Parametres() {
       <span className="text-xs text-success font-medium animate-fade-in">✓ Sauvegardé</span>
     ) : null
   )
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px] w-full">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex justify-center w-full py-4">
