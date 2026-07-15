@@ -7,6 +7,7 @@ export interface ProjectsFilter {
   query: string
   status: string
   sortBy: string
+  authorId?: string // Filter by author
 }
 
 function getThumbnailForProject(tags: string[]): ProjectThumbnail {
@@ -56,6 +57,11 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
       )
     `)
 
+  // Filtre d'auteur
+  if (filters.authorId) {
+    query = query.eq('author_id', filters.authorId)
+  }
+
   // Filtre de statut
   if (filters.status && filters.status !== 'all') {
     query = query.eq('team_status', filters.status)
@@ -77,6 +83,10 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
   }
 
   const { data, error } = await query
+
+  console.log('[api/projects.ts] fetchProjects - filters:', filters)
+  console.log('[api/projects.ts] fetchProjects - data:', data)
+  console.log('[api/projects.ts] fetchProjects - error:', error)
 
   if (error) {
     console.error('Erreur fetchProjects:', error)

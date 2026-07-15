@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
 
 // ============================================================================
 // SCHÉMA DE VALIDATION (Zod)
@@ -170,6 +171,23 @@ export function ModifierProfil() {
           ...(values.portfolio && { portfolio: values.portfolio }),
         }
       })
+
+      // 2. Mettre à jour la table publique "profiles" pour les requêtes de l'application
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: `${values.firstName} ${values.lastName}`.trim(),
+          avatar_url: avatarBase64 || `https://api.dicebear.com/7.x/initials/svg?seed=${user.id}`,
+          bio: values.bio,
+          field_of_study: values.filiere,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id)
+
+      if (profileError) {
+        throw profileError
+      }
+
       navigate('/profil/me')
     } catch (e: any) {
       console.error(e)

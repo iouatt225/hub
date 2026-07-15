@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import type { UserProfile } from '@/lib/fixtures/profils.mock'
 
 export interface AdminUser {
   id: string
@@ -82,3 +83,41 @@ export async function updateUserActiveStatus(userId: string, isActive: boolean):
   }
   return true
 }
+
+/**
+ * Récupère le profil d'un utilisateur par son ID
+ */
+export async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single()
+
+  if (error || !data) {
+    console.error('Erreur lors de la récupération du profil Supabase:', error)
+    return null
+  }
+
+  const nameParts = data.full_name ? data.full_name.split(' ') : []
+  const firstName = nameParts[0] || ''
+  const lastName = nameParts.slice(1).join(' ') || ''
+
+  return {
+    id: data.id,
+    fullName: data.full_name || 'Utilisateur EMSP',
+    firstName,
+    lastName,
+    filiere: data.field_of_study || 'Général',
+    birthDate: '',
+    hobbies: [],
+    email: data.email || '',
+    role: (data.role || 'student') as 'student' | 'admin' | 'jury',
+    avatar: data.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${data.id}`,
+    bio: data.bio || 'Aucune biographie renseignée.',
+    specialties: [],
+    links: {},
+    joinedAt: data.created_at
+  }
+}
+

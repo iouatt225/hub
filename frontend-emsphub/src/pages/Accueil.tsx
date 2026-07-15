@@ -30,6 +30,7 @@ export function Accueil() {
           sortBy: sortBy === 'most_voted' ? 'popular' : sortBy === 'trending' ? 'active' : 'recent'
         }
         let results = await fetchProjects(apiFilters)
+        console.log('[Accueil.tsx] loaded projects:', results)
 
         setProjects(results || [])
       } catch (error) {

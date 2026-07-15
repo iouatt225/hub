@@ -5,8 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { useAuth } from '@/contexts/AuthContext'
-import { fetchProfileById, type UserProfile } from '@/lib/fixtures/profils.mock'
-import { fetchProjets, type Project } from '@/lib/fixtures/projets.mock'
+import type { UserProfile } from '@/lib/fixtures/profils.mock'
+import type { Project } from '@/lib/fixtures/projets.mock'
+import { fetchUserProfile } from '@/lib/api/users'
+import { fetchProjects } from '@/lib/api/projects'
 import { cn } from '@/lib/utils'
 
 export function Profil() {
@@ -48,20 +50,17 @@ export function Profil() {
             joinedAt: user.created_at || new Date().toISOString()
           }
         } else {
-          profileData = await fetchProfileById(profileId)
+          profileData = await fetchUserProfile(profileId)
         }
         setProfile(profileData)
 
         if (profileData) {
-          // Charger tous les projets du Hub
-          const allProjects = await fetchProjets({ query: '', status: 'all', sortBy: 'recent' })
-          
-          // Filtrer les projets créés par cet utilisateur
-          const created = allProjects.filter(p => p.author.id === profileId)
-          setUserProjects(created)
+          // Charger les projets réels de cet utilisateur depuis la base de données
+          const userProjectsData = await fetchProjects({ query: '', status: 'all', sortBy: 'recent', authorId: profileId })
+          setUserProjects(userProjectsData)
 
-          // Projets aimés/soutenus (simulé avec les votes récents ou filtres aléatoires pour la démo)
-          const voted = allProjects.slice(0, 2) // On simule 2 projets aimés
+          // Projets aimés/soutenus (simulé avec les votes récents pour la démo)
+          const voted = userProjectsData.slice(0, 2)
           setVotedProjects(voted)
         }
       } catch (e) {
