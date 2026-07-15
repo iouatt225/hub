@@ -33,7 +33,7 @@ export async function fetchSettings(): Promise<PlatformSettings> {
       registrationEnabled: true,
       autoModeration: false,
       bannedWords: "spam, arnaque, gratuit",
-      accentColor: "#556B2F"
+      accentColor: "#15803D"
     }
 
     if (!data || data.length === 0) {
@@ -61,7 +61,7 @@ export async function fetchSettings(): Promise<PlatformSettings> {
       registrationEnabled: true,
       autoModeration: false,
       bannedWords: "spam, arnaque, gratuit",
-      accentColor: "#556B2F"
+      accentColor: "#15803D"
     }
   }
 }

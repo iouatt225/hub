@@ -25,7 +25,7 @@ import {
 import { cn } from '@/lib/utils'
 
 /** Couleurs pour les filières */
-const FILIERE_COLORS = ['#556B2F', '#3b82f6', '#f59e0b', '#8b5cf6']
+const FILIERE_COLORS = ['#15803D', '#3b82f6', '#f59e0b', '#8b5cf6']
 
 type TimePeriod = '7d' | '30d' | 'all'
 
@@ -115,8 +115,8 @@ export function Statistiques() {
             <AreaChart data={filteredActivity}>
               <defs>
                 <linearGradient id="gradInscrStat" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#556B2F" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#556B2F" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#15803D" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#15803D" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="gradProjStat" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -149,7 +149,7 @@ export function Statistiques() {
                   new Date(v).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
                 }
               />
-              <Area type="monotone" dataKey="inscriptions" stroke="#556B2F" strokeWidth={2} fill="url(#gradInscrStat)" name="Inscriptions" />
+              <Area type="monotone" dataKey="inscriptions" stroke="#15803D" strokeWidth={2} fill="url(#gradInscrStat)" name="Inscriptions" />
               <Area type="monotone" dataKey="projets" stroke="#3b82f6" strokeWidth={2} fill="url(#gradProjStat)" name="Projets" />
               <Area type="monotone" dataKey="votes" stroke="#f59e0b" strokeWidth={2} fill="url(#gradVotesStat)" name="Votes" />
             </AreaChart>
@@ -177,7 +177,7 @@ export function Statistiques() {
                     fontSize: '12px',
                   }}
                 />
-                <Bar dataKey="count" fill="#556B2F" radius={[0, 6, 6, 0]} name="Utilisations" />
+                <Bar dataKey="count" fill="#15803D" radius={[0, 6, 6, 0]} name="Utilisations" />
               </BarChart>
             </ResponsiveContainer>
           </div>

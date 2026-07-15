@@ -168,8 +168,8 @@ export function Dashboard() {
               <AreaChart data={dailyActivity}>
                 <defs>
                   <linearGradient id="gradInscriptions" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#556B2F" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#556B2F" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#15803D" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#15803D" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="gradProjets" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -201,7 +201,7 @@ export function Dashboard() {
                 <Area
                   type="monotone"
                   dataKey="inscriptions"
-                  stroke="#556B2F"
+                  stroke="#15803D"
                   strokeWidth={2}
                   fill="url(#gradInscriptions)"
                   name="Inscriptions"
@@ -320,7 +320,7 @@ export function Dashboard() {
                     fontSize: '12px',
                   }}
                 />
-                <Bar dataKey="count" fill="#556B2F" radius={[0, 6, 6, 0]} name="Projets" />
+                <Bar dataKey="count" fill="#15803D" radius={[0, 6, 6, 0]} name="Projets" />
               </BarChart>
             </ResponsiveContainer>
           </div>

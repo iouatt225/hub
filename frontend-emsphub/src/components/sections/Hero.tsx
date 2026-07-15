@@ -35,8 +35,8 @@ export function Hero({
           backgroundImage: `url('/images/hero-bg.jpg')`,
         }}
       />
-      {/* Overlay sombre avec dégradé */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/90 via-[#1a1a2e]/75 to-[#1a1a2e]/50" />
+      {/* Overlay sombre avec dégradé Vert Forêt Nuit */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#051C0E]/95 via-[#051C0E]/80 to-[#051C0E]/50" />
 
       <div className="container-hub relative z-10 py-20">
         <div className="max-w-3xl">

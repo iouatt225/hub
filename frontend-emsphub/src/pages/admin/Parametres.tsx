@@ -44,7 +44,7 @@ export function Parametres() {
   const [bannedWords, setBannedWords] = useState('spam, arnaque, gratuit')
 
   // Section Apparence
-  const [accentColor, setAccentColor] = useState('#556B2F')
+  const [accentColor, setAccentColor] = useState('#15803D')
 
   // État de sauvegarde & Chargement
   const [isLoading, setIsLoading] = useState(true)
@@ -415,7 +415,7 @@ export function Parametres() {
             </label>
             <div className="flex gap-2">
               {[
-                { color: '#556B2F', name: 'Olive' },
+                { color: '#15803D', name: 'Vert' },
                 { color: '#2563eb', name: 'Bleu' },
                 { color: '#059669', name: 'Menthe' },
                 { color: '#7c3aed', name: 'Violet' },

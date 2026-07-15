@@ -69,7 +69,7 @@ export function FeaturesSection() {
 
             {/* Mini carte flottante */}
             <div className="absolute -bottom-6 -left-6 bg-surface border border-border rounded-2xl p-4 shadow-lg flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
                 <Users className="w-5 h-5" />
               </div>
               <div>
@@ -80,7 +80,7 @@ export function FeaturesSection() {
 
             {/* Mini carte flottante haut droite */}
             <div className="absolute -top-4 right-8 bg-surface border border-border rounded-2xl p-4 shadow-lg flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+              <div className="w-10 h-10 rounded-full bg-highlight/10 flex items-center justify-center text-highlight-hover">
                 <Rocket className="w-5 h-5" />
               </div>
               <div>
