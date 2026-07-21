@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { HeroCompact } from '@/components/sections/HeroCompact'
 import { FeedCard } from '@/components/feed/FeedCard'
 import { FeedSidebar } from '@/components/feed/FeedSidebar'
@@ -57,8 +58,34 @@ export function Accueil() {
       {/* Hero Compact supérieur */}
       <HeroCompact />
 
+      {/* Stories horizontales sur mobile (projets récents de la base de données) */}
+      {projects.length > 0 && (
+        <div className="md:hidden flex gap-4.5 px-5 py-4.5 overflow-x-auto snap-x bg-ink border-b border-paper/10 scrollbar-none">
+          {projects.slice(0, 8).map((proj) => {
+            const num = proj.id.replace(/\D/g, '')
+            const code = `N°${num ? num.padStart(3, '0') : proj.id.slice(0, 3).toUpperCase()}`
+            return (
+              <Link
+                key={proj.id}
+                to={`/projet/${proj.id}`}
+                className="flex flex-col items-center gap-1.5 snap-start shrink-0"
+              >
+                <div className="w-13 h-13 rounded-full border border-highlight flex items-center justify-center text-xl bg-ink-soft relative active:scale-90 transition-transform">
+                  {/* Filigrane dashed interne signature */}
+                  <span className="absolute inset-1 rounded-full border border-dashed border-highlight/45 pointer-events-none" />
+                  <span>{proj.thumbnail.emoji || '🌱'}</span>
+                </div>
+                <span className="font-mono text-[9px] text-paper/60 text-center tracking-wide font-medium">
+                  {code}
+                </span>
+              </Link>
+            )
+          })}
+        </div>
+      )}
+
       {/* Conteneur principal layout 2 colonnes */}
-      <div className="container-hub py-10 sm:py-16">
+      <div className="container-hub py-6 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
           {/* Colonne Feed (Gauche, 2/3) */}
