@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { HeroCompact } from '@/components/sections/HeroCompact'
 import { FeedCard } from '@/components/feed/FeedCard'
 import { FeedSidebar } from '@/components/feed/FeedSidebar'
-import { fetchProjects } from '@/lib/api/projects'
+import { fetchProjects, toggleVoteProject } from '@/lib/api/projects'
+import { useAuth } from '@/contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
 import type { Project } from '@/lib/fixtures/projets.mock'
 import { Loader2, Flame, Calendar, Award } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -15,6 +17,7 @@ type SortOption = 'trending' | 'recent' | 'most_voted'
  * Affiche le HeroCompact suivi d'un feed de projets et d'une sidebar statistique.
  */
 export function Accueil() {
+  const { user } = useAuth()
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [sortBy, setSortBy] = useState<SortOption>('trending')
@@ -45,12 +48,99 @@ export function Accueil() {
     loadProjects()
   }, [sortBy])
 
-  const handleVote = (projectId: string) => {
+  // Charger les votes réels de l'utilisateur connecté
+  useEffect(() => {
+    async function loadUserLikes() {
+      if (!user) {
+        setVotedProjects([])
+        return
+      }
+      try {
+        const { data, error } = await supabase
+          .from('votes')
+          .select('project_id')
+          .eq('user_id', user.id)
+        if (error) throw error
+        if (data) {
+          setVotedProjects(data.map(d => d.project_id))
+        }
+      } catch (err) {
+        console.error('Erreur lors du chargement des likes de l\'utilisateur:', err)
+      }
+    }
+    loadUserLikes()
+  }, [projects, user])
+
+  const handleVote = async (projectId: string) => {
+    if (!user) {
+      alert('Veuillez vous connecter pour voter pour ce projet.')
+      return
+    }
+
+    const hasVoted = votedProjects.includes(projectId)
+    
+    // UI Optimiste : Basculer l'état local du bouton de vote
     setVotedProjects(prev =>
-      prev.includes(projectId)
+      hasVoted
         ? prev.filter(id => id !== projectId)
         : [...prev, projectId]
     )
+
+    // UI Optimiste : Mettre à jour le compteur sur la liste de projets locaux
+    setProjects(prevProjects =>
+      prevProjects.map(p => {
+        if (p.id === projectId) {
+          return {
+            ...p,
+            votes: hasVoted ? Math.max(0, p.votes - 1) : p.votes + 1
+          }
+        }
+        return p
+      })
+    )
+
+    try {
+      const success = await toggleVoteProject(projectId, user.id, hasVoted)
+      if (!success) {
+        // Rollback de l'état local si l'enregistrement a échoué
+        setVotedProjects(prev =>
+          hasVoted
+            ? [...prev, projectId]
+            : prev.filter(id => id !== projectId)
+        )
+        setProjects(prevProjects =>
+          prevProjects.map(p => {
+            if (p.id === projectId) {
+              return {
+                ...p,
+                votes: hasVoted ? p.votes + 1 : Math.max(0, p.votes - 1)
+              }
+            }
+            return p
+          })
+        )
+        alert("Une erreur est survenue lors de l'enregistrement de votre vote.")
+      }
+    } catch (err) {
+      console.error('Erreur lors du vote:', err)
+      // Rollback
+      setVotedProjects(prev =>
+        hasVoted
+          ? [...prev, projectId]
+          : prev.filter(id => id !== projectId)
+      )
+      setProjects(prevProjects =>
+        prevProjects.map(p => {
+          if (p.id === projectId) {
+            return {
+              ...p,
+              votes: hasVoted ? p.votes + 1 : Math.max(0, p.votes - 1)
+            }
+          }
+          return p
+        })
+      )
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
@@ -7,6 +7,7 @@ import { FeedComments } from './FeedComments'
 import type { Project, TeamStatus, Comment } from '@/lib/fixtures/projets.mock'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
+import { fetchCommentsForProject, createComment } from '@/lib/api/comments'
 
 interface FeedCardProps {
   project: Project
@@ -40,33 +41,47 @@ function StatusBadge({ status }: { status: TeamStatus }) {
 export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
   const { user } = useAuth()
   const [showComments, setShowComments] = useState(false)
-  const [comments, setComments] = useState<Comment[]>([
-    {
-      id: `c-mock-1-${project.id}`,
-      author: { id: 'usr-prof', name: 'Dr. Koné (Enseignant)', avatar: 'https://i.pravatar.cc/150?u=kone' },
-      content: 'Excellente idée ! Est-ce que vous avez prévu un prototype pour la Journée du Numérique ?',
-      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString()
-    },
-    ...(project.commentCount > 1 ? [{
-      id: `c-mock-2-${project.id}`,
-      author: { id: 'usr-student', name: 'Jean-Marc D.', avatar: 'https://i.pravatar.cc/150?u=jeanmarc' },
-      content: 'Je suis très intéressé par le projet. Si vous cherchez un développeur, je suis disponible !',
-      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString()
-    }] : [])
-  ])
+  const [comments, setComments] = useState<Comment[]>([])
+  const [isLoadingComments, setIsLoadingComments] = useState(false)
+  const [localCommentCount, setLocalCommentCount] = useState(project.commentCount)
 
-  const handleAddComment = (content: string) => {
-    const newCommentObj: Comment = {
-      id: `c-${Date.now()}`,
-      author: {
-        id: user?.id || 'anon',
-        name: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Utilisateur',
-        avatar: user?.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${user?.email}`
-      },
-      content,
-      createdAt: new Date().toISOString()
+  // Charger les commentaires quand l'utilisateur les affiche
+  useEffect(() => {
+    if (showComments) {
+      async function loadComments() {
+        setIsLoadingComments(true)
+        try {
+          const data = await fetchCommentsForProject(project.id)
+          setComments(data as any)
+          setLocalCommentCount(data.length)
+        } catch (err) {
+          console.error('Erreur de chargement des commentaires:', err)
+        } finally {
+          setIsLoadingComments(false)
+        }
+      }
+      loadComments()
     }
-    setComments(prev => [...prev, newCommentObj])
+  }, [showComments, project.id])
+
+  // Synchroniser le compteur local si la prop project.commentCount change
+  useEffect(() => {
+    setLocalCommentCount(project.commentCount)
+  }, [project.commentCount])
+
+  const handleAddComment = async (content: string) => {
+    if (!user) {
+      alert('Veuillez vous connecter pour commenter.')
+      return
+    }
+    try {
+      const newComment = await createComment(project.id, user.id, content)
+      setComments(prev => [...prev, newComment as any])
+      setLocalCommentCount(prev => prev + 1)
+    } catch (err) {
+      console.error('Erreur lors de la publication du commentaire:', err)
+      alert("Une erreur est survenue lors de la publication de votre commentaire.")
+    }
   }
 
   // Formatage de la date relative
@@ -176,11 +191,11 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
             <div className="flex -space-x-1">
               <span className="w-3.5 h-3.5 rounded-full bg-accent/20 flex items-center justify-center text-[9px] text-accent">👍</span>
             </div>
-            <span className="font-medium">{project.votes + (hasVoted ? 1 : 0)} votes</span>
+            <span className="font-medium">{project.votes} votes</span>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => setShowComments(!showComments)} className="hover:underline font-medium">
-              {comments.length} commentaires
+              {localCommentCount} commentaires
             </button>
           </div>
         </div>
@@ -222,11 +237,18 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
 
         {/* Section commentaires dépliante */}
         {showComments && (
-          <FeedComments
-            projectId={project.id}
-            comments={comments}
-            onAddComment={handleAddComment}
-          />
+          isLoadingComments ? (
+            <div className="flex justify-center items-center py-6 text-xs text-text-muted italic">
+              <span className="h-4 w-4 border-2 border-accent border-t-transparent rounded-full animate-spin mr-2" />
+              Chargement des commentaires...
+            </div>
+          ) : (
+            <FeedComments
+              projectId={project.id}
+              comments={comments}
+              onAddComment={handleAddComment}
+            />
+          )
         )}
       </CardContent>
     </Card>

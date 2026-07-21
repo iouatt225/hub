@@ -54,7 +54,8 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
         id,
         full_name,
         avatar_url
-      )
+      ),
+      comments(id)
     `)
 
   // Filtre d'auteur
@@ -107,7 +108,7 @@ export async function fetchProjects(filters: ProjectsFilter): Promise<Project[]>
       avatar: row.profiles?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${row.id}`
     },
     votes: row.votes || 0,
-    commentCount: 0,
+    commentCount: row.comments ? row.comments.length : 0,
     createdAt: row.created_at,
     isOfficialSelection: row.is_official_selection,
     thumbnail: getThumbnailForProject(row.tags || []),
@@ -161,7 +162,8 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
           id,
           full_name,
           avatar_url
-        )
+        ),
+        comments(id)
       `)
       .eq('id', id)
       .single()
@@ -184,7 +186,7 @@ export async function fetchProjectById(id: string): Promise<ProjectDetail | null
         avatar: (data.profiles as any)?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${data.id}`
       },
       votes: data.votes || 0,
-      commentCount: 0,
+      commentCount: data.comments ? data.comments.length : 0,
       createdAt: data.created_at,
       isOfficialSelection: data.is_official_selection,
       thumbnail: getThumbnailForProject(data.tags || []),
