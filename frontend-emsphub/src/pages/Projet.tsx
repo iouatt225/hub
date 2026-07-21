@@ -71,11 +71,11 @@ export function Projet() {
         {/* En-tête du projet */}
         <div className="mb-12">
           {project.isOfficialSelection && (
-            <Badge className="bg-accent/10 text-accent hover:bg-accent/20 border-accent/20 gap-1.5 mb-4 px-3 py-1 text-sm font-medium">
-              <Sparkles className="w-4 h-4" /> Sélection Officielle
-            </Badge>
+            <span className="font-mono text-xs uppercase tracking-wider border border-highlight text-postmark-deep bg-highlight-light px-3 py-1 rounded-full inline-flex items-center gap-1.5 mb-4 font-semibold">
+              <Sparkles className="w-3.5 h-3.5" /> Sélection Officielle
+            </span>
           )}
-          <h1 className="text-3xl md:text-5xl font-bold text-text-primary leading-tight mb-6">
+          <h1 className="text-3xl md:text-5xl font-medium text-text-primary leading-tight mb-6 font-display">
             {project.title}
           </h1>
           
@@ -107,22 +107,22 @@ export function Projet() {
           <div className="lg:col-span-2 space-y-12">
             {/* Section Problème */}
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold text-text-primary flex items-center gap-3">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-error/10 text-error text-sm font-bold">1</span>
+              <h2 className="text-2xl font-medium text-text-primary flex items-center gap-3 font-display">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-cancel-light text-cancel text-sm font-mono font-medium border border-cancel/30">1</span>
                 Le Problème
               </h2>
-              <div className="pl-6 border-l-4 border-error/70 text-text-secondary leading-relaxed text-lg py-1.5">
+              <div className="pl-6 border-l-4 border-cancel text-text-secondary leading-relaxed text-lg py-1.5">
                 {project.problem}
               </div>
             </section>
 
             {/* Section Solution */}
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold text-text-primary flex items-center gap-3">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-success/10 text-success text-sm font-bold">2</span>
+              <h2 className="text-2xl font-medium text-text-primary flex items-center gap-3 font-display">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-route-light text-route text-sm font-mono font-medium border border-route/30">2</span>
                 La Solution
               </h2>
-              <div className="pl-6 border-l-4 border-success/70 text-text-secondary leading-relaxed text-lg py-1.5">
+              <div className="pl-6 border-l-4 border-route text-text-secondary leading-relaxed text-lg py-1.5">
                 {project.solution}
               </div>
             </section>

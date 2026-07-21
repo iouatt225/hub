@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Sparkles, LogOut, User as UserIcon } from 'lucide-react'
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { useAuth } from '@/contexts/AuthContext'
-import { BRAND, NAV_LINKS } from '@/constants/brand'
+import { NAV_LINKS } from '@/constants/brand'
 import { cn } from '@/lib/utils'
 
 /**
@@ -57,27 +57,27 @@ export function Header() {
             {/* ─── Logo / Nom ─── */}
             <Link
               to="/"
-              className="flex items-center gap-2 group shrink-0"
+              className="flex items-center gap-3 group shrink-0"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/10 border border-accent/20 group-hover:bg-accent/20 transition-colors duration-200">
-                <Sparkles className="h-5 w-5 text-accent" />
+              <div className="stamp-mark bg-background text-text-primary group-hover:bg-background-alt transition-colors duration-200">
+                <span className="font-display font-semibold text-sm">H</span>
               </div>
-              <span className="text-lg font-bold text-text-primary tracking-tight hidden sm:inline">
-                {BRAND.shortName}
+              <span className="text-lg font-display font-semibold text-text-primary tracking-wide">
+                Hub EMSP
               </span>
             </Link>
 
             {/* ─── Liens de navigation desktop ─── */}
-            <div className="hidden md:flex items-center gap-1 xl:gap-2 absolute left-1/2 -translate-x-1/2">
+            <div className="hidden md:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    'px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+                    'text-sm font-semibold transition-all duration-200 whitespace-nowrap pb-1 border-b-2',
                     location.pathname === link.href
-                      ? 'text-accent bg-accent/10'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-surface'
+                      ? 'text-text-primary border-highlight font-bold'
+                      : 'text-text-secondary border-transparent hover:text-text-primary hover:border-text-secondary/30'
                   )}
                 >
                   {link.label}

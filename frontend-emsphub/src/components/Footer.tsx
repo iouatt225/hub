@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Sparkles,
   Send,
 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
@@ -69,21 +68,21 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-[#1a1a2e] text-white/80">
+    <footer className="bg-ink text-paper/80 border-t border-paper/10">
       <div className="container-hub py-16 sm:py-20">
         {/* ─── Grille principale ─── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Colonne 1 — Identité */}
           <div className="sm:col-span-2 lg:col-span-2 lg:pr-8">
-            <Link to="/" className="flex items-center gap-2 group mb-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-white shadow-lg">
-                <Sparkles className="h-5 w-5" />
+            <Link to="/" className="flex items-center gap-3 group mb-5">
+              <div className="stamp-mark bg-background text-text-primary group-hover:bg-background-alt transition-colors duration-200">
+                <span className="font-display font-semibold text-sm">H</span>
               </div>
-              <span className="text-xl font-bold text-white tracking-tight">
+              <span className="text-xl font-bold text-white tracking-tight font-display">
                 {BRAND.shortName}
               </span>
             </Link>
-            <p className="text-sm text-white/50 leading-relaxed max-w-sm">
+            <p className="text-sm text-paper/50 leading-relaxed max-w-sm">
               {BRAND.description}
             </p>
           </div>
@@ -143,7 +142,7 @@ export function Footer() {
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="votre@email.com"
-                className="flex-1 min-w-0 h-10 px-4 rounded-lg bg-white/10 border border-white/10 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+                className="flex-1 min-w-0 h-10 px-4 rounded-lg bg-paper/5 border border-paper/10 text-paper placeholder:text-paper/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
                 required
               />
               <Button type="submit" size="icon" className="bg-accent hover:bg-accent/80 text-white" aria-label="S'abonner à la newsletter">
@@ -151,7 +150,7 @@ export function Footer() {
               </Button>
             </form>
             {isSubscribed && (
-              <p className="text-xs text-accent mt-2 animate-fade-in">
+              <p className="text-xs text-highlight mt-2 animate-fade-in">
                 ✓ Inscription réussie !
               </p>
             )}

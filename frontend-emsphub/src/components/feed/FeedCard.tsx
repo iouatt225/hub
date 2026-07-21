@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { ThumbsUp, MessageSquare, ExternalLink, Sparkles, User, Users, UserPlus } from 'lucide-react'
+import { ThumbsUp, MessageSquare, ExternalLink } from 'lucide-react'
 import { FeedComments } from './FeedComments'
 import type { Project, TeamStatus, Comment } from '@/lib/fixtures/projets.mock'
 import { cn } from '@/lib/utils'
@@ -19,21 +18,21 @@ function StatusBadge({ status }: { status: TeamStatus }) {
   switch (status) {
     case 'solo':
       return (
-        <Badge variant="outline" className="gap-1.5 font-normal text-text-secondary border-border bg-background-alt text-xs py-0.5">
-          <User className="w-3.5 h-3.5" /> Solo
-        </Badge>
+        <span className="font-mono text-[10px] uppercase tracking-wider border border-cancel text-cancel bg-cancel-light/20 px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
+          Solo
+        </span>
       )
     case 'complete':
       return (
-        <Badge variant="outline" className="gap-1.5 font-normal text-success border-success/30 bg-success/5 text-xs py-0.5">
-          <Users className="w-3.5 h-3.5" /> Équipe complète
-        </Badge>
+        <span className="font-mono text-[10px] uppercase tracking-wider border border-route text-route bg-route-light/20 px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
+          Équipe complète
+        </span>
       )
     case 'looking_for_members':
       return (
-        <Badge variant="outline" className="gap-1.5 font-normal text-accent border-accent/30 bg-accent/5 text-xs py-0.5">
-          <UserPlus className="w-3.5 h-3.5" /> Cherche associés
-        </Badge>
+        <span className="font-mono text-[10px] uppercase tracking-wider border border-postmark-deep text-postmark-deep bg-highlight-light px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
+          Cherche associés
+        </span>
       )
   }
 }
@@ -109,16 +108,16 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <StatusBadge status={project.teamStatus} />
             {project.isOfficialSelection && (
-              <Badge variant="default" className="bg-accent/10 text-accent hover:bg-accent/20 border-accent/20 text-[10px] py-0 px-2 gap-1 font-semibold h-5">
-                <Sparkles className="w-3 h-3" /> Sélection
-              </Badge>
+              <span className="font-mono text-[10px] uppercase tracking-wider border border-highlight text-postmark-deep bg-highlight-light px-2.5 py-0.5 rounded-full whitespace-nowrap shrink-0">
+                Sélection
+              </span>
             )}
           </div>
         </div>
 
         {/* Titre & Description du projet */}
         <div className="space-y-4 mb-6">
-          <h2 className="text-lg sm:text-xl font-bold text-text-primary leading-snug hover:text-accent transition-colors">
+          <h2 className="text-lg sm:text-xl font-medium text-text-primary leading-snug hover:text-accent transition-colors font-display">
             <Link to={`/projet/${project.id}`}>{project.title}</Link>
           </h2>
           <p className="text-sm text-text-secondary leading-relaxed line-clamp-3">
@@ -128,9 +127,9 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
           {/* Tags */}
           <div className="flex flex-wrap gap-2 pt-1">
             {project.tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="bg-background-alt text-text-secondary text-[11px] font-medium px-2 py-0.5 border border-border/50">
+              <span key={tag} className="font-mono text-[11px] bg-route-light text-route px-2.5 py-0.5 rounded-md">
                 #{tag}
-              </Badge>
+              </span>
             ))}
           </div>
         </div>
@@ -154,15 +153,18 @@ export function FeedCard({ project, onVote, hasVoted }: FeedCardProps) {
               </div>
             </>
           ) : (
-            <div className={cn("absolute inset-0 bg-gradient-to-br flex flex-col items-center justify-center p-6 text-center transition-transform duration-500 group-hover:scale-105", project.thumbnail.gradient)}>
-              <span className="text-5xl sm:text-6xl mb-4 transform transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
-                {project.thumbnail.emoji}
-              </span>
-              <h3 className="text-white text-base sm:text-lg font-extrabold max-w-md line-clamp-2 px-2 drop-shadow-md leading-snug">
+            <div className="absolute inset-0 bg-ink flex flex-col items-center justify-center p-5 text-center transition-transform duration-500 group-hover:scale-102">
+              <div className="postmark-stamp border-postmark text-postmark mb-3.5">
+                <span className="text-3xl">{project.thumbnail.emoji || '🌱'}</span>
+              </div>
+              <div className="font-mono text-[10px] text-paper/55 tracking-widest uppercase mb-1.5">
+                EMSP • N°{project.id.replace(/\D/g, '').padStart(3, '0') || project.id.slice(0, 5).toUpperCase()}
+              </div>
+              <h3 className="font-display font-medium text-paper text-base sm:text-lg max-w-md line-clamp-1 px-4 leading-snug">
                 {project.title}
               </h3>
-              <span className="mt-3 text-xs bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/20 font-semibold shadow-sm opacity-90 group-hover:opacity-100 transition-opacity">
-                Voir la fiche projet
+              <span className="mt-3.5 text-[10px] font-mono tracking-wider uppercase bg-paper/8 border border-paper/15 text-paper/75 hover:bg-paper/15 px-3 py-1 rounded-md transition-colors">
+                Voir la fiche pli
               </span>
             </div>
           )}

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub EMSP — Direction visuelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14181C;
+    --ink-soft:#262B29;
+    --paper:#F7F3EA;
+    --paper-dim:#EDE7D8;
+    --postmark:#D9A62E;
+    --postmark-deep:#96700F;
+    --route:#1E4B3A;
+    --route-light:#DCE9E1;
+    --cancel:#B23A48;
+    --cancel-light:#F4DEDD;
+    --ink-60: rgba(20,24,28,.6);
+    --ink-40: rgba(20,24,28,.4);
+    --paper-70: rgba(247,243,234,.7);
+    --paper-50: rgba(247,243,234,.5);
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body);
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- style guide strip ---------- */
+  .guide{background:var(--ink); color:var(--paper); padding:56px 0 48px;}
+  .guide-eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--postmark); margin:0 0 10px;
+  }
+  .guide-title{font-family:var(--font-display); font-weight:500; font-size:30px; margin:0 0 6px;}
+  .guide-sub{color:var(--ink-40); color:rgba(247,243,234,.55); font-size:14px; margin:0 0 36px; max-width:560px; line-height:1.6;}
+  .guide-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:32px;}
+  .swatch{border-radius:10px; padding:14px; min-height:88px; display:flex; flex-direction:column; justify-content:space-between;}
+  .swatch-name{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em;}
+  .swatch-hex{font-family:var(--font-mono); font-size:12px; opacity:.85;}
+  .type-row{display:flex; gap:40px; flex-wrap:wrap; border-top:1px solid rgba(247,243,234,.15); padding-top:28px;}
+  .type-item .label{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--postmark); margin-bottom:8px;}
+  .type-item .sample{font-size:22px; color:var(--paper);}
+  .type-item .meta{font-size:12px; color:rgba(247,243,234,.5); margin-top:6px;}
+  .f-display{font-family:var(--font-display); font-weight:500;}
+  .f-body{font-family:var(--font-body); font-weight:600;}
+  .f-mono{font-family:var(--font-mono);}
+
+  /* ---------- app header ---------- */
+  header.app{
+    background:var(--paper); border-bottom:1px solid var(--paper-dim);
+    padding:18px 0;
+  }
+  .app-row{display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .stamp-mark{
+    width:38px; height:38px; border-radius:50%; border:1.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0;
+  }
+  .stamp-mark::before{
+    content:""; position:absolute; inset:4px; border-radius:50%; border:1px dashed var(--ink); opacity:.5;
+  }
+  .stamp-mark span{font-family:var(--font-display); font-weight:600; font-size:14px;}
+  .brand-name{font-family:var(--font-display); font-weight:600; font-size:19px; letter-spacing:.01em;}
+  nav.main{display:flex; gap:30px; font-size:14px; font-weight:500;}
+  nav.main a{color:var(--ink-60); text-decoration:none; padding-bottom:4px;}
+  nav.main a.active{color:var(--ink); border-bottom:2px solid var(--postmark);}
+  .app-right{display:flex; align-items:center; gap:16px;}
+  .avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--cancel); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;
+  }
+  .app-right .name{font-size:14px; font-weight:500;}
+  .app-right .admin{font-size:13px; color:var(--route); font-weight:600; text-decoration:none;}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--ink); color:var(--paper); position:relative; overflow:hidden; padding:64px 0 46px;}
+  .hero-ring{
+    position:absolute; right:-120px; top:-120px; width:440px; height:440px; border-radius:50%;
+    border:1px dashed rgba(247,243,234,.14);
+  }
+  .hero-ring::after{
+    content:""; position:absolute; inset:34px; border-radius:50%; border:1px dashed rgba(247,243,234,.1);
+  }
+  .hero-inner{position:relative; max-width:640px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; background:rgba(247,243,234,.08);
+    border:1px solid rgba(247,243,234,.2); padding:6px 12px; border-radius:20px; margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--postmark);}
+  .hero h1{
+    font-family:var(--font-display); font-weight:500; font-size:44px; line-height:1.1; margin:0 0 18px;
+  }
+  .hero h1 em{color:var(--postmark); font-style:italic; font-weight:500;}
+  .hero p.lead{font-size:16px; color:rgba(247,243,234,.65); line-height:1.6; max-width:460px; margin:0 0 30px;}
+  .btn-row{display:flex; gap:12px; margin-bottom:44px;}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:14px; padding:12px 22px; border-radius:8px;
+    border:1px solid transparent; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--postmark); color:var(--ink);}
+  .btn-ghost{background:transparent; color:var(--paper); border-color:rgba(247,243,234,.3);}
+  .manifest{
+    display:flex; gap:0; border-top:1px solid rgba(247,243,234,.15); padding-top:18px; max-width:520px;
+  }
+  .manifest div{flex:1; padding-right:18px;}
+  .manifest .num{font-family:var(--font-mono); font-size:20px; color:var(--paper);}
+  .manifest .lbl{font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:rgba(247,243,234,.45); margin-top:4px;}
+
+  /* ---------- content grid ---------- */
+  main{padding:44px 0 80px;}
+  .grid{display:grid; grid-template-columns:1.7fr 1fr; gap:36px;}
+  .section-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .section-head h2{font-family:var(--font-display); font-weight:500; font-size:20px; margin:0;}
+  .tabs{display:flex; gap:6px; font-family:var(--font-mono); font-size:11px;}
+  .tab{padding:6px 12px; border-radius:20px; color:var(--ink-60); text-transform:uppercase; letter-spacing:.04em;}
+  .tab.active{background:var(--route); color:#fff;}
+
+  .card{background:#fff; border:1px solid var(--paper-dim); border-radius:14px; overflow:hidden; margin-bottom:22px;}
+  .card-body{padding:22px 24px 20px;}
+  .card-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .who{display:flex; align-items:center; gap:10px;}
+  .who .avatar{width:36px; height:36px; font-size:12px;}
+  .who .n{font-size:14px; font-weight:600;}
+  .who .t{font-size:12px; color:var(--ink-60); font-family:var(--font-mono);}
+  .badge{
+    font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em;
+    border:1px solid var(--route); color:var(--route); padding:5px 10px; border-radius:20px;
+  }
+  .card h3{font-family:var(--font-display); font-weight:500; font-size:22px; margin:0 0 8px;}
+  .card p.desc{font-size:14px; color:var(--ink-60); line-height:1.55; margin:0 0 14px;}
+  .tags{display:flex; gap:8px; margin-bottom:18px;}
+  .tag{
+    font-family:var(--font-mono); font-size:11px; background:var(--route-light); color:var(--route);
+    padding:5px 10px; border-radius:6px;
+  }
+  .cover{
+    background:var(--ink); position:relative; padding:34px 24px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; min-height:180px;
+  }
+  .cover .postmark-stamp{
+    width:78px; height:78px; border-radius:50%; border:1.5px solid var(--postmark); display:flex;
+    align-items:center; justify-content:center; margin-bottom:14px; position:relative;
+  }
+  .cover .postmark-stamp::before{content:""; position:absolute; inset:6px; border-radius:50%; border:1px dashed var(--postmark); opacity:.55;}
+  .cover .postmark-stamp span{font-size:26px;}
+  .cover .code{font-family:var(--font-mono); font-size:11px; color:rgba(247,243,234,.55); letter-spacing:.08em;}
+  .cover .title{font-family:var(--font-display); color:var(--paper); font-size:18px; margin-top:6px;}
+  .card-foot{display:flex; align-items:center; gap:18px; padding:14px 24px; border-top:1px solid var(--paper-dim);}
+  .vote{display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:13px; font-weight:500; color:var(--ink);}
+  .vote i{width:16px; height:16px; display:inline-block;}
+  .comment{font-family:var(--font-mono); font-size:13px; color:var(--ink-60);}
+
+  /* ---------- sidebar ---------- */
+  .side-card{background:#fff; border:1px solid var(--paper-dim); border-radius:14px; padding:22px; margin-bottom:20px;}
+  .side-card.cta{background:var(--route-light); border-color:transparent;}
+  .side-card.cta .stitle{font-family:var(--font-display); font-weight:500; font-size:17px; margin:0 0 8px;}
+  .side-card.cta p{font-size:13px; color:var(--ink-60); line-height:1.55; margin:0 0 16px;}
+  .btn-block{
+    width:100%; background:var(--route); color:#fff; font-weight:600; font-size:13.5px; border:none;
+    padding:12px; border-radius:8px; cursor:pointer;
+  }
+  .side-card h4{
+    font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-60); margin:0 0 16px;
+  }
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .stat{background:var(--paper); border-radius:10px; padding:14px;}
+  .stat .v{font-family:var(--font-mono); font-size:22px; font-weight:500; color:var(--ink);}
+  .stat .l{font-size:11px; color:var(--ink-60); margin-top:2px;}
+  .rank{display:flex; align-items:center; gap:12px; padding:10px 0; border-top:1px solid var(--paper-dim);}
+  .rank:first-of-type{border-top:none;}
+  .rank .no{
+    font-family:var(--font-mono); font-size:12px; width:26px; height:26px; border-radius:50%;
+    background:var(--paper); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .rank .rn{font-size:13.5px; font-weight:600;}
+  .rank .ra{font-size:11px; color:var(--ink-60); font-family:var(--font-mono);}
+  .rank .pts{margin-left:auto; font-family:var(--font-mono); font-size:12.5px; color:var(--postmark-deep); font-weight:600;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--font-mono); font-size:11.5px; background:var(--cancel-light); color:var(--cancel);
+    padding:6px 11px; border-radius:20px;
+  }
+
+  @media (max-width:900px){
+    .grid{grid-template-columns:1fr;}
+    .guide-grid{grid-template-columns:repeat(2,1fr);}
+    .hero h1{font-size:32px;}
+    nav.main{display:none;}
+    .manifest{flex-wrap:wrap;}
+    .manifest div{flex:1 1 40%; margin-bottom:14px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ CHARTE / STYLE GUIDE ============ -->
+  <section class="guide">
+    <div class="wrap">
+      <p class="guide-eyebrow">Charte graphique — proposition</p>
+      <h1 class="guide-title">Hub EMSP — direction "cachet postal"</h1>
+      <p class="guide-sub">Un système cohérent construit sur l'identité postale de l'EMSP : chaque idée reçoit un cachet et un numéro de suivi, comme un pli confié à la poste. Cinq couleurs, trois familles typographiques, un seul élément signature — à réutiliser sur tout le site.</p>
+
+      <div class="guide-grid">
+        <div class="swatch" style="background:var(--ink);">
+          <span class="swatch-name" style="color:var(--paper);">Ink</span>
+          <span class="swatch-hex" style="color:rgba(247,243,234,.7);">#14181C</span>
+        </div>
+        <div class="swatch" style="background:var(--paper); border:1px solid var(--paper-dim);">
+          <span class="swatch-name" style="color:var(--ink);">Paper</span>
+          <span class="swatch-hex" style="color:var(--ink-60);">#F7F3EA</span>
+        </div>
+        <div class="swatch" style="background:var(--postmark);">
+          <span class="swatch-name" style="color:var(--ink);">Postmark</span>
+          <span class="swatch-hex" style="color:var(--ink-60);">#D9A62E</span>
+        </div>
+        <div class="swatch" style="background:var(--route);">
+          <span class="swatch-name" style="color:var(--paper);">Route</span>
+          <span class="swatch-hex" style="color:rgba(247,243,234,.7);">#1E4B3A</span>
+        </div>
+        <div class="swatch" style="background:var(--cancel);">
+          <span class="swatch-name" style="color:var(--paper);">Cancel</span>
+          <span class="swatch-hex" style="color:rgba(247,243,234,.7);">#B23A48</span>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-item">
+          <div class="label">Display — Fraunces</div>
+          <div class="sample f-display">Propulsez vos idées</div>
+          <div class="meta">Titres, noms de projets, moments éditoriaux</div>
+        </div>
+        <div class="type-item">
+          <div class="label">UI — Inter</div>
+          <div class="sample f-body">Déposer une idée</div>
+          <div class="meta">Navigation, boutons, corps de texte</div>
+        </div>
+        <div class="type-item">
+          <div class="label">Data — IBM Plex Mono</div>
+          <div class="sample f-mono">EMSP · N°014</div>
+          <div class="meta">Statistiques, tags, codes de suivi</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPLICATION ============ -->
+  <header class="app">
+    <div class="wrap app-row">
+      <div class="brand">
+        <div class="stamp-mark"><span>H</span></div>
+        <span class="brand-name">Hub EMSP</span>
+      </div>
+      <nav class="main">
+        <a href="#" class="active">Accueil</a>
+        <a href="#">Hub</a>
+        <a href="#">Documentation</a>
+      </nav>
+      <div class="app-right">
+        <div class="avatar">KA</div>
+        <span class="name">Rahim</span>
+        <a href="#" class="admin">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-ring"></div>
+    <div class="wrap">
+      <div class="hero-inner">
+        <span class="eyebrow"><span class="dot"></span>Journée du numérique</span>
+        <h1>Propulsez vos idées pour la <em>Journée du numérique</em></h1>
+        <p class="lead">Découvrez les projets innovants des étudiants, votez pour vos favoris et rejoignez des équipes.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#">Déposer une idée →</a>
+          <a class="btn btn-ghost" href="#">Explorer le Hub</a>
+        </div>
+        <div class="manifest">
+          <div><div class="num">4</div><div class="lbl">Projets</div></div>
+          <div><div class="num">13</div><div class="lbl">Créateurs</div></div>
+          <div><div class="num">10</div><div class="lbl">Votes</div></div>
+          <div><div class="num">31%</div><div class="lbl">Activité</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="wrap grid">
+      <div>
+        <div class="section-head">
+          <h2>Fil d'actualité</h2>
+          <div class="tabs">
+            <span class="tab">Tendances</span>
+            <span class="tab active">Récents</span>
+            <span class="tab">Plus votés</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="card-top">
+              <div class="who">
+                <div class="avatar" style="background:var(--cancel);">BE</div>
+                <div>
+                  <div class="n">Sarah Nassirou</div>
+                  <div class="t">Porteur de projet · il y a 0h</div>
+                </div>
+              </div>
+              <span class="badge">Cherche associés</span>
+            </div>
+            <h3>Plateforme gestion scolaire</h3>
+            <p class="desc">Tous les jours nous allons à l'école — centraliser notes, présences et emplois du temps dans une seule interface pensée pour les enseignants comme pour les élèves.</p>
+            <div class="tags"><span class="tag">#mobile</span><span class="tag">#finance</span></div>
+          </div>
+          <div class="cover">
+            <div class="postmark-stamp"><span>🌱</span></div>
+            <div class="code">EMSP · N°014</div>
+            <div class="title">Plateforme gestion scolaire</div>
+          </div>
+          <div class="card-foot">
+            <span class="vote">▲ 10 votes</span>
+            <span class="comment">4 commentaires</span>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="side-card cta">
+          <div class="stitle">Une idée de projet ?</div>
+          <p>Publiez votre idée sur le Hub en moins de 2 minutes pour la Journée du numérique.</p>
+          <button class="btn-block">+ Lancer mon idée</button>
+        </div>
+
+        <div class="side-card">
+          <h4>Le Hub en chiffres</h4>
+          <div class="stat-grid">
+            <div class="stat"><div class="v">4</div><div class="l">Projets</div></div>
+            <div class="stat"><div class="v">13</div><div class="l">Créateurs</div></div>
+            <div class="stat"><div class="v">10</div><div class="l">Votes</div></div>
+            <div class="stat"><div class="v">31%</div><div class="l">Activité</div></div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h4>Top projets</h4>
+          <div class="rank">
+            <div class="no">1</div>
+            <div><div class="rn">Plateforme gestion scolaire</div><div class="ra">Sarah Nassirou</div></div>
+            <div class="pts">10 pts</div>
+          </div>
+          <div class="rank">
+            <div class="no">2</div>
+            <div><div class="rn">Yefzeugzuegzue e</div><div class="ra">Ouatt</div></div>
+            <div class="pts">0 pts</div>
+          </div>
+          <div class="rank">
+            <div class="no">3</div>
+            <div><div class="rn">Azerty bro</div><div class="ra">Ivo Mamadou</div></div>
+            <div class="pts">0 pts</div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h4>Tendances</h4>
+          <div class="chip-row">
+            <span class="chip">#mobile</span>
+            <span class="chip">#fintech</span>
+            <span class="chip">#IA</span>
+            <span class="chip">#web3</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+</body>
+</html>
